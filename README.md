@@ -65,11 +65,11 @@ El punto de partida es el documento maestro: [`IngReq-Entrega 1.md`](./IngReq-En
 
 ## Equipo
 
-- Felipe Hernández Olivares
-- Simón Reyes Morales
-- [Nombre integrante 3]
-- [Nombre integrante 4]
-- [Nombre integrante 5]
+- Felipe Cristóbal Hernández Olivares
+- Simón Pedro Reyes Morales
+- Paulo Andrés Salas Arismendi
+- Vicente Andrés Coiro Martínez
+- Martín Andrés Herrera Duranti
 
 Profesor: Benjamín Serrano.
 
