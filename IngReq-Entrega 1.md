@@ -3,9 +3,9 @@
 ## Equipo
 - Felipe Hernández Olivares
 - Simón Reyes Morales
-- [Nombre integrante 3]
-- [Nombre integrante 4]
-- [Nombre integrante 5]
+- Martin Herrera Duranti
+- Vicente Corio Martínez
+- Paulo Salas Arismendi
 
 ## Proyecto
 Brookies Coffee es una cafetería familiar de un solo local. El proyecto es un gestor de inventario de insumos: descuenta automáticamente los insumos usados en cada pedido según la receta de cada producto y avisa al dueño y administrador cuando un insumo llega a un nivel crítico. El objetivo es dar trazabilidad entre ventas y consumo, reducir quiebres de stock, pérdidas por desperdicio y compras de urgencia, y apoyar las decisiones de reabastecimiento. Los pedidos, el pago en línea y las cuentas de clientes se desarrollan en otro ramo y quedan fuera de esta entrega.
