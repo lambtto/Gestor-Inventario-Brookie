@@ -72,7 +72,7 @@
     <bpmn:startEvent id="S4" name="Pedido confirmado">
       <bpmn:outgoing>F7</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:serviceTask id="N01" name="Descontar insumos según receta">
+    <bpmn:serviceTask id="N01" name="Descontar insumos y registrar venta">
       <bpmn:incoming>F7</bpmn:incoming>
       <bpmn:outgoing>F8</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -102,7 +102,7 @@
       <bpmn:outgoing>F14</bpmn:outgoing>
       <bpmn:timerEventDefinition id="Timer_SA" />
     </bpmn:startEvent>
-    <bpmn:userTask id="N03" name="Revisar inventario y decidir reposición">
+    <bpmn:userTask id="N03" name="Revisar inventario, ventas y decidir reposición">
       <bpmn:incoming>F11</bpmn:incoming>
       <bpmn:incoming>F14</bpmn:incoming>
       <bpmn:outgoing>F15</bpmn:outgoing>
@@ -168,7 +168,7 @@
       <bpmndi:BPMNShape id="E7_di" bpmnElement="E7"><dc:Bounds x="1242" y="132" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="1195" y="172" width="130" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="A02_di" bpmnElement="A02"><dc:Bounds x="515" y="290" width="110" height="80" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="S4_di" bpmnElement="S4"><dc:Bounds x="250" y="492" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="218" y="532" width="100" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="N01_di" bpmnElement="N01"><dc:Bounds x="345" y="470" width="110" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_di" bpmnElement="N01"><dc:Bounds x="335" y="470" width="130" height="80" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="G3_di" bpmnElement="G3" isMarkerVisible="true"><dc:Bounds x="535" y="485" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="505" y="454" width="110" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="N02_di" bpmnElement="N02"><dc:Bounds x="635" y="470" width="110" height="80" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="E6_di" bpmnElement="E6"><dc:Bounds x="542" y="560" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="406" y="564" width="130" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
@@ -176,7 +176,7 @@
       <bpmndi:BPMNShape id="N05_di" bpmnElement="N05"><dc:Bounds x="345" y="620" width="110" height="80" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="E8_di" bpmnElement="E8"><dc:Bounds x="512" y="642" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="465" y="682" width="130" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SA_di" bpmnElement="SA"><dc:Bounds x="250" y="782" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="218" y="822" width="100" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="N03_di" bpmnElement="N03"><dc:Bounds x="625" y="760" width="130" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N03_di" bpmnElement="N03"><dc:Bounds x="610" y="760" width="160" height="80" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="G2_di" bpmnElement="G2" isMarkerVisible="true"><dc:Bounds x="805" y="775" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="775" y="744" width="110" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="A10_di" bpmnElement="A10"><dc:Bounds x="935" y="760" width="110" height="80" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="A11_di" bpmnElement="A11"><dc:Bounds x="1085" y="760" width="110" height="80" /></bpmndi:BPMNShape>

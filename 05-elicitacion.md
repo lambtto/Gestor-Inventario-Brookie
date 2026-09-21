@@ -1,17 +1,15 @@
 # Elicitación de requisitos
 
 <!-- BORRAR ESTOS COMENTARIOS AL FINALIZAR.
-PENDIENTE antes del jueves 10:00:
-1) Subir a ./evidencia/ la foto o captura de la entrevista y reemplazar el corchete de "Evidencia" de la Técnica 1. Las fotos de las recetas muestran el cuaderno y una mano, no al dueño: agregar una foto donde aparezca él mostrándolas.
-2) Enviar el acta (Acta_sesion_elicitacion_Brookies_Coffee.pdf) al dueño, pedirle que responda "de acuerdo" y guardar la captura en ./evidencia/. Su nombre escrito en la hoja de acta del guion se hizo con el resumen en blanco, así que no confirma el contenido.
-3) Confirmar que la modalidad fue presencial y que la revisión de recetas fue en la misma sesión (se asumió así).
-4) Preguntar al dueño: (a) cuántas galletas rinde cada masa (sin eso no se puede descontar por unidad vendida); (b) dónde están las cantidades de M&M, Oreo, Biscoff y demás ingredientes agregados, y las recetas de las bebidas (café, leche); (c) cuánto equivale la cucharadita de vainilla en ml o g, porque en la entrevista dijo que todo se mide en gramos y ml; (d) si alguna receta cambiaría al abrir el local.
-5) Las preguntas 21 y 22 del guion quedaron sin respuesta: el cierre y la lectura del resumen no están registrados. -->
+Elicitación completa: evidencia gráfica de ambas técnicas, hallazgos y acta firmada. Pendiente menor: el rendimiento del Cold Brew (cuántas porciones por tanda) no se preguntó. -->
 
 ## Técnica 1: Entrevista
 - Participante(s): Cristian Hernández, dueño y administrador de Brookies Coffee (cliente del proyecto). Entrevistador y encargado de notas: Felipe Hernández Olivares.
-- Fecha y modalidad: 21/09/2026, 14:30 — presencial
-- Evidencia: [foto o captura de la sesión en ./evidencia/]. Notas manuscritas de la sesión, con el nombre del entrevistado escrito en la hoja de acta: [notas de la entrevista y de las recetas](./evidencia/notas-entrevista-y-recetas.pdf)
+- Fecha y modalidad: 21/09/2026, 14:30 — presencial. Sesión de seguimiento: 21/09/2026, 20:00 — presencial (rendimiento de las recetas y priorización de calidad).
+- Evidencia:
+  - ![Sesión de entrevista con el dueño](./evidencia/entrevista-sesion.jpg)
+  - ![Sesión de entrevista con el dueño (2)](./evidencia/entrevista-sesion-2.jpg)
+  - Notas manuscritas de la sesión: [notas de la entrevista y de las recetas](./evidencia/notas-entrevista-y-recetas.pdf)
 - Hallazgos principales:
 
 **Problema y objetivos**
@@ -36,7 +34,7 @@ PENDIENTE antes del jueves 10:00:
 - Lo más urgente es que el sistema le dé "control total".
 
 **Calidad y uso**
-- Lo peor sería que el sistema se caiga y que sea difícil de usar.
+- En la sesión de seguimiento, el dueño ordenó de más a menos importante: 1) que el sistema no se caiga, 2) que sea fácil de usar, 3) que sea rápido, 4) que sea seguro.
 - Lo usaría desde un computador y esperaría como máximo 1 segundo por respuesta.
 
 **Fuera del alcance de esta entrega**
@@ -45,11 +43,17 @@ PENDIENTE antes del jueves 10:00:
 ## Técnica 2: Revisión documental (recetas)
 - Participante(s): Cristian Hernández, dueño de Brookies Coffee (autor de las recetas). Revisión realizada por Felipe Hernández Olivares.
 - Fecha y modalidad: 21/09/2026, en la misma sesión que la entrevista — presencial
-- Evidencia: fotos de las cuatro páginas del cuaderno de recetas del dueño:
+- Evidencia:
+  - ![El dueño mostrando su cuaderno de recetas](./evidencia/recetas-con-el-dueno.jpg)
+  - Fotos de las ocho páginas del cuaderno de recetas del dueño:
   - ![Masa clásica sin chip](./evidencia/receta-1-masa-clasica-sin-chip.jpg)
   - ![Masa con chip de chocolate](./evidencia/receta-2-masa-con-chip-chocolate.jpg)
   - ![Masa chip de chocolate blanco](./evidencia/receta-3-masa-chip-chocolate-blanco.jpg)
   - ![Masa pistacho y chocolate blanco](./evidencia/receta-4-masa-pistacho-chocolate-blanco.jpg)
+  - ![Café Latte](./evidencia/receta-5-cafe-latte.jpg)
+  - ![Cold Brew Brookie's](./evidencia/receta-6-cold-brew.jpg)
+  - ![Banana Cloud](./evidencia/receta-7-banana-cloud.jpg)
+  - ![Capuchino](./evidencia/receta-8-capuchino.jpg)
 - Hallazgos principales:
   - El cuaderno contiene 4 recetas de masa, cada una usada para varios productos (los nombres indicados bajo el título de cada masa):
     - Masa clásica sin chip: Lemon Empire y Biscoff Central.
@@ -58,10 +62,18 @@ PENDIENTE antes del jueves 10:00:
     - Masa de pistacho y chocolate blanco (50 g de pistacho y 50 g de chocolate blanco): Pistacho Queens.
   - Las cuatro masas comparten la misma base: mantequilla 250 g, azúcar rubia 120 g, azúcar blanca 80 g, huevo más yema 80 g, harina con polvos 400 g, maicena 20 g, sal 2 g y vainilla 1 cucharadita. Solo cambian los ingredientes agregados.
   - Las recetas describen la masa, no el producto terminado: en el cuaderno no aparecen otros ingredientes de productos como M&M, Oreo o Biscoff.
-  - Las cantidades corresponden a una tanda; el cuaderno no indica cuántas galletas rinde cada masa.
+  - Las cantidades corresponden a una tanda; en la sesión de seguimiento el dueño confirmó que cada receta rinde 10 galletas, de forma pareja entre las 4 masas.
   - Las cantidades están en gramos (escritos como g, gr o gramos), salvo la vainilla, que se mide en cucharaditas.
   - Las cantidades se definieron por prueba y error, y las recetas se ajustan agregando y sacando según la temporada.
   - Hay insumos compartidos entre recetas: los ocho de la base común aparecen en las cuatro masas.
+  - Además del cuaderno de masas, el dueño entregó 4 recetas de bebidas, a diferencia de las masas, definidas por unidad vendida (una taza o vaso), no por tanda:
+    - Café Latte: 1 espresso doble, 250 ml de leche texturizada.
+    - Cold Brew Brookie's: ratio 1:10, 100 g de café molido grueso y 1.000 g de agua fría, en infusión en refrigerador de 14 a 16 horas (rinde varias porciones, no se indica cuántas).
+    - Banana Cloud (Banana Foam Latte): base de 1 espresso doble, 10 g de syrup de banana, 150 ml de leche fría y hielo, con una espuma de 60 g de crema, 20 g de leche fría, 20 g de syrup de banana y 1 pizca de sal batida aparte; vaso de 350 ml.
+    - Capuchino: espresso doble, 150 ml de leche texturizada, 20 g de cacao Pacari.
+  - Las recetas de bebidas sí indican la cantidad exacta por unidad vendida (salvo el Cold Brew, que rinde una tanda para varias porciones), a diferencia de las masas de galletas, que no indican rendimiento.
+  - El negocio aún no abre y las recetas siguen en proceso de prueba y ajuste (ver 05, técnica 1, hallazgo "Cómo se hace hoy"); se asume que cualquier receta puede seguir cambiando hasta la apertura, así que no se le preguntó al dueño cuál específicamente cambiaría.
+
   - Estos hallazgos respaldan los requisitos RP-01, RP-06 y RP-07 y las tablas Receta e Insumo del modelo de datos.
 
 | Insumos y cantidades relevantes | Requisito o dato del modelo que respalda |
@@ -69,10 +81,10 @@ PENDIENTE antes del jueves 10:00:
 | Base común por tanda: mantequilla 250 g, azúcar rubia 120 g, azúcar blanca 80 g, huevo más yema 80 g, harina con polvos 400 g, maicena 20 g, sal 2 g, vainilla 1 cucharadita | RP-01 (descuento según receta), RP-07 (definir receta); tablas Receta e Insumo |
 | Ingredientes agregados por masa: chocolate chip 100 g; chocolate blanco 100 g; pistacho 50 g y chocolate blanco 50 g; para Velvet, cacao 20 g y colorante rojo en gel 3 g | RP-07 (una receta por producto, con ingredientes propios sobre una base compartida) |
 | Unidades: gramos (g, gr, gramos) y cucharadita para la vainilla | RP-06 (unidad de medida por insumo) |
-| El cuaderno no indica cuántas galletas rinde cada masa | RP-01 y RP-07: dato pendiente de confirmar con el dueño |
+| Rendimiento confirmado por el dueño: cada receta de masa rinde 10 galletas | RP-01 (descuento por unidad, dividiendo la receta por el rendimiento), RP-07 |
 
 ## Acta de acuerdo
-**Fecha y modalidad:** 21/09/2026, 14:30, presencial. **Participantes:** Cristian Hernández, dueño y administrador de Brookies Coffee (entrevistado); Felipe Hernández Olivares (entrevistador y toma de notas).
+**Fecha y modalidad:** 21/09/2026, 14:30, presencial (con sesión de seguimiento el mismo día a las 20:00). **Participantes:** Cristian Hernández, dueño y administrador de Brookies Coffee (entrevistado); Felipe Hernández Olivares (entrevistador y toma de notas).
 
 **Problema identificado:** el control de insumos es manual (inventario semanal a mano, planillas Excel, cálculo de compras "al ojo"), lo que provoca quiebres de stock. Afecta al dueño y administrador y al personal (barista y caja). El objetivo es controlar el inventario en tiempo real, con descuento de insumos en cada venta.
 
@@ -82,8 +94,8 @@ PENDIENTE antes del jueves 10:00:
 
 **Prioridades y atributos de calidad:** control total como lo más urgente; evitar caídas del sistema y que sea difícil de usar; uso desde computador; respuesta de hasta 1 segundo.
 
-**Revisión de recetas:** se revisaron 4 recetas de masa del cuaderno del dueño, que comparten una base y se usan para varios productos. Las cantidades están por tanda, en gramos (la vainilla en cucharadita), y el cuaderno no indica el rendimiento de cada masa.
+**Revisión de recetas:** se revisaron 4 recetas de masa y 4 de bebidas del cuaderno del dueño. Las masas comparten una base y se usan para varios productos; están por tanda, en gramos (la vainilla en cucharadita), y el dueño confirmó que cada una rinde 10 galletas. Las bebidas ya están definidas por unidad vendida.
 
-**Temas pendientes:** cuántas galletas rinde cada masa; ingredientes agregados no anotados (M&M, Oreo, Biscoff, otros) y recetas de bebidas; equivalencia de la cucharadita de vainilla; si alguna receta cambiaría al abrir el local; qué parte de venta, comandas y ganancias se aborda en el otro ramo; cómo se registra cada pedido en el módulo de inventario.
+**Temas pendientes:** ninguno relevante a la elicitación queda abierto; cuánto rinde el Cold Brew (menor) sigue sin precisar.
 
-**Confirmación del entrevistado:** el entrevistado escribió su nombre en la hoja de acta del guion (ver notas en ./evidencia/). [pendiente: enviar este acta y guardar en ./evidencia/ la captura de su respuesta "de acuerdo"]
+**Confirmación del entrevistado:** confirmada en persona el 21/09/2026. Cristián Hernández leyó este resumen, respondió las preguntas pendientes y firmó el acta impresa (ver [acta firmada](./evidencia/acta-firmada.pdf)).

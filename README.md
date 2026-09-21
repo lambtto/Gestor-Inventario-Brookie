@@ -8,18 +8,18 @@ Brookies Coffee es una cafetería familiar de un solo local. Hoy el control de i
 
 El proyecto propone un **gestor de inventario** que:
 
-- descuente automáticamente los insumos usados en cada pedido, según la receta de cada producto;
+- descuente automáticamente los insumos usados en cada pedido, según la receta de cada producto, y registre la venta;
 - avise al administrador cuando un insumo llega a su nivel mínimo;
-- permita ver el stock en tiempo real y recibir un informe al cierre del día;
+- permita ver el stock en tiempo real y recibir un informe al cierre del día con el stock, qué se vendió y la ganancia;
 - deje registro de cada movimiento de inventario, para tener trazabilidad entre ventas y consumo.
 
 En esta entrega el trabajo consiste en **levantar y documentar los requisitos**: entender el proceso actual, diseñar el proceso mejorado, y derivar de ahí los requisitos, las historias de usuario y los atributos de calidad. Todavía no se desarrolla el sistema.
 
 ## Alcance
 
-**Dentro del alcance:** gestión de inventario de insumos y descuento de insumos por pedido, en un solo local.
+**Dentro del alcance:** gestión de inventario de insumos, descuento de insumos por pedido, y registro de ventas y ganancia, en un solo local.
 
-**Fuera del alcance:** toma de pedidos, pago en línea, cuentas de clientes, comandas, ventas y ganancias. Esas partes se abordan en otro ramo del equipo.
+**Fuera del alcance:** toma de pedidos (menú, carrito), pago en línea, cuentas de clientes y comandas. Esas partes se abordan en otro ramo del equipo. El gestor recibe el pedido ya confirmado, con sus productos, cantidades y el monto de la venta.
 
 ## Documentos de la entrega
 

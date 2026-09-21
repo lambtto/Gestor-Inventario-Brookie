@@ -8,7 +8,7 @@
 - Martín Andrés Herrera Duranti
 
 ## Proyecto
-Brookies Coffee es una cafetería familiar de un solo local. El proyecto es un gestor de inventario de insumos: descuenta automáticamente los insumos usados en cada pedido según la receta de cada producto y avisa al dueño y administrador cuando un insumo llega a un nivel crítico. El objetivo es dar trazabilidad entre ventas y consumo, reducir quiebres de stock, pérdidas por desperdicio y compras de urgencia, y apoyar las decisiones de reabastecimiento. Los pedidos, el pago en línea y las cuentas de clientes se desarrollan en otro ramo y quedan fuera de esta entrega.
+Brookies Coffee es una cafetería familiar de un solo local. El proyecto es un gestor de inventario de insumos: al confirmarse un pedido, descuenta automáticamente los insumos usados según la receta de cada producto y registra la venta, con lo que el dueño y administrador puede ver un informe diario con el stock, qué se vendió y la ganancia. También avisa cuando un insumo llega a un nivel crítico. El objetivo es dar trazabilidad entre ventas y consumo, reducir quiebres de stock, pérdidas por desperdicio y compras de urgencia, y apoyar las decisiones de reabastecimiento. La toma de pedidos (menú, carrito), el pago en línea y las cuentas de clientes se desarrollan en otro ramo y quedan fuera de esta entrega.
 
 ## Índice de documentos
 1. [Proceso AS-IS](./01-proceso-as-is.md)

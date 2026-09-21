@@ -1,14 +1,14 @@
 # Atributos de calidad (ISO 25010)
 
 <!-- BORRAR ESTOS COMENTARIOS AL FINALIZAR.
-BORRADOR: la priorización se apoya en la respuesta del dueño a la pregunta 18 de la entrevista (lo peor: que el sistema se caiga y que sea difícil de usar) y en su pedido de "control total". El dueño nombró solo dos atributos, así que el orden entre ellos y el tercero es criterio del equipo: pedirle que los ordene al enviarle el acta. Los umbrales de las métricas también deben validarse con él y con el costo real del hosting. -->
+BORRADOR: en la sesión de seguimiento del 21/09/2026 el dueño ordenó explícitamente 4 de los 9 atributos: 1) que el sistema no se caiga, 2) que sea fácil de usar, 3) que sea rápido, 4) que sea seguro (ver acta en 05-elicitacion.md). Ese orden se aplicó tal cual a Fiabilidad, Capacidad de interacción, Eficiencia de desempeño y Seguridad. Adecuación funcional se mantiene en el 3er lugar porque respalda su pedido repetido de "control total", que es un tema distinto al de la pregunta de calidad, así que no compitió en ese ranking; el equipo puede discutir si corresponde bajarla. Los umbrales de las métricas siguen sin validar con él ni con el costo real del hosting. -->
 
 ## Priorización de los 9 atributos de primer nivel
-1. **Fiabilidad** — lo peor para el dueño es que el sistema se caiga; el descuento de insumos en tiempo real solo sirve si el sistema está disponible cuando se vende (RP-10).
-2. **Capacidad de interacción** — lo segundo peor es que sea difícil de usar; lo operarán el administrador, el barista y el personal de caja, sin experiencia técnica (RP-12).
-3. **Adecuación funcional** — el dueño pide "control total": el descuento por receta y el stock deben ser correctos (RP-01, RP-07, RP-08).
-4. **Seguridad** — el módulo solo debe usarlo el administrador y cada movimiento debe quedar registrado; el dueño no lo mencionó como su mayor preocupación (RP-08, RP-09).
-5. **Eficiencia de desempeño** — tolera hasta 1 segundo de espera, un umbral exigente pero de bajo volumen (RP-11).
+1. **Fiabilidad** — el dueño ordenó "que no caiga el sistema" en el primer lugar; el descuento de insumos en tiempo real solo sirve si el sistema está disponible cuando se vende (RP-10).
+2. **Capacidad de interacción** — segundo lugar en su orden ("fácil uso"); lo operarán el administrador, el barista y el personal de caja, sin experiencia técnica (RP-12).
+3. **Adecuación funcional** — el dueño pide "control total": el descuento por receta y el stock deben ser correctos (RP-01, RP-07, RP-08). No formó parte del ranking de calidad que dio, pero es su pedido más repetido en la entrevista.
+4. **Eficiencia de desempeño** — tercer lugar en su orden ("que sea rápido"); tolera hasta 1 segundo de espera, un umbral exigente pero de bajo volumen (RP-11).
+5. **Seguridad** — cuarto lugar en su orden ("que sea seguro"); el módulo solo debe usarlo el administrador y cada movimiento debe quedar registrado (RP-08, RP-09).
 6. **Compatibilidad** — lo usaría desde un computador; hoy solo se exige Safari (RP-13).
 7. **Mantenibilidad** — lo mantiene un equipo pequeño y podría crecer, pero no es urgente.
 8. **Flexibilidad** — un solo local, sin multi-sucursal ni cambios de entorno previstos.
