@@ -11,15 +11,18 @@ Actividades TO-BE provisorias usadas:
   - Registrar insumos y recetas (prov.)
 Fuera de alcance por pertenecer al otro ramo (pedido, pago, cuentas): registro de clientes, sesión, menú, carrito, pago en línea, historial y estado de pedidos, cifrado de contraseñas, accesibilidad de la tienda.
 Opcional si el equipo quiere ampliar: validar stock antes de aceptar un pedido (RF07 del documento de definición).
-Decisión pendiente: cómo llega el pedido al módulo (lo recibe de la aplicación web o lo registra el administrador). -->
+Decisión pendiente: cómo llega el pedido al módulo (lo recibe de la aplicación web o lo registra el administrador).
+Entrevista: el dueño indicó que hay barista y personal de caja (contradice el supuesto de que no hay empleados aparte del dueño). Decidir si algún requisito o historia involucra a esos roles.
+El dueño también pidió ventas, comandas, ganancias y cuadratura de caja: fuera de alcance (ver RY-05).
+Recetas (revisión documental): las cantidades son por tanda y no indican cuántas unidades rinde cada masa; los productos comparten una masa base con ingredientes agregados; la vainilla está en cucharaditas. Si el dueño lo confirma, revisar RP-06 (unidad de medida por insumo) y RP-07 (receta con rendimiento y base compartida). -->
 
 ## Requisitos de producto
 | ID | Requisito | Tipo (funcional/no funcional) | Actividad TO-BE asociada |
 |----|-----------|--------------------------------|----------------------------|
 | RP-01 | El sistema debe descontar automáticamente del inventario los insumos de cada producto de un pedido confirmado, según la receta del producto. | Funcional | Descontar insumos según receta (prov.) |
 | RP-02 | El sistema debe generar una alerta al administrador cuando el stock de un insumo alcance el nivel mínimo que él definió. | Funcional | Alertar stock crítico (prov.) |
-| RP-03 | El sistema debe permitir al administrador consultar el stock actual de cada insumo junto a su nivel mínimo. | Funcional | Revisar inventario y decidir reposición (prov.) |
-| RP-04 | El sistema debe permitir al administrador consultar reportes de ventas e inventario, incluido el consumo de cada insumo por período, para anticipar el reabastecimiento. | Funcional | Revisar inventario y decidir reposición (prov.) |
+| RP-03 | El sistema debe permitir al administrador consultar en tiempo real el stock actual de cada insumo junto a su nivel mínimo. | Funcional | Revisar inventario y decidir reposición (prov.) |
+| RP-04 | El sistema debe entregar al administrador un informe al cierre del día con el stock inicial, el stock final y el consumo de cada insumo, y permitir consultar el consumo por período (día, semana, mes) para anticipar el reabastecimiento. | Funcional | Revisar inventario y decidir reposición (prov.) |
 | RP-05 | El sistema debe permitir al administrador registrar el ingreso de stock de un insumo cuando lo repone. | Funcional | Reabastecer stock (prov.) |
 | RP-06 | El sistema debe permitir al administrador registrar, editar y desactivar insumos, con su unidad de medida y su stock mínimo. | Funcional | Registrar insumos y recetas (prov.) |
 | RP-07 (derivado de RP-01) | El sistema debe permitir al administrador definir y modificar la receta de cada producto (insumos y cantidades). | Funcional | Registrar insumos y recetas (prov.) |
@@ -28,7 +31,7 @@ Decisión pendiente: cómo llega el pedido al módulo (lo recibe de la aplicaci�
 | RP-10 | El sistema debe mantener una disponibilidad de al menos 99,9 % durante el horario de atención del local. | No funcional (Fiabilidad) | Descontar insumos según receta (prov.) |
 | RP-11 | El sistema debe responder en 1 segundo o menos en al menos el 95 % de las operaciones de descuento y de consulta de stock. | No funcional (Eficiencia de desempeño) | Descontar insumos según receta (prov.); Revisar inventario y decidir reposición (prov.) |
 | RP-12 | La interfaz debe ser simple para un administrador sin experiencia técnica: debe poder registrar una reposición y una receta sin ayuda externa. | No funcional (Capacidad de interacción) | Reabastecer stock (prov.); Registrar insumos y recetas (prov.) |
-| RP-13 | La aplicación debe funcionar sin errores en la versión vigente de Safari, en escritorio y móvil, para consultar el stock y registrar una reposición. | No funcional (Compatibilidad) | Revisar inventario y decidir reposición (prov.); Reabastecer stock (prov.) |
+| RP-13 | La aplicación debe funcionar sin errores en la versión vigente de Safari, en computador de escritorio, para consultar el stock y registrar una reposición. | No funcional (Compatibilidad) | Revisar inventario y decidir reposición (prov.); Reabastecer stock (prov.) |
 
 ## Requisitos de proyecto
 | ID | Requisito |
