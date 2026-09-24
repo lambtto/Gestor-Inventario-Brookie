@@ -66,7 +66,7 @@ El punto de partida es el documento maestro: [`IngReq-Entrega 1.md`](./IngReq-En
 ## Equipo
 
 - Felipe Cristóbal Hernández Olivares
-- Simón Pedro Reyes Morales
+- Simon Pedro Reyes Morales
 - Paulo Andrés Salas Arismendi
 - Vicente Andrés Coiro Martínez
 - Martín Andrés Herrera Duranti
