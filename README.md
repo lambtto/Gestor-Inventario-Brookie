@@ -71,7 +71,7 @@ El punto de partida es el documento maestro: [`IngReq-Entrega 1.md`](./IngReq-En
 - Vicente Andrés Coiro Martínez
 - Martín Andrés Herrera Duranti
 
-Profesor: Benjamín Serrano.
+Profesor: Rene Noel.
 
 El detalle de qué documento está a cargo de quién está en el documento maestro.
 
