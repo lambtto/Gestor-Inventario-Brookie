@@ -171,6 +171,4 @@ Dado que un insumo forma parte de una receta existente, cuando el administrador 
 
 **CA4 – Mantener descuentos anteriores**
 
-**Dado** que existe una receta utilizada en pedidos anteriores,
-**cuando** el administrador modifica dicha receta,
-**entonces** el cambio se aplica únicamente a los pedidos posteriores y no modifica los descuentos registrados anteriormente.
+Dado que existe una receta utilizada en pedidos anteriores, cuando el administrador modifica dicha receta, entonces el cambio se aplica únicamente a los pedidos posteriores y no modifica los descuentos registrados anteriormente.
