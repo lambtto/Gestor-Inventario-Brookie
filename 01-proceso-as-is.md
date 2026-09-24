@@ -11,7 +11,7 @@ BORRADOR: supuestos por validar con el dueño y el profesor:
 ## Macro-proceso y proceso específico
 Operación de la cafetería → Control y reabastecimiento de inventario de insumos (sin el gestor)
 
-Brookies Coffee aún no opera comercialmente. Este AS-IS modela cómo se controla y se repone el inventario de insumos sin el gestor, a partir de la práctica actual del dueño (compra de ingredientes y pruebas de recetas) y de la entrevista del 21/09/2026 (ver [Elicitación](./05-elicitacion.md)). El flujo del pedido se incluye solo para mostrar dónde se consumen los insumos; el detalle de la venta (toma de pedidos, pago en línea) queda fuera del alcance.
+Brookies Coffee aún no opera comercialmente: el AS-IS se construyó proyectando cómo funcionaría el control manual de insumos con la información que sí existe hoy — cómo el dueño compra insumos y prueba recetas, más lo que él mismo describió en la entrevista del 21/09/2026 sobre cómo planea operar (ver [Elicitación](./05-elicitacion.md)). El flujo del pedido se incluye solo para mostrar dónde se consumen los insumos; el detalle de la venta (toma de pedidos, pago en línea) queda fuera del alcance.
 
 ## Objetivo de negocio del proceso
 Contar con los insumos necesarios para preparar los productos cuando se pidan, evitando quiebres de stock, pérdidas y compras de urgencia, y conociendo cuánto stock queda de cada insumo para decidir cuándo reponer.
