@@ -1,14 +1,5 @@
 # Análisis de rediseño y propuesta TO-BE
 
-<!-- BORRAR ESTOS COMENTARIOS AL FINALIZAR.
-BORRADOR completo para revisar y rediseñar en equipo. Al cerrarlo: quitar la marca (prov.) aquí, en 03 y en 04; abrir diagramas/to-be.bpmn en bpmn.io, ajustar y volver a descargar el .bpmn y el PNG desde la herramienta.
-Decisiones pendientes que afectan este documento:
-1) RESUELTO: el gestor de inventario solo recibe el pedido ya confirmado, con sus productos, cantidades y el monto de la venta; no participa en tomar el pedido, el menú, el carrito ni el pago (eso es del otro ramo). Con esos datos, el gestor descuenta los insumos según receta y registra la venta, para poder informar qué se vendió, cuánto y la ganancia del día. Queda como contrato pendiente con el otro equipo: que el evento "Pedido confirmado" incluya el monto de la venta.
-2) Si el barista o el personal de caja usan el gestor. Hoy solo lo usa el administrador; sus tareas (A01, A02, A04, A05) no cambian.
-3) Si se mantiene un conteo físico ocasional para verificar el stock del sistema (mitiga el riesgo de la Iniciativa 3).
-4) Rendimiento de las recetas (unidades por tanda): sin ese dato el descuento por unidad no es calculable (ver 05-elicitacion.md).
-Heurísticas: catálogo de Reijers y Mansar (2005), "Best practices in business process redesign". -->
-
 ## Mejoras identificadas por participante
 | Participante | Objetivo | Problema | Mejora deseada |
 |----------------|----------|----------|-----------------|
@@ -52,11 +43,11 @@ Las tareas de servicio (ícono de engranaje) las ejecuta el gestor de inventario
 ## Actividades que cambian del AS-IS al TO-BE
 | Actividad en el AS-IS | Actividad en el TO-BE | Qué cambia |
 |-------------------------|--------------------------|------------|
-| A06 — Registrar ventas y rebaja de insumos en Excel (tarea de usuario, al cerrar el día) | N01 — Descontar insumos y registrar venta (prov.) (tarea de servicio) | La rebaja de insumos y el registro de la venta dejan de anotarse a mano al cierre: el sistema los calcula solos con la receta y el monto de cada pedido confirmado. |
-| A03 — Avisar que falta un insumo (tarea manual, cuando ya faltó) | N02 — Alertar stock crítico (prov.) (tarea de servicio) | En vez de enterarse cuando el insumo ya faltó, el administrador recibe una alerta cuando el stock llega al mínimo que definió. |
-| A07 — Contar el inventario a mano; A08 — Anotar el conteo en planilla Excel; A09 — Estimar al ojo cuánto comprar (manual y de usuario, una vez por semana) | N03 — Revisar inventario, ventas y decidir reposición (prov.) (tarea de usuario) | El stock se consulta en tiempo real y el informe de cierre entrega stock inicial, final, consumo por insumo, qué se vendió y la ganancia del día, así que ya no se cuenta a mano cada semana ni se estima al ojo. |
-| A12 — Guardar los insumos (tarea manual) | N04 — Reabastecer stock (prov.) (tarea de usuario) | Además de guardar los insumos, el administrador registra el ingreso en el sistema y el stock se actualiza al instante. |
-| (no existe: las recetas están en un cuaderno a mano y se usan en A02 — Preparar el pedido con la receta) | N05 — Registrar insumos y recetas (prov.) (tarea de usuario) | Actividad nueva: se registran los insumos y la receta de cada producto en el sistema, que es lo que permite el descuento automático. |
+| A06 — Registrar ventas y rebaja de insumos en Excel (tarea de usuario, al cerrar el día) | N01 — Descontar insumos y registrar venta (tarea de servicio) | La rebaja de insumos y el registro de la venta dejan de anotarse a mano al cierre: el sistema los calcula solos con la receta y el monto de cada pedido confirmado. |
+| A03 — Avisar que falta un insumo (tarea manual, cuando ya faltó) | N02 — Alertar stock crítico (tarea de servicio) | En vez de enterarse cuando el insumo ya faltó, el administrador recibe una alerta cuando el stock llega al mínimo que definió. |
+| A07 — Contar el inventario a mano; A08 — Anotar el conteo en planilla Excel; A09 — Estimar al ojo cuánto comprar (manual y de usuario, una vez por semana) | N03 — Revisar inventario, ventas y decidir reposición (tarea de usuario) | El stock se consulta en tiempo real y el informe de cierre entrega stock inicial, final, consumo por insumo, qué se vendió y la ganancia del día, así que ya no se cuenta a mano cada semana ni se estima al ojo. |
+| A12 — Guardar los insumos (tarea manual) | N04 — Reabastecer stock (tarea de usuario) | Además de guardar los insumos, el administrador registra el ingreso en el sistema y el stock se actualiza al instante. |
+| (no existe: las recetas están en un cuaderno a mano y se usan en A02 — Preparar el pedido con la receta) | N05 — Registrar insumos y recetas (tarea de usuario) | Actividad nueva: se registran los insumos y la receta de cada producto en el sistema, que es lo que permite el descuento automático. |
 
 No cambian A01 (anotar la comanda), A02 (preparar el pedido con la receta), A04 (entregar y cobrar), A05 (cuadrar la caja), A10 (buscar dónde comprar más barato) ni A11 (comprar los insumos), que siguen siendo manuales.
 

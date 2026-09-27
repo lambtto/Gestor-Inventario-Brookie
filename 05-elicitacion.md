@@ -1,8 +1,5 @@
 # Elicitación de requisitos
 
-<!-- BORRAR ESTOS COMENTARIOS AL FINALIZAR.
-Elicitación completa: evidencia gráfica de ambas técnicas, hallazgos y acta firmada. Pendiente menor: el rendimiento del Cold Brew (cuántas porciones por tanda) no se preguntó. -->
-
 ## Técnica 1: Entrevista
 - Participante(s): Cristian Hernández, dueño y administrador de Brookies Coffee (cliente del proyecto). Entrevistador y encargado de notas: Felipe Hernández Olivares.
 - Fecha y modalidad: 21/09/2026, 14:30 — presencial. Sesión de seguimiento: 21/09/2026, 20:00 — presencial (rendimiento de las recetas y priorización de calidad).
@@ -68,10 +65,10 @@ Elicitación completa: evidencia gráfica de ambas técnicas, hallazgos y acta f
   - Hay insumos compartidos entre recetas: los ocho de la base común aparecen en las cuatro masas.
   - Además del cuaderno de masas, el dueño entregó 4 recetas de bebidas, a diferencia de las masas, definidas por unidad vendida (una taza o vaso), no por tanda:
     - Café Latte: 1 espresso doble, 250 ml de leche texturizada.
-    - Cold Brew Brookie's: ratio 1:10, 100 g de café molido grueso y 1.000 g de agua fría, en infusión en refrigerador de 14 a 16 horas (rinde varias porciones, no se indica cuántas).
+    - Cold Brew Brookie's: ratio 1:10, 100 g de café molido grueso y 1.000 g de agua fría, en infusión en refrigerador de 14 a 16 horas; el dueño confirmó que, igual que las otras tres bebidas, esta cantidad rinde 1 taza.
     - Banana Cloud (Banana Foam Latte): base de 1 espresso doble, 10 g de syrup de banana, 150 ml de leche fría y hielo, con una espuma de 60 g de crema, 20 g de leche fría, 20 g de syrup de banana y 1 pizca de sal batida aparte; vaso de 350 ml.
     - Capuchino: espresso doble, 150 ml de leche texturizada, 20 g de cacao Pacari.
-  - Las recetas de bebidas sí indican la cantidad exacta por unidad vendida (salvo el Cold Brew, que rinde una tanda para varias porciones), a diferencia de las masas de galletas, que no indican rendimiento.
+  - Las recetas de bebidas sí indican la cantidad exacta por unidad vendida, incluido el Cold Brew (rendimiento de 1 taza confirmado por el dueño), a diferencia de las masas de galletas, que no indican rendimiento por unidad sino por tanda.
   - El negocio aún no abre y las recetas siguen en proceso de prueba y ajuste (ver 05, técnica 1, hallazgo "Cómo se hace hoy"); se asume que cualquier receta puede seguir cambiando hasta la apertura, así que no se le preguntó al dueño cuál específicamente cambiaría.
 
   - Estos hallazgos respaldan los requisitos RP-01, RP-06 y RP-07 y las tablas Receta e Insumo del modelo de datos.
@@ -96,6 +93,6 @@ Elicitación completa: evidencia gráfica de ambas técnicas, hallazgos y acta f
 
 **Revisión de recetas:** se revisaron 4 recetas de masa y 4 de bebidas del cuaderno del dueño. Las masas comparten una base y se usan para varios productos; están por tanda, en gramos (la vainilla en cucharadita), y el dueño confirmó que cada una rinde 10 galletas. Las bebidas ya están definidas por unidad vendida.
 
-**Temas pendientes:** ninguno relevante a la elicitación queda abierto; cuánto rinde el Cold Brew (menor) sigue sin precisar.
+**Temas pendientes:** ninguno queda abierto; el rendimiento del Cold Brew se confirmó en la sesión de seguimiento (1 taza, igual que las demás bebidas).
 
 **Confirmación del entrevistado:** confirmada en persona el 21/09/2026. Cristián Hernández leyó este resumen, respondió las preguntas pendientes y firmó el acta impresa (ver [acta firmada](./evidencia/acta-firmada.pdf)).

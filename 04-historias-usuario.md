@@ -1,17 +1,10 @@
 # Historias de usuario
 
-<!-- BORRAR ESTOS COMENTARIOS AL FINALIZAR.
-BORRADOR: las historias dependen de la tabla "Actividades que cambian" de 02-rediseno-to-be.md, que es una propuesta. Si el equipo cambia esa tabla, actualizar aquí el nombre de la actividad asociada y quitar la marca (prov.).
-Criterio usado: una historia por cada tarea de usuario del TO-BE que cambia (HU-03 a HU-06). Las tareas de servicio no generan historia propia, pero HU-01 y HU-02 expresan el valor de esas tareas desde el punto de vista del administrador (como en el ejemplo de la clase). Los requisitos que las respaldan están en 03-requisitos.md.
-Rendimiento: confirmado con el dueño que cada masa de galleta rinde 10 galletas por tanda (ver 05-elicitacion.md); HU-01 asume que el descuento se calcula dividiendo la receta por ese rendimiento.
-Decisión pendiente: hoy todas las historias son del administrador. El dueño indicó que hay barista y personal de caja; decidir si alguno usa el sistema y merece historia propia.
-Ganancia (HU-01, HU-04): se calcula como monto vendido menos costo de los insumos consumidos; por eso RP-06 ahora pide costo unitario del insumo, además de la unidad de medida y el stock mínimo. -->
-
 ## HU-01 – Registrar venta
 
 **Como administrador, quiero registrar una venta y descontar automáticamente los insumos utilizados según la receta de cada producto, para mantener actualizado el stock y conocer las ventas realizadas sin registros manuales.**
 
-**Actividad TO-BE:** Descontar insumos y registrar venta (prov.)
+**Actividad TO-BE:** Descontar insumos y registrar venta
 
 ### Criterios de aceptación
 
@@ -41,7 +34,7 @@ Dado que un producto del pedido no tiene una receta definida, cuando se confirma
 
 **Como administrador, quiero recibir una alerta cuando un insumo llegue a su nivel mínimo, para comprarlo antes de quedarme sin stock.**
 
-**Actividad TO-BE:** Alertar stock crítico (prov.)
+**Actividad TO-BE:** Alertar stock crítico
 
 ### Criterios de aceptación
 
@@ -67,7 +60,7 @@ Dado que existe una alerta de stock para un insumo, cuando su stock vuelve a sup
 
 **Como administrador, quiero consultar el stock actual de cada insumo, para decidir qué comprar sin tener que contar el inventario manualmente.**
 
-**Actividad TO-BE:** Revisar inventario, ventas y decidir reposición (prov.)
+**Actividad TO-BE:** Revisar inventario, ventas y decidir reposición
 
 ### Criterios de aceptación
 
@@ -93,7 +86,7 @@ Dado que una persona intenta consultar el stock, cuando no posee el rol de admin
 
 **Como administrador, quiero consultar un informe de las ventas y el consumo de insumos, para conocer los resultados de la operación y planificar la reposición.**
 
-**Actividad TO-BE:** Revisar inventario, ventas y decidir reposición (prov.)
+**Actividad TO-BE:** Revisar inventario, ventas y decidir reposición
 
 ### Criterios de aceptación
 
@@ -123,7 +116,7 @@ Dado que existen movimientos de consumo y reposición registrados durante un per
 
 **Como administrador, quiero registrar el ingreso de los insumos que compro, para mantener actualizado el inventario sin utilizar registros manuales externos.**
 
-**Actividad TO-BE:** Reabastecer stock (prov.)
+**Actividad TO-BE:** Reabastecer stock
 
 ### Criterios de aceptación
 
@@ -153,7 +146,7 @@ Dado que el administrador necesita registrar un ingreso de stock, cuando realiza
 
 **Como administrador, quiero registrar los insumos y definir la receta de cada producto, para disponer de la información necesaria para calcular los insumos utilizados en cada venta.**
 
-**Actividad TO-BE:** Registrar insumos y recetas (prov.)
+**Actividad TO-BE:** Registrar insumos y recetas
 
 ### Criterios de aceptación
 

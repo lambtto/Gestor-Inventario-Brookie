@@ -66,12 +66,12 @@ El punto de partida es el documento maestro: [`IngReq-Entrega 1.md`](./IngReq-En
 ## Equipo
 
 - Felipe Cristóbal Hernández Olivares
-- Simon Pedro Reyes Morales
+- Simón Pedro Reyes Morales
 - Paulo Andrés Salas Arismendi
 - Vicente Andrés Coiro Martínez
 - Martín Andrés Herrera Duranti
 
-Profesor: Rene Noel.
+Profesor: René Alejandro Noel López.
 
 El detalle de qué documento está a cargo de quién está en el documento maestro.
 

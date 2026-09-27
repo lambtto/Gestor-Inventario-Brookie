@@ -1,8 +1,5 @@
 # Atributos de calidad (ISO 25010)
 
-<!-- BORRAR ESTOS COMENTARIOS AL FINALIZAR.
-BORRADOR: en la sesión de seguimiento del 21/09/2026 el dueño ordenó explícitamente 4 de los 9 atributos: 1) que el sistema no se caiga, 2) que sea fácil de usar, 3) que sea rápido, 4) que sea seguro (ver acta en 05-elicitacion.md). Ese orden se aplicó tal cual a Fiabilidad, Capacidad de interacción, Eficiencia de desempeño y Seguridad. Adecuación funcional se mantiene en el 3er lugar porque respalda su pedido repetido de "control total", que es un tema distinto al de la pregunta de calidad, así que no compitió en ese ranking; el equipo puede discutir si corresponde bajarla. Los umbrales de las métricas siguen sin validar con él ni con el costo real del hosting. -->
-
 ## Priorización de los 9 atributos de primer nivel
 1. **Fiabilidad** — el dueño ordenó "que no caiga el sistema" en el primer lugar; el descuento de insumos en tiempo real solo sirve si el sistema está disponible cuando se vende (RP-10).
 2. **Capacidad de interacción** — segundo lugar en su orden ("fácil uso"); lo operarán el administrador, el barista y el personal de caja, sin experiencia técnica (RP-12).

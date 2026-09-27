@@ -17,7 +17,6 @@ Brookies Coffee es una cafetería familiar de un solo local. El proyecto es un g
 4. [Historias de usuario](./04-historias-usuario.md)
 5. [Elicitación](./05-elicitacion.md)
 6. [Atributos de calidad](./06-atributos-calidad.md)
-7. [Trazabilidad](./07-trazabilidad.md)
 
 ## Responsabilidades
 Documento a cargo de cada integrante (declaración previa a la Evaluación 1).

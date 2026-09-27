@@ -1,13 +1,5 @@
 # Proceso de negocio — AS-IS
 
-<!-- BORRAR ESTOS COMENTARIOS AL FINALIZAR.
-BORRADOR: supuestos por validar con el dueño y el profesor:
-1) Quién registra las ventas y la rebaja de insumos en Excel al cerrar el día (se asignó al administrador) y quién cuadra la caja (personal de caja).
-2) Los objetivos del barista y del personal de caja son razonables, pero el dueño no los dijo textualmente.
-3) El camino "falta un insumo" (el barista avisa al administrador) se apoya en que el dueño compra "cada vez que falte"; confirmar cómo se avisa.
-4) El AS-IS no tiene tareas de servicio porque no hay un sistema que ejecute pasos de forma automática. Confirmar con el profesor que es aceptable.
-5) Abrir diagramas/as-is.bpmn en bpmn.io, revisar que se vea bien, y volver a descargar el .bpmn y el PNG desde la herramienta. -->
-
 ## Macro-proceso y proceso específico
 Operación de la cafetería → Control y reabastecimiento de inventario de insumos (sin el gestor)
 
