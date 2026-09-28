@@ -50,5 +50,3 @@ Las tareas de servicio (ícono de engranaje) las ejecuta el gestor de inventario
 | (no existe: las recetas están en un cuaderno a mano y se usan en A02 — Preparar el pedido con la receta) | N05 — Registrar insumos y recetas (tarea de usuario) | Actividad nueva: se registran los insumos y la receta de cada producto en el sistema, que es lo que permite el descuento automático. |
 
 No cambian A01 (anotar la comanda), A02 (preparar el pedido con la receta), A04 (entregar y cobrar), A05 (cuadrar la caja), A10 (buscar dónde comprar más barato) ni A11 (comprar los insumos), que siguen siendo manuales.
-
-Esta tabla es la que usarán en 03-requisitos.md y 04-historias-usuario.md para asociar cada requisito e historia a la actividad que cambia.

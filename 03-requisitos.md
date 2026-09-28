@@ -14,14 +14,14 @@
 | RP-09 | El sistema debe permitir el acceso al módulo de inventario únicamente a usuarios con rol de administrador. | Funcional (política de acceso) | Revisar inventario, ventas y decidir reposición; Reabastecer stock; Registrar insumos y recetas |
 | RP-10 | El sistema debe mantener una disponibilidad de al menos 99,9 % durante el horario de atención del local. | No funcional (Restricción de calidad de servicio — fiabilidad) | Descontar insumos y registrar venta |
 | RP-11 | El sistema debe responder en 1 segundo o menos en al menos el 95 % de las operaciones de descuento y de consulta de stock. | No funcional (Restricción de calidad de servicio — tiempo de respuesta) | Descontar insumos y registrar venta; Revisar inventario, ventas y decidir reposición |
-| RP-12 | La interfaz debe ser simple para un administrador sin experiencia técnica: debe poder registrar una reposición y una receta sin ayuda externa. | No funcional (Capacidad de interacción) *(no calza claramente en las dos categorías vistas en clase; confirmar con el profesor)* | Reabastecer stock; Registrar insumos y recetas |
+| RP-12 | La interfaz debe ser simple para un administrador sin experiencia técnica: debe poder registrar una reposición y una receta sin ayuda externa. | No funcional (Capacidad de interacción) | Reabastecer stock; Registrar insumos y recetas |
 | RP-13 | La aplicación debe funcionar sin errores en la versión vigente de Safari, en computador de escritorio, para consultar el stock y registrar una reposición. | No funcional (Restricción de tecnología — navegador/plataforma) | Revisar inventario, ventas y decidir reposición; Reabastecer stock |
 
 ## Requisitos de proyecto
 | ID | Requisito |
 |----|-----------|
-| RY-01 (Costo) | El sistema debe poder implementarse y operarse sin costos de licenciamiento relevantes para el dueño, dado que Brookies Coffee es una cafetería familiar de un solo local que aún no genera ingresos por venta. *(Supuesto: el dueño no definió un presupuesto; falta confirmarlo.)* |
-| RY-02 (Plazo) | El sistema debe estar operativo antes de que el local abra comercialmente al público, ya que hoy el control de insumos es completamente manual y ese es el problema que el dueño busca resolver antes de partir. *(Supuesto: el dueño no dio una fecha exacta de apertura; falta confirmarla.)* |
+| RY-01 (Costo) | El sistema debe poder implementarse y operarse sin costos de licenciamiento relevantes para el dueño, dado que Brookies Coffee es una cafetería familiar de un solo local que aún no genera ingresos por venta. |
+| RY-02 (Plazo) | El sistema debe estar operativo antes de que el local abra comercialmente al público, ya que hoy el control de insumos es completamente manual y ese es el problema que el dueño busca resolver antes de partir. |
 | RY-03 (Dotación) | Brookies Coffee no cuenta con personal técnico (TI); el sistema debe quedar simple de mantener y operar por el propio dueño y su personal (administrador, barista, personal de caja), sin soporte técnico dedicado después de la entrega. |
 | RY-04 (Entorno de pruebas) | Como el local aún no opera comercialmente, el sistema debe poder probarse con datos ficticios o con los insumos y recetas ya relevados (ver 05-elicitacion.md), sin depender de un entorno de producción real. |
 | RY-05 (Migración de datos) | Los insumos y las recetas están hoy en un cuaderno físico (8 recetas relevadas: 4 masas y 4 bebidas); el sistema debe permitir cargar esa información inicial antes de empezar a operar. |
