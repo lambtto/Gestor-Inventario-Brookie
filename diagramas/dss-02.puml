@@ -1,0 +1,18 @@
+@startuml dss-02
+title DSS-02 Alerta de stock crítico por un pedido y su consulta (CU-01, CU-02 / HU-02)
+skinparam dpi 140
+hide footbox
+actor Administrador as Adm
+participant "Sistema de toma de pedidos\n<<sistema externo>>" as SP
+participant "Gestor de Inventario" as G
+
+SP -> G : Pedido confirmado (productos, cantidades, monto)
+note over G : Descuenta los insumos de la receta
+opt el stock de algún insumo llega o baja a su nivel mínimo\ny ese insumo no tenía una alerta vigente
+  note over G : Genera la alerta de stock crítico\nde cada insumo afectado
+end
+G --> SP : Pedido registrado
+...
+Adm -> G : Consultar alertas de stock crítico
+G --> Adm : Alertas vigentes (insumo, stock actual, nivel mínimo)
+@enduml

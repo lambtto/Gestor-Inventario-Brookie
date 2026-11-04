@@ -1,0 +1,20 @@
+@startuml dss-05
+title DSS-05 Dar de baja un insumo (CU-08 / HU-06)
+skinparam dpi 140
+hide footbox
+actor Administrador as Adm
+participant "Gestor de Inventario" as G
+
+Adm -> G : Eliminar insumo (insumo)
+alt el insumo forma parte de una receta
+  G --> Adm : Eliminación rechazada (solo se puede desactivar)
+  opt el administrador decide desactivarlo
+    Adm -> G : Desactivar insumo (insumo)
+    note over G : Si tenía una alerta vigente, queda resuelta
+    G --> Adm : Insumo desactivado
+  end
+else el insumo no forma parte de ninguna receta
+  note over G : Si tenía una alerta vigente, queda resuelta
+  G --> Adm : Insumo eliminado
+end
+@enduml

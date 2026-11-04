@@ -1,0 +1,20 @@
+@startuml est-01
+title EST-01 Ciclo de vida de Insumo
+skinparam dpi 140
+state "Stock suficiente" as Suf
+state "Stock crítico" as Cri
+state "Desactivado" as Des
+
+Suf : stockActual > stockMinimo
+Cri : stockActual <= stockMinimo
+Des : activo = falso
+
+[*] --> Cri : Registrar insumo / generar alerta
+Suf --> Cri : Pedido confirmado\n[stock resultante ≤ mínimo] / generar alerta
+Cri --> Suf : Registrar ingreso\n[stock resultante > mínimo] / resolver alerta
+Suf --> Des : Desactivar insumo
+Cri --> Des : Desactivar insumo / resolver alerta
+Suf --> [*] : Eliminar insumo\n[no forma parte de ninguna receta]
+Cri --> [*] : Eliminar insumo\n[no forma parte de ninguna receta]\n/ resolver alerta
+Des --> [*] : Eliminar insumo\n[no forma parte de ninguna receta]
+@enduml

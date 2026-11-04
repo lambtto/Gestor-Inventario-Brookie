@@ -1,0 +1,19 @@
+@startuml dss-01
+title DSS-01 Confirmar un pedido y descontar insumos (CU-01 / HU-01)
+skinparam dpi 140
+hide footbox
+actor Administrador as Adm
+participant "Sistema de toma de pedidos\n<<sistema externo>>" as SP
+participant "Gestor de Inventario" as G
+
+SP -> G : Pedido confirmado (productos, cantidades, monto)
+loop por cada producto del pedido
+  alt el producto tiene receta
+    note over G : Descuenta los insumos de la receta\ny registra la venta y los movimientos
+  else el producto no tiene receta
+    G --> Adm : Aviso de producto sin receta (producto)
+    note over G : No descuenta insumos de ese producto
+  end
+end
+G --> SP : Pedido registrado
+@enduml

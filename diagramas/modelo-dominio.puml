@@ -1,0 +1,57 @@
+@startuml modelo-dominio
+title MD-01 Modelo de dominio de Brookies Coffee
+skinparam dpi 140
+skinparam classAttributeIconSize 0
+hide circle
+hide methods
+
+class Producto {
+  nombre : Texto
+}
+class Receta {
+  rendimiento : Entero
+}
+class Ingrediente {
+  cantidad : Decimal
+}
+class Insumo {
+  nombre : Texto
+  unidadMedida : Texto
+  costoUnitario : Decimal
+  stockActual : Decimal
+  stockMinimo : Decimal
+  activo : Booleano
+}
+class Pedido {
+  número : Entero
+  fechaHora : FechaHora
+  montoTotal : Decimal
+}
+class Venta {
+  cantidad : Entero
+  monto : Decimal
+}
+abstract class MovimientoDeInventario {
+  fecha : FechaHora
+  cantidad : Decimal
+}
+class Descuento
+class Reposición {
+  responsable : Texto
+}
+class AlertaDeStock {
+  fechaGeneración : FechaHora
+  estado : Texto
+}
+
+Producto "1" -- "0..1" Receta : tiene >
+Receta "1" *-- "1..*" Ingrediente : se compone de >
+Ingrediente "*" -- "1" Insumo : usa >
+Pedido "1" *-- "1..*" Venta : incluye >
+Venta "*" -- "1" Producto : corresponde a >
+MovimientoDeInventario "*" -- "1" Insumo : afecta a >
+Descuento "*" -- "1" Pedido : se origina en >
+AlertaDeStock "*" -- "1" Insumo : avisa sobre >
+MovimientoDeInventario <|-- Descuento
+MovimientoDeInventario <|-- Reposición
+@enduml

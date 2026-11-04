@@ -1,0 +1,15 @@
+@startuml dss-04
+title DSS-04 Registrar un insumo (CU-06 / HU-06)
+skinparam dpi 140
+hide footbox
+actor Administrador as Adm
+participant "Gestor de Inventario" as G
+
+Adm -> G : Registrar insumo (nombre, unidad de medida, costo unitario, stock mínimo)
+alt se indicaron los cuatro datos
+  note over G : Registra el insumo con stock 0\ny genera su alerta de stock crítico
+  G --> Adm : Insumo registrado
+else falta algún dato
+  G --> Adm : Registro rechazado (dato faltante)
+end
+@enduml

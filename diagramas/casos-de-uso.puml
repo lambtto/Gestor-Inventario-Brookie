@@ -1,0 +1,28 @@
+@startuml casos-de-uso
+title Casos de uso del gestor de inventario
+skinparam dpi 140
+left to right direction
+actor "Administrador" as Adm
+actor "Sistema de toma de pedidos\n<<sistema externo>>" as SP
+
+rectangle "Gestor de inventario de Brookies Coffee" {
+  usecase "CU-01\nRegistrar venta y\ndescontar insumos" as CU01
+  usecase "CU-02\nConsultar alertas de\nstock crítico" as CU02
+  usecase "CU-03\nConsultar stock" as CU03
+  usecase "CU-04\nConsultar informe de\nventas y consumo" as CU04
+  usecase "CU-05\nRegistrar ingreso\nde stock" as CU05
+  usecase "CU-06\nRegistrar insumo" as CU06
+  usecase "CU-07\nDefinir receta de\nun producto" as CU07
+  usecase "CU-08\nDar de baja\nun insumo" as CU08
+}
+
+Adm -- CU01 : (secundario)
+Adm -- CU02
+Adm -- CU03
+Adm -- CU04
+Adm -- CU05
+Adm -- CU06
+Adm -- CU07
+Adm -- CU08
+CU01 -- SP
+@enduml
