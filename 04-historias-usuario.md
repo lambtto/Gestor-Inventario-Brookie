@@ -2,7 +2,7 @@
 
 ## HU-01 – Registrar venta
 
-**Como administrador, quiero registrar una venta y descontar automáticamente los insumos utilizados según la receta de cada producto, para mantener actualizado el stock y conocer las ventas realizadas sin registros manuales.**
+Como administrador, quiero registrar una venta y descontar automáticamente los insumos utilizados según la receta de cada producto, para mantener actualizado el stock y conocer las ventas realizadas sin registros manuales.
 
 **Actividad TO-BE:** Descontar insumos y registrar venta
 
@@ -32,7 +32,7 @@ Dado que un producto del pedido no tiene una receta definida, cuando se confirma
 
 ## HU-02 – Alertar stock crítico
 
-**Como administrador, quiero recibir una alerta cuando un insumo llegue a su nivel mínimo, para comprarlo antes de quedarme sin stock.**
+Como administrador, quiero recibir una alerta cuando un insumo llegue a su nivel mínimo, para comprarlo antes de quedarme sin stock.
 
 **Actividad TO-BE:** Alertar stock crítico
 
@@ -58,7 +58,7 @@ Dado que existe una alerta de stock para un insumo, cuando su stock vuelve a sup
 
 ## HU-03 – Consultar stock
 
-**Como administrador, quiero consultar el stock actual de cada insumo, para decidir qué comprar sin tener que contar el inventario manualmente.**
+Como administrador, quiero consultar el stock actual de cada insumo, para decidir qué comprar sin tener que contar el inventario manualmente.
 
 **Actividad TO-BE:** Revisar inventario, ventas y decidir reposición
 
@@ -84,7 +84,7 @@ Dado que una persona intenta consultar el stock, cuando no posee el rol de admin
 
 ## HU-04 – Consultar informe
 
-**Como administrador, quiero consultar un informe de las ventas y el consumo de insumos, para conocer los resultados de la operación y planificar la reposición.**
+Como administrador, quiero consultar un informe de las ventas y el consumo de insumos, para conocer los resultados de la operación y planificar la reposición.
 
 **Actividad TO-BE:** Revisar inventario, ventas y decidir reposición
 
@@ -114,7 +114,7 @@ Dado que existen movimientos de consumo y reposición registrados durante un per
 
 ## HU-05 – Registrar ingreso de stock
 
-**Como administrador, quiero registrar el ingreso de los insumos que compro, para mantener actualizado el inventario sin utilizar registros manuales externos.**
+Como administrador, quiero registrar el ingreso de los insumos que compro, para mantener actualizado el inventario sin utilizar registros manuales externos.
 
 **Actividad TO-BE:** Reabastecer stock
 
@@ -144,7 +144,7 @@ Dado que el administrador necesita registrar un ingreso de stock, cuando realiza
 
 ## HU-06 – Registrar insumos y recetas
 
-**Como administrador, quiero registrar los insumos y definir la receta de cada producto, para disponer de la información necesaria para calcular los insumos utilizados en cada venta.**
+Como administrador, quiero registrar los insumos y definir la receta de cada producto, para disponer de la información necesaria para calcular los insumos utilizados en cada venta.
 
 **Actividad TO-BE:** Registrar insumos y recetas
 
