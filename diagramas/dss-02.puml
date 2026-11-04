@@ -1,5 +1,5 @@
 @startuml dss-02
-title DSS-02 Alerta de stock crítico por un pedido y su consulta (CU-01, CU-02 / HU-02)
+title DSS-02 Alerta de stock crítico por un pedido y su consulta (CU-01, CU-02 / HU-01, HU-02)
 skinparam dpi 140
 hide footbox
 actor Administrador as Adm

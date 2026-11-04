@@ -5,7 +5,7 @@
 | Actor | Tipo (humano / sistema externo) | Descripción |
 |-------|----------------------------------|-------------|
 | Administrador | Humano | El dueño de Brookies Coffee (o quien tenga ese rol). Revisa el stock y las alertas, registra reposiciones, insumos y recetas, y consulta informes (RP-09: es el único rol con acceso al sistema). |
-| Sistema de toma de pedidos | Sistema externo | El sistema del otro equipo que toma el pedido del cliente y lo envía ya confirmado, con sus productos, cantidades y el monto de la venta (ver [02-rediseno-to-be.md](./02-rediseno-to-be.md), evento "Pedido confirmado"). El gestor de inventario no participa en tomar el pedido. |
+| Sistema de toma de pedidos | Sistema externo | El sistema del otro equipo que toma el pedido del cliente y lo envía ya confirmado, con sus productos, cantidades y el monto de la venta (ver [02-rediseno-to-be.md](./02-rediseno-to-be.md), flujo "Pedido confirmado"). El gestor de inventario no participa en tomar el pedido. |
 
 ## Diagrama de casos de uso
 

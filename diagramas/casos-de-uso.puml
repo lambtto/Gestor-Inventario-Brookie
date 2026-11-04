@@ -16,7 +16,7 @@ rectangle "Gestor de inventario de Brookies Coffee" {
   usecase "CU-08\nDar de baja\nun insumo" as CU08
 }
 
-Adm -- CU01 : (secundario)
+Adm -- CU01
 Adm -- CU02
 Adm -- CU03
 Adm -- CU04

@@ -24,7 +24,7 @@ Archivo fuente: [`./diagramas/est-01.puml`](./diagramas/est-01.puml)
 | Stock crítico | Eliminar insumo | no forma parte de ninguna receta | resolver alerta | (final) |
 | Desactivado | Eliminar insumo | no forma parte de ninguna receta | — | (final) |
 
-Un insumo recién registrado tiene stock 0, que está bajo cualquier nivel mínimo, por eso nace en "Stock crítico" y con su alerta generada.
+Supuesto: HU-06 no pide un stock inicial al registrar un insumo, así que se asume que nace con stock 0, que está en o bajo cualquier nivel mínimo. Por eso nace en "Stock crítico" y con su alerta generada. Si el equipo decide cargar stock al registrar, hay que cambiar la primera fila de esta tabla y la de EST-02.
 
 ## EST-02 — Ciclo de vida de AlertaDeStock
 
@@ -39,9 +39,11 @@ Archivo fuente: [`./diagramas/est-02.puml`](./diagramas/est-02.puml)
 
 | Estado origen | Evento | Guarda | Acción | Estado destino |
 |---------------|--------|--------|--------|----------------|
-| (inicial) | Pedido confirmado, Registrar insumo | stock del insumo ≤ mínimo | generar alerta | Vigente |
+| (inicial) | Pedido confirmado | stock del insumo ≤ mínimo | generar alerta | Vigente |
+| (inicial) | Registrar insumo | — | generar alerta | Vigente |
 | Vigente | Registrar ingreso | stock del insumo > mínimo | resolver alerta | Resuelta |
-| Vigente | Desactivar insumo, Eliminar insumo | — | resolver alerta | Resuelta |
-| Resuelta | — *(transición de finalización: la alerta resuelta se archiva)* | — | — | (final) |
+| Vigente | Desactivar insumo | — | resolver alerta | Resuelta |
+| Vigente | Eliminar insumo | — | resolver alerta | Resuelta |
+| Resuelta | — *(al resolverse, la alerta se archiva; es una transición de finalización y no depende de un mensaje de ningún actor)* | — | archivar alerta | (final) |
 
 Mientras la alerta está "Vigente" aparece en la consulta de alertas (CU-02); cuando pasa a "Resuelta" deja de mostrarse (HU-02, CA4).

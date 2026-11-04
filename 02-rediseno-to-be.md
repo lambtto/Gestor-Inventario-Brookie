@@ -38,7 +38,7 @@
 ## Diagrama TO-BE
 ![Proceso TO-BE](./diagramas/to-be.png)
 Archivo fuente: [`./diagramas/to-be.bpmn`](./diagramas/to-be.bpmn)
-Las tareas de servicio (ícono de engranaje) las ejecuta el gestor de inventario sin intervención de una persona; las tareas de usuario (ícono de persona) las hace el administrador con apoyo del gestor; las manuales (ícono de mano) no tienen apoyo de ningún sistema. El evento "Pedido confirmado" representa el pedido que llega al gestor desde el otro sistema, ya con sus productos, cantidades y el monto de la venta; el gestor no participa en tomar el pedido, solo lo recibe confirmado.
+Las tareas de servicio (ícono de engranaje) las ejecuta el gestor de inventario sin intervención de una persona; las tareas de usuario (ícono de persona) las hace el administrador con apoyo del gestor; las manuales (ícono de mano) no tienen apoyo de ningún sistema. El flujo "Pedido confirmado" representa el pedido que llega al gestor desde el sistema de toma de pedidos (el otro sistema), ya con sus productos, cantidades y el monto de la venta; el gestor no participa en tomar el pedido, solo lo recibe confirmado.
 
 ## Actividades que cambian del AS-IS al TO-BE
 | Actividad en el AS-IS | Actividad en el TO-BE | Qué cambia |

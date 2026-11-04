@@ -4,8 +4,10 @@ skinparam dpi 140
 state "Vigente" as Vig
 state "Resuelta" as Res
 
-[*] --> Vig : Pedido confirmado, Registrar insumo\n[stock del insumo ≤ mínimo] / generar alerta
+[*] --> Vig : Pedido confirmado\n[stock del insumo ≤ mínimo] / generar alerta
+[*] --> Vig : Registrar insumo / generar alerta
 Vig --> Res : Registrar ingreso\n[stock del insumo > mínimo] / resolver alerta
-Vig --> Res : Desactivar insumo, Eliminar insumo\n/ resolver alerta
-Res --> [*]
+Vig --> Res : Desactivar insumo / resolver alerta
+Vig --> Res : Eliminar insumo / resolver alerta
+Res --> [*] : / archivar alerta
 @enduml

@@ -18,7 +18,7 @@ Dado que existe un pedido confirmado, cuando se confirma el pedido, entonces se 
 
 **CA3 – Registro automático**
 
-Dado que el administrador ha confirmado un pedido, cuando se procesa la venta, entonces el descuento de insumos y el registro de la venta se realizan automáticamente, sin intervención adicional del administrador.
+Dado que el sistema de toma de pedidos ha enviado un pedido confirmado, cuando se procesa la venta, entonces el descuento de insumos y el registro de la venta se realizan automáticamente, sin intervención del administrador.
 
 **CA4 – Registrar movimiento de stock**
 

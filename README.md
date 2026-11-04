@@ -1,6 +1,6 @@
 # Brookies Coffee — Gestor de inventario de insumos
 
-Documentación de requisitos del proyecto de la cafetería **Brookies Coffee**, desarrollada para el ramo **CIN 324 Ingeniería de Requisitos** (Universidad de Valparaíso). Este repositorio corresponde a la **Entrega 1**.
+Documentación de requisitos del proyecto de la cafetería **Brookies Coffee**, desarrollada para el ramo **CIN 324 Ingeniería de Requisitos** (Universidad de Valparaíso). Este repositorio contiene la **Entrega 1** (levantamiento de requisitos) y la **Entrega 2** (especificación del sistema).
 
 ## ¿Qué queremos lograr?
 
@@ -13,7 +13,7 @@ El proyecto propone un **gestor de inventario** que:
 - permita ver el stock en tiempo real y recibir un informe al cierre del día con el stock, qué se vendió y la ganancia;
 - deje registro de cada movimiento de inventario, para tener trazabilidad entre ventas y consumo.
 
-En esta entrega el trabajo consiste en **levantar y documentar los requisitos**: entender el proceso actual, diseñar el proceso mejorado, y derivar de ahí los requisitos, las historias de usuario y los atributos de calidad. Todavía no se desarrolla el sistema.
+En la Entrega 1 el trabajo consistió en **levantar y documentar los requisitos**: entender el proceso actual, diseñar el proceso mejorado, y derivar de ahí los requisitos, las historias de usuario y los atributos de calidad. En la Entrega 2 esos requisitos se **especifican**: criterios de aceptación en Gherkin, modelo de dominio, casos de uso, diagramas de secuencia y de estado, y una matriz de trazabilidad. Todavía no se desarrolla el sistema.
 
 ## Alcance
 
@@ -21,7 +21,7 @@ En esta entrega el trabajo consiste en **levantar y documentar los requisitos**:
 
 **Fuera del alcance:** toma de pedidos (menú, carrito), pago en línea, cuentas de clientes y comandas. Esas partes se abordan en otro ramo del equipo. El gestor recibe el pedido ya confirmado, con sus productos, cantidades y el monto de la venta.
 
-## Documentos de la entrega
+## Documentos de la Entrega 1
 
 El punto de partida es el documento maestro: [`IngReq-Entrega 1.md`](./IngReq-Entrega%201.md).
 
@@ -34,6 +34,19 @@ El punto de partida es el documento maestro: [`IngReq-Entrega 1.md`](./IngReq-En
 | 5 | [Elicitación](./05-elicitacion.md) | Entrevista y revisión documental con el dueño, hallazgos y acta |
 | 6 | [Atributos de calidad](./06-atributos-calidad.md) | Priorización de los atributos de ISO 25010 y métricas de los tres principales |
 
+## Documentos de la Entrega 2
+
+El documento maestro es [`IngReq-Entrega 2.md`](./IngReq-Entrega%202.md).
+
+| # | Documento | Qué contiene |
+|---|-----------|--------------|
+| 1 | [Criterios de aceptación](./07-criterios-aceptacion.md) | Escenarios Gherkin de las seis historias de usuario |
+| 2 | [Modelo de dominio](./08-modelo-dominio.md) | Diagrama de clases del negocio, clases, asociaciones y decisiones de modelado |
+| 3 | [Casos de uso](./09-casos-de-uso.md) | Actores, diagrama de casos de uso y tabla con la historia de origen de cada caso |
+| 4 | [Diagramas de secuencia](./10-diagramas-secuencia.md) | Cinco diagramas de secuencia de sistema, dos con integración al sistema de toma de pedidos |
+| 5 | [Diagramas de estado](./11-diagramas-estado.md) | Ciclo de vida de Insumo y de AlertaDeStock, con sus tablas de transiciones |
+| 6 | [Trazabilidad](./12-trazabilidad.md) | Matriz que enlaza requisito, historia, caso de uso, secuencia, estado y clases |
+
 ## Estructura del repositorio
 
 ```
@@ -45,9 +58,17 @@ El punto de partida es el documento maestro: [`IngReq-Entrega 1.md`](./IngReq-En
 ├── 04-historias-usuario.md
 ├── 05-elicitacion.md
 ├── 06-atributos-calidad.md
-├── diagramas/                 Diagramas BPMN (.png para verlos, .bpmn como fuente)
+├── IngReq-Entrega 2.md        Documento maestro de la Entrega 2
+├── 07-criterios-aceptacion.md
+├── 08-modelo-dominio.md
+├── 09-casos-de-uso.md
+├── 10-diagramas-secuencia.md
+├── 11-diagramas-estado.md
+├── 12-trazabilidad.md
+├── diagramas/                 Diagramas (.png para verlos, fuente para editarlos)
 │   ├── as-is.png / as-is.bpmn
-│   └── to-be.png / to-be.bpmn
+│   ├── to-be.png / to-be.bpmn
+│   ├── modelo-dominio, casos-de-uso, dss-01 a dss-05, est-01 y est-02 (.png / .puml)
 ├── evidencia/                 Fotos, capturas y notas de la elicitación
 ├── LICENSE
 └── README.md
@@ -56,12 +77,12 @@ El punto de partida es el documento maestro: [`IngReq-Entrega 1.md`](./IngReq-En
 ## Cómo leer y usar la documentación
 
 1. Empieza por el documento maestro y sigue el índice en orden.
-2. Los diagramas se ven directamente en los documentos 01 y 02. Para abrir o editar un `.bpmn`, arrástralo a [bpmn.io](https://demo.bpmn.io/) o ábrelo con Camunda Modeler.
+2. Los diagramas se ven directamente en los documentos. Para abrir o editar un `.bpmn`, arrástralo a [bpmn.io](https://demo.bpmn.io/) o ábrelo con Camunda Modeler; los `.puml` se abren con PlantUML.
 3. Los elementos están numerados para poder seguirlos entre documentos:
    - **A01 a A12:** actividades del proceso AS-IS.
    - **N01 a N05:** actividades nuevas o modificadas del proceso TO-BE.
    - **RP-xx:** requisitos de producto. **RY-xx:** requisitos de proyecto.
-   - **HU-xx:** historias de usuario.
+   - **HU-xx:** historias de usuario. **CU-xx:** casos de uso. **DSS-xx:** diagramas de secuencia. **EST-xx:** diagramas de estado.
 
 ## Equipo
 

@@ -16,8 +16,6 @@ Profesor: René Alejandro Noel López.
 
 ## Responsabilidades individuales
 
-> ⚠️ **Por confirmar con el equipo.** Esta asignación es una propuesta inicial, armada siguiendo la continuidad con los documentos que cada uno hizo en la Entrega 1. No está validada con Simón, Paulo, Vicente ni Martín — hay que confirmarla antes de la entrega.
-
 | Documento | Ítem de rúbrica | Responsable(s) |
 |-----------|-----------------|----------------|
 | 07-criterios-aceptacion.md | 1 | Vicente Coiro Martínez |
@@ -29,7 +27,7 @@ Profesor: René Alejandro Noel López.
 
 ## Uso de IA generativa
 
-Se utilizó IA generativa (Claude) para redactar un primer borrador de los criterios de aceptación en Gherkin, el modelo de dominio, los casos de uso, los diagramas de secuencia y de estado, y la matriz de trazabilidad, a partir de los requisitos y las historias de usuario ya definidos en la Entrega 1. El equipo revisó y corrigió el borrador antes de entregarlo: en particular, las decisiones de modelado del dominio, los supuestos sobre el único sistema externo con el que integra el proyecto (el sistema de toma de pedidos del otro equipo) y los nombres de eventos y clases quedan marcados en cada documento como pendientes de validación por el equipo.
+Se usó Claude (Anthropic) para redactar un primer borrador de los criterios de aceptación en Gherkin, el modelo de dominio, los casos de uso, los diagramas de secuencia y de estado, la matriz de trazabilidad y los archivos fuente PlantUML de los diagramas, a partir de los requisitos y las historias de usuario de la Entrega 1. El equipo revisó el borrador contra las historias, el TO-BE y los requisitos, y lo corrigió: se sacaron reglas que la IA había inventado y que no están en ninguna historia (por ejemplo, rechazar ingresos de stock de un insumo desactivado), se unificaron los nombres entre documentos (Descuento, Reposición, alerta vigente, Sistema de toma de pedidos) y se ajustó la HU-01 y el texto del TO-BE para que el pedido confirmado llegue desde el sistema de toma de pedidos y no lo confirme el administrador. Los montos y stocks de los ejemplos Gherkin son ilustrativos y no vienen de datos reales del local.
 
 ## Entrega anterior
 

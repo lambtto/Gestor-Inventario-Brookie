@@ -1,6 +1,6 @@
 # Diagramas de secuencia de sistema
 
-El gestor de inventario tiene un solo punto real de integración con otro sistema: el **sistema de toma de pedidos** (de otro equipo), que envía el evento "Pedido confirmado" (ver [02-rediseno-to-be.md](./02-rediseno-to-be.md)). Por eso DSS-01 y DSS-02 son los diagramas con integración externa; DSS-03, DSS-04 y DSS-05 cubren las acciones del administrador que cambian el stock y los insumos y que alimentan los diagramas de estado. En todos el sistema es una sola caja negra: no se muestran clases internas, solo el "Gestor de Inventario" como un participante, y lo que hace por dentro se anota como nota.
+El gestor de inventario tiene un solo punto real de integración con otro sistema: el **sistema de toma de pedidos** (de otro equipo), que envía el mensaje "Pedido confirmado" (ver [02-rediseno-to-be.md](./02-rediseno-to-be.md)). Por eso DSS-01 y DSS-02 son los diagramas con integración externa; DSS-03, DSS-04 y DSS-05 cubren las acciones del administrador que cambian el stock y los insumos y que alimentan los diagramas de estado. En todos el sistema es una sola caja negra: no se muestran clases internas, solo el "Gestor de Inventario" como un participante, y lo que hace por dentro se anota como nota.
 
 ## DSS-01 — Confirmar un pedido y descontar insumos
 
@@ -19,7 +19,7 @@ Variantes representadas:
 ## DSS-02 — Alerta de stock crítico por un pedido y su consulta
 
 - Casos de uso: [CU-01](./09-casos-de-uso.md) y [CU-02](./09-casos-de-uso.md)
-- Historia: [HU-02](./04-historias-usuario.md#hu-02--alertar-stock-crítico)
+- Historias: [HU-01](./04-historias-usuario.md#hu-01--registrar-venta) y [HU-02](./04-historias-usuario.md#hu-02--alertar-stock-crítico)
 - Sistemas externos que participan: Sistema de toma de pedidos
 
 ![DSS-02](./diagramas/dss-02.png)
@@ -41,7 +41,7 @@ Variantes representadas:
 Archivo fuente: [`./diagramas/dss-03.puml`](./diagramas/dss-03.puml)
 
 Variantes representadas:
-- **alt** — el ingreso se registra (insumo activo y cantidad mayor que cero) o se rechaza con su motivo (falta la cantidad, no es mayor que cero o el insumo está desactivado).
+- **alt** — el ingreso se registra (se indicó la cantidad recibida) o se rechaza porque falta la cantidad (HU-05, CA1).
 - **opt**, dentro del caso principal — la alerta de stock crítico se resuelve si el stock supera el nivel mínimo y había una alerta vigente (HU-05, CA4).
 
 ## DSS-04 — Registrar un insumo
