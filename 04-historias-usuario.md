@@ -2,7 +2,7 @@
 
 ## HU-01 – Registrar venta
 
-Como administrador, quiero registrar una venta y descontar automáticamente los insumos utilizados según la receta de cada producto, para mantener actualizado el stock y conocer las ventas realizadas sin registros manuales.
+Como administrador, quiero que cada pedido confirmado registre la venta y descuente automáticamente los insumos utilizados según la receta de cada producto, para mantener actualizado el stock y conocer las ventas realizadas sin registros manuales.
 
 **Actividad TO-BE:** Descontar insumos y registrar venta
 
@@ -26,7 +26,11 @@ Dado que se ha realizado un descuento de insumos, cuando se actualiza el stock, 
 
 **CA5 – Producto sin receta**
 
-Dado que un producto del pedido no tiene una receta definida, cuando se confirma el pedido, entonces se informa al administrador y no se descuentan los insumos correspondientes a ese producto.
+Dado que un producto del pedido no tiene una receta definida, cuando se confirma el pedido, entonces se registra la venta marcada como sin receta, se informa al administrador y no se descuentan los insumos correspondientes a ese producto.
+
+**CA6 – Insumo desactivado**
+
+Dado que un insumo desactivado todavía forma parte de la receta de un producto del pedido, cuando se confirma el pedido, entonces igualmente se descuenta su stock y se registra el Descuento, pero no se genera una alerta de stock crítico para ese insumo.
 
 ---
 
@@ -44,7 +48,7 @@ Dado que un insumo tiene definido un nivel mínimo, cuando su stock llega o baja
 
 **CA2 – Información de la alerta**
 
-Dado que existe una alerta de stock cuando el administrador la consulta, entonces puede identificar el insumo, su stock actual y su nivel mínimo.
+Dado que existe una alerta de stock, cuando el administrador la consulta, entonces puede identificar el insumo, su stock actual y su nivel mínimo.
 
 **CA3 – Mantener alerta**
 
@@ -160,7 +164,7 @@ Dado que existe un producto, cuando el administrador define su receta, entonces 
 
 **CA3 – Proteger insumos utilizados**
 
-Dado que un insumo forma parte de una receta existente, cuando el administrador intenta eliminarlo, entonces no puede eliminarlo y solo puede desactivarlo.
+Dado que un insumo forma parte de una receta existente o tiene movimientos de inventario registrados, cuando el administrador intenta eliminarlo, entonces no puede eliminarlo y solo puede desactivarlo.
 
 **CA4 – Mantener descuentos anteriores**
 

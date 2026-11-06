@@ -14,7 +14,7 @@ Suf --> Cri : Pedido confirmado\n[stock resultante ≤ mínimo] / generar alerta
 Cri --> Suf : Registrar ingreso\n[stock resultante > mínimo] / resolver alerta
 Suf --> Des : Desactivar insumo
 Cri --> Des : Desactivar insumo / resolver alerta
-Suf --> [*] : Eliminar insumo\n[no forma parte de ninguna receta]
-Cri --> [*] : Eliminar insumo\n[no forma parte de ninguna receta]\n/ resolver alerta
-Des --> [*] : Eliminar insumo\n[no forma parte de ninguna receta]
+Suf --> [*] : Eliminar insumo\n[no forma parte de ninguna receta\ny no tiene movimientos]
+Cri --> [*] : Eliminar insumo\n[no forma parte de ninguna receta\ny no tiene movimientos]\n/ eliminar alerta
+Des --> [*] : Eliminar insumo\n[no forma parte de ninguna receta\ny no tiene movimientos]
 @enduml

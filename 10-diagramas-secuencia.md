@@ -27,7 +27,7 @@ Variantes representadas:
 Archivo fuente: [`./diagramas/dss-02.puml`](./diagramas/dss-02.puml)
 
 Variantes representadas:
-- **opt** — la alerta se genera solo si el stock de algún insumo llega o baja a su nivel mínimo y ese insumo no tenía ya una alerta vigente.
+- **opt** — la alerta se genera solo si el stock de algún insumo activo llega o baja a su nivel mínimo y ese insumo no tenía ya una alerta vigente.
 - La segunda parte del diagrama (después de la línea punteada) muestra al administrador consultando más tarde las alertas vigentes (CU-02).
 
 ## DSS-03 — Registrar el ingreso de un insumo comprado
@@ -68,5 +68,6 @@ Variantes representadas:
 Archivo fuente: [`./diagramas/dss-05.puml`](./diagramas/dss-05.puml)
 
 Variantes representadas:
-- **alt** — el insumo no forma parte de ninguna receta y se elimina, o forma parte de una receta y la eliminación se rechaza.
+- **alt** externo — el administrador elige eliminar el insumo o desactivarlo directamente (RP-06).
+- **alt** interno, al eliminar — el insumo no está en ninguna receta ni tiene movimientos y se elimina junto con sus alertas, o la eliminación se rechaza.
 - **opt**, dentro del rechazo — el administrador decide desactivar el insumo en vez de eliminarlo.

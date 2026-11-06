@@ -5,16 +5,22 @@ hide footbox
 actor Administrador as Adm
 participant "Gestor de Inventario" as G
 
-Adm -> G : Eliminar insumo (insumo)
-alt el insumo forma parte de una receta
-  G --> Adm : Eliminación rechazada (solo se puede desactivar)
-  opt el administrador decide desactivarlo
-    Adm -> G : Desactivar insumo (insumo)
-    note over G : Si tenía una alerta vigente, queda resuelta
-    G --> Adm : Insumo desactivado
+alt el administrador elige eliminar
+  Adm -> G : Eliminar insumo (insumo)
+  alt el insumo forma parte de una receta o tiene movimientos
+    G --> Adm : Eliminación rechazada (solo se puede desactivar)
+    opt el administrador decide desactivarlo
+      Adm -> G : Desactivar insumo (insumo)
+      note over G : Si tenía una alerta vigente, queda resuelta
+      G --> Adm : Insumo desactivado
+    end
+  else no forma parte de ninguna receta ni tiene movimientos
+    note over G : Elimina el insumo y sus alertas
+    G --> Adm : Insumo eliminado
   end
-else el insumo no forma parte de ninguna receta
+else el administrador elige desactivar
+  Adm -> G : Desactivar insumo (insumo)
   note over G : Si tenía una alerta vigente, queda resuelta
-  G --> Adm : Insumo eliminado
+  G --> Adm : Insumo desactivado
 end
 @enduml

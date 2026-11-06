@@ -8,7 +8,7 @@ participant "Gestor de Inventario" as G
 
 SP -> G : Pedido confirmado (productos, cantidades, monto)
 note over G : Descuenta los insumos de la receta
-opt el stock de algún insumo llega o baja a su nivel mínimo\ny ese insumo no tenía una alerta vigente
+opt el stock de algún insumo activo llega o baja a su nivel mínimo\ny ese insumo no tenía una alerta vigente
   note over G : Genera la alerta de stock crítico\nde cada insumo afectado
 end
 G --> SP : Pedido registrado

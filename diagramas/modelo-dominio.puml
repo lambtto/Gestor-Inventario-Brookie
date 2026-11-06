@@ -30,6 +30,7 @@ class Pedido {
 class Venta {
   cantidad : Entero
   monto : Decimal
+  sinReceta : Booleano
 }
 abstract class MovimientoDeInventario {
   fecha : FechaHora

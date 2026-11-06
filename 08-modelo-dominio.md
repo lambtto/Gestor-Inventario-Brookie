@@ -15,7 +15,7 @@ Archivo fuente: [`./diagramas/modelo-dominio.puml`](./diagramas/modelo-dominio.p
 | Receta | La composición de un producto: qué insumos y en qué cantidad lleva. | rendimiento |
 | Ingrediente | La cantidad de un insumo específico que una receta necesita (una línea de la receta). | cantidad |
 | Pedido | Un pedido confirmado que llega desde el sistema de toma de pedidos, con sus productos y el monto a cobrar. | número, fechaHora, montoTotal |
-| Venta | La venta de un producto dentro de un pedido: cuántas unidades y por cuánto monto. | cantidad, monto |
+| Venta | La venta de un producto dentro de un pedido: cuántas unidades, por cuánto monto y si se descontaron sus insumos. | cantidad, monto, sinReceta |
 | MovimientoDeInventario *(abstracta)* | Un cambio en el stock de un insumo. Da la trazabilidad entre ventas y consumo que pide RP-08. | fecha, cantidad |
 | Descuento | Movimiento que resta stock porque un pedido consumió insumos según la receta. | — |
 | Reposición | Movimiento que suma stock porque el administrador registró la compra de un insumo. | responsable |
@@ -43,3 +43,4 @@ Archivo fuente: [`./diagramas/modelo-dominio.puml`](./diagramas/modelo-dominio.p
 - **Herencia** solo en `MovimientoDeInventario` (con `Descuento` y `Reposición`), porque son los dos tipos de movimiento que pide RP-08 y se diferencian en su origen (pedido o administrador).
 - **`AlertaDeStock` es una clase propia y no un atributo de `Insumo`**, porque una misma alerta tiene fecha y ciclo de vida (vigente o resuelta) y un insumo puede tener varias a lo largo del tiempo.
 - **Las recetas no se versionan.** Cuando una receta cambia, el cambio vale para los pedidos siguientes y los descuentos ya registrados no se modifican (HU-06, CA4), porque cada `Descuento` guarda su propia cantidad.
+- **Solo se elimina un insumo sin historia.** Un insumo que está en una receta o que ya tiene movimientos de inventario solo se puede desactivar, para no perder la trazabilidad de RP-08. Si un insumo sin movimientos se elimina, sus alertas se eliminan con él.

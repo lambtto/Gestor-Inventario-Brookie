@@ -4,7 +4,7 @@ Escenarios en Gherkin para las seis historias de [04-historias-usuario.md](./04-
 
 ## HU-01 — Registrar venta
 
-Historia: Como administrador, quiero registrar una venta y descontar automáticamente los insumos utilizados según la receta de cada producto, para mantener actualizado el stock y conocer las ventas realizadas sin registros manuales.
+Historia: Como administrador, quiero que cada pedido confirmado registre la venta y descuente automáticamente los insumos utilizados según la receta de cada producto, para mantener actualizado el stock y conocer las ventas realizadas sin registros manuales.
 
 ```gherkin
 Característica: Registrar venta y descontar insumos de un pedido confirmado
@@ -23,7 +23,16 @@ Característica: Registrar venta y descontar insumos de un pedido confirmado
     Y que el stock de leche es de 5000 ml
     Cuando el sistema de toma de pedidos confirma un pedido de 1 Café Latte
     Entonces se informa al administrador que el Café Latte no tiene receta
+    Y queda registrada la venta de 1 Café Latte marcada como sin receta
     Y el stock de leche sigue en 5000 ml
+
+  Escenario: Pedido que usa un insumo desactivado
+    Dado que la vainilla está desactivada y forma parte de la receta de Lemon Empire
+    Y que el nivel mínimo de la vainilla es de 5 cucharaditas y su stock es de 5 cucharaditas
+    Cuando el sistema de toma de pedidos confirma un pedido de 10 Lemon Empire
+    Entonces el stock de vainilla queda en 4 cucharaditas
+    Y queda registrado un Descuento de 1 cucharadita de vainilla
+    Y no se genera una alerta de stock crítico para la vainilla
 ```
 
 ## HU-02 — Alertar stock crítico
@@ -204,6 +213,13 @@ Característica: Registrar insumos y recetas
     Dado que la mantequilla forma parte de la receta de Lemon Empire
     Cuando el administrador intenta eliminar la mantequilla
     Entonces la mantequilla no se elimina
+    Y el administrador solo puede desactivarla
+
+  Escenario: Un insumo con movimientos registrados no se puede eliminar
+    Dado que la canela no forma parte de ninguna receta
+    Y que la canela tiene registrada una Reposición de 500 g
+    Cuando el administrador intenta eliminar la canela
+    Entonces la canela no se elimina
     Y el administrador solo puede desactivarla
 
   Escenario: Desactivar un insumo con alerta vigente
