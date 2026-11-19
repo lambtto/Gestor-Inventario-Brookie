@@ -68,6 +68,7 @@
     - Cold Brew Brookie's: ratio 1:10, 100 g de café molido grueso y 1.000 g de agua fría, en infusión en refrigerador de 14 a 16 horas; el dueño confirmó que, igual que las otras tres bebidas, esta cantidad rinde 1 taza.
     - Banana Cloud (Banana Foam Latte): base de 1 espresso doble, 10 g de syrup de banana, 150 ml de leche fría y hielo, con una espuma de 60 g de crema, 20 g de leche fría, 20 g de syrup de banana y 1 pizca de sal batida aparte; vaso de 350 ml.
     - Capuchino: espresso doble, 150 ml de leche texturizada, 20 g de cacao Pacari.
+    - Aclaración posterior (2026-11-19): el «espresso doble» de las recetas no es un insumo, sino una preparación hecha con **16 g de café en grano**. El café en grano es un insumo distinto del café molido grueso del Cold Brew.
   - Las recetas de bebidas sí indican la cantidad exacta por unidad vendida, incluido el Cold Brew (rendimiento de 1 taza confirmado por el dueño), a diferencia de las masas de galletas, que no indican rendimiento por unidad sino por tanda.
   - El negocio aún no abre y las recetas siguen en proceso de prueba y ajuste (ver 05, técnica 1, hallazgo "Cómo se hace hoy"); se asume que cualquier receta puede seguir cambiando hasta la apertura, así que no se le preguntó al dueño cuál específicamente cambiaría.
 
