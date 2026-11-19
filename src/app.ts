@@ -7,6 +7,7 @@ import type { BaseDeDatos } from './db/conexion.js';
 import { middlewareRol, rutasRol, soloAdministrador } from './rutas/rol.js';
 import { rutasInsumos } from './rutas/insumos.js';
 import { rutasRecetas } from './rutas/recetas.js';
+import { rutasAjustes } from './rutas/ajustes.js';
 
 /** Crea la aplicación sin escuchar un puerto (las pruebas la usan con su propia base). */
 export function crearApp(db: BaseDeDatos): express.Express {
@@ -20,8 +21,9 @@ export function crearApp(db: BaseDeDatos): express.Express {
   app.get('/', (_req, res) => res.redirect('/insumos'));
   app.use(rutasRol);
   // RP-09: el módulo de inventario es solo para el Administrador
-  app.use(['/insumos', '/recetas'], soloAdministrador);
+  app.use(['/insumos', '/recetas', '/ajustes'], soloAdministrador);
   app.use(rutasInsumos(db));
   app.use(rutasRecetas(db));
+  app.use(rutasAjustes(db)); // HU-07
   return app;
 }

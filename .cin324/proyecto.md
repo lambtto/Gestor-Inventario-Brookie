@@ -52,7 +52,7 @@ Confirmados por el estudiante el 2026-11-05:
 | HU-04 Consultar informe | pendiente | — | — | |
 | HU-05 Registrar ingreso de stock | pendiente | — | — | |
 | HU-06 Registrar insumos y recetas | hecha | hu-06-registrar-insumos-recetas + ajuste-hu-06-editar-reactivar-validaciones + ajuste-hu-06-cafe-en-grano (los tres archivados 2026-11-19) | 2026-11-19 | 60 pruebas OK, typecheck OK. Migraciones 001–003. Editar/reactivar, costo CLP entero, ventana emergente `<dialog>`, café en grano en vez de espresso doble. Comandos: npm install · npm run db:seed · npm run dev · npm test |
-| HU-07 Ajustar stock | pendiente | — | — | Nueva (validación HU-06, 2026-11-19): merma y corrección de conteo |
+| HU-07 Ajustar stock | hecha (archivada sin ronda de validación formal, a pedido del estudiante) | hu-07-ajustar-stock (archivado 2026-11-19) | 2026-11-19 | 7/7 tareas, 79 pruebas OK (19 de HU-07), typecheck OK. Migración 004 (tipo Ajuste + motivo). Pantalla /ajustes. Decisiones D1–D4 |
 
 ## Validaciones
 | Historia | Informe | Estado | Fecha |
