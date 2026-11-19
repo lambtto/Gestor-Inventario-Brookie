@@ -14,6 +14,9 @@ rectangle "Gestor de inventario de Brookies Coffee" {
   usecase "CU-06\nRegistrar insumo" as CU06
   usecase "CU-07\nDefinir receta de\nun producto" as CU07
   usecase "CU-08\nDar de baja\nun insumo" as CU08
+  usecase "CU-09\nEditar insumo" as CU09
+  usecase "CU-10\nReactivar insumo" as CU10
+  usecase "CU-11\nAjustar stock" as CU11
 }
 
 Adm -- CU01
@@ -24,5 +27,8 @@ Adm -- CU05
 Adm -- CU06
 Adm -- CU07
 Adm -- CU08
+Adm -- CU09
+Adm -- CU10
+Adm -- CU11
 CU01 -- SP
 @enduml

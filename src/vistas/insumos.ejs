@@ -1,0 +1,53 @@
+<%- include('cabecera') %>
+<h1>Insumos</h1>
+
+<% if (ofrecerDesactivar) { %>
+  <form method="post" action="/insumos/<%= ofrecerDesactivar %>/desactivar">
+    <p>Este insumo forma parte de una receta o tiene movimientos de inventario.
+      <button type="submit">Desactivar en su lugar</button></p>
+  </form>
+<% } %>
+
+<fieldset>
+  <legend>Registrar insumo (CU-06)</legend>
+  <form method="post" action="/insumos">
+    <label>Nombre <input name="nombre" value="<%= form.nombre || '' %>"></label>
+    <label>Unidad de medida <input name="unidadMedida" placeholder="g, ml, cucharadita…" value="<%= form.unidadMedida || '' %>"></label>
+    <label>Costo unitario ($ por unidad) <input name="costoUnitario" inputmode="decimal" size="8" value="<%= form.costoUnitario || '' %>"></label>
+    <label>Stock mínimo <input name="stockMinimo" inputmode="decimal" size="8" value="<%= form.stockMinimo || '' %>"></label>
+    <button type="submit">Registrar insumo</button>
+  </form>
+  <p class="nota">El insumo se registra con stock 0, por lo que nace con una alerta de stock crítico.</p>
+</fieldset>
+
+<table>
+  <thead>
+    <tr><th>Nombre</th><th>Unidad de medida</th><th>Costo unitario</th><th>Stock mínimo</th><th>Estado</th><th>Acciones</th></tr>
+  </thead>
+  <tbody>
+  <% if (insumos.length === 0) { %>
+    <tr><td colspan="6">No hay insumos registrados.</td></tr>
+  <% } %>
+  <% insumos.forEach(function (i) { %>
+    <tr class="<%= i.activo ? '' : 'desactivado' %>">
+      <td><%= i.nombre %></td>
+      <td><%= i.unidad_medida %></td>
+      <td>$<%= i.costo_unitario %></td>
+      <td><%= i.stock_minimo %> <%= i.unidad_medida %></td>
+      <td><%= i.activo ? 'Activo' : 'Desactivado' %></td>
+      <td class="acciones">
+        <form method="post" action="/insumos/<%= i.id %>/eliminar"
+              onsubmit="return confirm('¿Eliminar este insumo?')">
+          <button type="submit">Eliminar</button>
+        </form>
+        <% if (i.activo) { %>
+          <form method="post" action="/insumos/<%= i.id %>/desactivar">
+            <button type="submit">Desactivar</button>
+          </form>
+        <% } %>
+      </td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+<%- include('pie') %>

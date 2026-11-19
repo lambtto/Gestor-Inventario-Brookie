@@ -1,0 +1,23 @@
+@startuml dss-06
+title DSS-06 Ajustar el stock de un insumo (CU-11 / HU-07)
+skinparam dpi 140
+hide footbox
+actor Administrador as Adm
+participant "Gestor de Inventario" as G
+
+Adm -> G : Ajustar stock (insumo, motivo, cantidad)
+alt motivo = Merma
+  note over G : stock resultante = stock actual − cantidad perdida
+else motivo = Corrección de conteo
+  note over G : stock resultante = cantidad contada\ndiferencia = cantidad contada − stock actual
+end
+alt el stock resultante no es negativo
+  note over G : Actualiza el stock y registra el ajuste\ncon fecha, cantidad (con signo), motivo y responsable
+  opt el insumo está activo
+    note over G : Si el stock queda ≤ mínimo y no había alerta vigente, genera una alerta;\nsi queda > mínimo y había alerta vigente, la resuelve
+  end
+  G --> Adm : Ajuste registrado (stock actualizado)
+else el stock quedaría negativo
+  G --> Adm : Ajuste rechazado (la cantidad supera el stock)
+end
+@enduml

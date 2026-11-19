@@ -71,7 +71,7 @@
   - Las recetas de bebidas sí indican la cantidad exacta por unidad vendida, incluido el Cold Brew (rendimiento de 1 taza confirmado por el dueño), a diferencia de las masas de galletas, que no indican rendimiento por unidad sino por tanda.
   - El negocio aún no abre y las recetas siguen en proceso de prueba y ajuste (ver 05, técnica 1, hallazgo "Cómo se hace hoy"); se asume que cualquier receta puede seguir cambiando hasta la apertura, así que no se le preguntó al dueño cuál específicamente cambiaría.
 
-  - Estos hallazgos respaldan los requisitos RP-01, RP-06 y RP-07 y las tablas Receta e Insumo del modelo de datos.
+  - Estos hallazgos respaldan los requisitos RP-01, RP-06 y RP-07 y las clases Receta e Insumo del modelo de dominio.
 
 | Insumos y cantidades relevantes | Requisito o dato del modelo que respalda |
 |---------------------------------|-------------------------------------------|

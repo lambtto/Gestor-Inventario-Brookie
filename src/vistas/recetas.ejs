@@ -1,0 +1,16 @@
+<%- include('cabecera') %>
+<h1>Recetas</h1>
+<p>Elige un producto para definir o modificar su receta (CU-07).</p>
+<table>
+  <thead><tr><th>Producto</th><th>Receta</th><th></th></tr></thead>
+  <tbody>
+  <% productos.forEach(function (p) { %>
+    <tr>
+      <td><%= p.nombre %></td>
+      <td><%= p.tiene_receta ? 'Con receta' : 'Sin receta' %></td>
+      <td><a href="/recetas/<%= p.id %>"><%= p.tiene_receta ? 'Ver / modificar' : 'Definir receta' %></a></td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+<%- include('pie') %>
