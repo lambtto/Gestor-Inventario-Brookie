@@ -64,7 +64,7 @@ describe('HU-06 · Registrar insumo (CU-06, DSS-04)', () => {
     const { db, app } = nuevoEntorno();
     // Dado que el insumo azúcar rubia no está registrado
     expect(obtenerInsumoPorNombre(db, 'azúcar rubia')).toBeUndefined();
-    // Cuando el administrador registra el insumo azúcar rubia con unidad g, costo $2 por gramo y mínimo 500 g
+    // Cuando el administrador registra el insumo azúcar rubia con unidad g, costo $2 CLP por gramo y mínimo 500 g
     const res = await request(app)
       .post('/insumos')
       .type('form')
@@ -123,14 +123,14 @@ describe('HU-06 · Registrar insumo (CU-06, DSS-04)', () => {
       .send({ nombre: 'pistacho', unidadMedida: 'g', costoUnitario: '-1', stockMinimo: '100' });
     expect(res.status).toBe(400);
     expect(res.text).toContain(
-      'Registro rechazado (el costo unitario y el stock mínimo deben ser números mayores o iguales a 0)',
+      'Registro rechazado (el costo unitario debe ser un número entero de pesos, CLP, mayor o igual a 0)',
     );
     expect(cuenta(db, 'SELECT COUNT(*) AS n FROM insumos')).toBe(0);
   });
 
   it('HU-06 · Ver la lista de insumos', async () => {
     const { db, app } = nuevoEntorno();
-    dadoInsumo(db, 'leche', 'ml', 1000, 1.5);
+    dadoInsumo(db, 'leche', 'ml', 1000, 1);
     const canela = dadoInsumo(db, 'canela', 'g', 50, 20);
     aplicarEventoInsumo(db, { tipo: 'desactivar', insumoId: canela });
     const res = await request(app).get('/insumos');
@@ -138,10 +138,12 @@ describe('HU-06 · Registrar insumo (CU-06, DSS-04)', () => {
     const filaLeche = res.text.slice(res.text.indexOf('<td>leche</td>'), res.text.indexOf('</tr>', res.text.indexOf('<td>leche</td>')));
     const filaCanela = res.text.slice(res.text.indexOf('<td>canela</td>'), res.text.indexOf('</tr>', res.text.indexOf('<td>canela</td>')));
     expect(filaLeche).toContain('ml');
-    expect(filaLeche).toContain('$1.5');
+    expect(filaLeche).toContain('$1');
+    expect(filaLeche).toContain('Desactivar');
     expect(filaLeche).toContain('1000 ml');
     expect(filaLeche).toContain('Activo');
     expect(filaCanela).toContain('Desactivado');
+    expect(filaCanela).toContain('Reactivar');
   });
 });
 

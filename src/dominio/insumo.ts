@@ -1,5 +1,6 @@
 // Clase Insumo y AlertaDeStock del modelo de dominio (08-modelo-dominio.md).
 // HU-06 · N05 Registrar insumos y recetas · Ciclo de vida: EST-01 (Insumo) y EST-02 (AlertaDeStock).
+// Ajuste 2026-11-19 (ajuste-hu-06-editar-reactivar-validaciones): eventos editar (CU-09) y reactivar (CU-10).
 import type { BaseDeDatos } from '../db/conexion.js';
 
 export interface Insumo {
@@ -49,7 +50,9 @@ export function estadoInsumo(insumo: Pick<Insumo, 'activo' | 'stock_actual' | 's
 
 export type EventoInsumo =
   | { tipo: 'registrar'; datos: DatosInsumo }
+  | { tipo: 'editar'; insumoId: number; datos: DatosInsumo }
   | { tipo: 'desactivar'; insumoId: number }
+  | { tipo: 'reactivar'; insumoId: number }
   | { tipo: 'eliminar'; insumoId: number };
 
 /**
@@ -71,6 +74,30 @@ export function aplicarEventoInsumo(db: BaseDeDatos, evento: EventoInsumo): numb
         const id = Number(r.lastInsertRowid);
         generarAlerta(db, id);
         return id;
+      }
+      case 'editar': {
+        // CU-09 (HU-06 CA5). Si está activo, el nuevo mínimo recalcula el estado (EST-01) y la alerta (EST-02):
+        //   Stock suficiente --Editar insumo [stock ≤ nuevo mínimo] / generar alerta--> Stock crítico
+        //   Stock crítico --Editar insumo [stock > nuevo mínimo] / resolver alerta--> Stock suficiente
+        // Un insumo Desactivado solo cambia sus datos: sigue Desactivado y sin alerta.
+        const insumo = obtenerInsumoObligatorio(db, evento.insumoId);
+        const { nombre, unidadMedida, costoUnitario, stockMinimo } = evento.datos;
+        db.prepare(
+          'UPDATE insumos SET nombre = ?, unidad_medida = ?, costo_unitario = ?, stock_minimo = ? WHERE id = ?',
+        ).run(nombre, unidadMedida, costoUnitario, stockMinimo, insumo.id);
+        const estado = estadoInsumo({ ...insumo, stock_minimo: stockMinimo });
+        if (estado === 'Stock crítico' && !tieneAlertaVigente(db, insumo.id)) generarAlerta(db, insumo.id);
+        if (estado === 'Stock suficiente') resolverAlertaVigente(db, insumo.id);
+        return insumo.id;
+      }
+      case 'reactivar': {
+        // CU-10 (HU-06 CA6). Desactivado --Reactivar insumo [stock ≤ mínimo] / generar alerta--> Stock crítico
+        //                    Desactivado --Reactivar insumo [stock > mínimo]--> Stock suficiente
+        const insumo = obtenerInsumoObligatorio(db, evento.insumoId);
+        if (estadoInsumo(insumo) !== 'Desactivado') throw new ErrorDeNegocio('El insumo ya está activo');
+        db.prepare('UPDATE insumos SET activo = 1 WHERE id = ?').run(insumo.id);
+        if (estadoInsumo({ ...insumo, activo: 1 }) === 'Stock crítico') generarAlerta(db, insumo.id);
+        return insumo.id;
       }
       case 'desactivar': {
         // Stock suficiente / Stock crítico --Desactivar insumo / resolver alerta--> Desactivado
@@ -101,6 +128,10 @@ function generarAlerta(db: BaseDeDatos, insumoId: number): void {
     insumoId,
     new Date().toISOString(),
   );
+}
+
+function tieneAlertaVigente(db: BaseDeDatos, insumoId: number): boolean {
+  return db.prepare("SELECT 1 FROM alertas_stock WHERE insumo_id = ? AND estado = 'Vigente' LIMIT 1").get(insumoId) !== undefined;
 }
 
 function resolverAlertaVigente(db: BaseDeDatos, insumoId: number): void {

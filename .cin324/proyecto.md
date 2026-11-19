@@ -28,7 +28,7 @@ Confirmados por el estudiante el 2026-11-05:
 - S5. RP-09 / HU-03 CA4: selector de rol de demostración (Administrador / Barista / Caja), sin login real.
 - S7 (2026-11-05). El sistema externo de pedidos es la página web de la cafetería hecha en otro curso. Los pedidos del local los registra la cajera directamente en esa página (celular/tablet); el dueño solo descarta un kiosco de autoatención. Todo pedido llega al gestor como «Pedido confirmado».
 - S8 (2026-11-05). Las cantidades de las recetas se registran con las unidades tal como están en el cuaderno del dueño (`05-elicitacion.md`): g, ml, cucharadita, espresso doble, pizca, etc. Cada una es la unidad de medida de su insumo. No se convierten ni se inventan equivalencias.
-- S6. No se implementa edición ni reactivación de insumos (sin historia). El costo usado en el informe de HU-04 se revisa al llegar a esa historia.
+- S6. ~~No se implementa edición ni reactivación de insumos~~ — reemplazado el 2026-11-19: la edición y la reactivación quedaron especificadas en HU-06 (CA5, CA6; CU-09, CU-10). El costo usado en el informe de HU-04 se revisa al llegar a esa historia.
 
 ## Revisión de coherencia (2026-11-05)
 - Correcciones 1–6, 9, 10 y 12 aplicadas en los `.md` con aprobación del estudiante (02, 03, 04, 05, 07, 08, 10, 11, 12).
@@ -51,12 +51,15 @@ Confirmados por el estudiante el 2026-11-05:
 | HU-03 Consultar stock | pendiente | — | — | |
 | HU-04 Consultar informe | pendiente | — | — | |
 | HU-05 Registrar ingreso de stock | pendiente | — | — | |
-| HU-06 Registrar insumos y recetas | implementada, pendiente de validación | hu-06-registrar-insumos-recetas | 2026-11-18 | 16/16 tareas, 31 pruebas OK. Estado de Insumo derivado (aprobado). Supuestos SH1–SH4 |
+| HU-06 Registrar insumos y recetas | ajuste implementado, pendiente de validación | hu-06-registrar-insumos-recetas (archivado 2026-11-19) + ajuste-hu-06-editar-reactivar-validaciones | 2026-11-19 | Ajuste: 11/11 tareas, 56 pruebas OK, typecheck OK. Migración 002 (costo CLP entero). Ventana emergente con `<dialog>` |
+| HU-07 Ajustar stock | pendiente | — | — | Nueva (validación HU-06, 2026-11-19): merma y corrección de conteo |
 
 ## Validaciones
 | Historia | Informe | Estado | Fecha |
 |----------|---------|--------|-------|
+| HU-06 | (no guardado; resumen en la ficha, «Origen del ajuste») | artefactos actualizados (commit f73f1e2) | 2026-11-19 |
 
 ## Cambios posteriores
 | Cambio | Historia afectada | Motivo | Fecha |
 |--------|-------------------|--------|-------|
+| ajuste-hu-06-editar-reactivar-validaciones | HU-06 | OBS-1 a OBS-5: editar y reactivar insumos, nombre con letra, costo CLP entero, ventana emergente | 2026-11-19 (implementado, pendiente de validación) |

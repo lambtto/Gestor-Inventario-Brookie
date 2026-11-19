@@ -35,4 +35,13 @@ describe('HU-06 · Datos de ejemplo', () => {
     expect(canela.stock_actual).toBe(500);
     expect(cuenta(db, 'SELECT COUNT(*) AS n FROM ingredientes WHERE insumo_id = ?', canela.id)).toBe(0);
   });
+
+  it("ajuste HU-06 · todos los costos de ejemplo son enteros en CLP (decisión L)", () => {
+    const db = abrirBase();
+    cargarDatosDeEjemplo(db);
+    const costos = (db.prepare("SELECT costo_unitario AS c FROM insumos").all() as { c: number }[]).map((f) => f.c);
+    expect(costos.every((c) => Number.isInteger(c) && c >= 0)).toBe(true);
+    expect(obtenerInsumoPorNombre(db, "azúcar blanca")!.costo_unitario).toBe(2);
+    expect(obtenerInsumoPorNombre(db, "agua fría")!.costo_unitario).toBe(0);
+  });
 });

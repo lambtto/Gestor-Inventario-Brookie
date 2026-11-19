@@ -86,7 +86,7 @@ El documento maestro es [`IngReq-Entrega 2.md`](./IngReq-Entrega%202.md).
 
 ## Aplicación (gestor de inventario)
 
-La aplicación se genera historia por historia desde estos documentos, con especificaciones de OpenSpec en [`openspec/`](./openspec/). Historias implementadas: **HU-06 Registrar insumos y recetas**.
+La aplicación se genera historia por historia desde estos documentos, con especificaciones de OpenSpec en [`openspec/`](./openspec/). Historias implementadas: **HU-06 Registrar insumos y recetas** (con el ajuste del 2026-11-19: editar y reactivar insumos, nombre con al menos una letra, costo en pesos chilenos y ventana emergente).
 
 ### Cómo levantar el servidor y probar el sistema en localhost
 
@@ -117,8 +117,8 @@ La aplicación se genera historia por historia desde estos documentos, con espec
 - **Si el puerto 3000 está ocupado**, usa otro puerto: en PowerShell `$env:PORT=3001; npm run dev`, y en Git Bash, macOS o Linux `PORT=3001 npm run dev`. Luego abre `http://localhost:3001`.
 - **Iniciar sin reinicio automático:** `npm start`.
 
-- **Pantallas:** «Insumos» (`/insumos`) y «Recetas» (`/recetas`). Arriba a la derecha hay un selector de rol de demostración (Administrador, Barista, Caja); no hay inicio de sesión real. Solo el Administrador puede usar el módulo de inventario.
-- **Datos de ejemplo:** los 13 productos del cuaderno del dueño, sus 19 insumos (con las unidades del cuaderno) y 12 recetas; Banana Cloud queda sin receta. La canela no está en ninguna receta y tiene una reposición de 500 g. Los **costos unitarios y stocks mínimos son valores de demostración**, no datos del cliente.
+- **Pantallas:** «Insumos» (`/insumos`) y «Recetas» (`/recetas`). En «Insumos», los botones «Registrar insumo» y «Editar» abren una ventana emergente centrada; cada insumo se puede eliminar, desactivar o, si está desactivado, reactivar. Los costos están en pesos chilenos (CLP), son enteros y se muestran como $1.250. Arriba a la derecha hay un selector de rol de demostración (Administrador, Barista, Caja); no hay inicio de sesión real. Solo el Administrador puede usar el módulo de inventario.
+- **Datos de ejemplo:** los 13 productos del cuaderno del dueño, sus 19 insumos (con las unidades del cuaderno) y 12 recetas; Banana Cloud queda sin receta. La canela no está en ninguna receta y tiene una reposición de 500 g. Los **costos unitarios y stocks mínimos son valores de demostración**, no datos del cliente. Al arrancar, la migración `002` redondea a pesos enteros los costos de una base creada antes del ajuste.
 - **Código:** `src/` (dominio, servicios, rutas, vistas EJS, migraciones SQL y datos de ejemplo) y `tests/`. Stack: TypeScript, Express, EJS, SQLite (better-sqlite3) y Vitest.
 
 ## Equipo
