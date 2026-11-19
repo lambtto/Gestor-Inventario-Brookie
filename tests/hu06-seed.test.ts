@@ -27,9 +27,18 @@ describe('HU-06 · Datos de ejemplo', () => {
     expect(lemon.ingredientes.find((i) => i.insumo_nombre === 'vainilla')!.unidad_medida).toBe('cucharadita');
     const latte = obtenerReceta(db, obtenerProductoPorNombre(db, 'Café Latte')!.id)!;
     expect(latte.ingredientes.map((i) => [i.insumo_nombre, i.cantidad, i.unidad_medida])).toEqual([
-      ['espresso doble', 1, 'espresso doble'],
+      ['café en grano', 16, 'g'],
       ['leche', 250, 'ml'],
     ]);
+    // Ajuste café en grano (decisiones M y N): el espresso doble es una preparación de 16 g de café en grano
+    const capuchino = obtenerReceta(db, obtenerProductoPorNombre(db, 'Capuchino')!.id)!;
+    expect(capuchino.ingredientes.map((i) => [i.insumo_nombre, i.cantidad, i.unidad_medida])).toEqual([
+      ['café en grano', 16, 'g'],
+      ['leche', 150, 'ml'],
+      ['cacao Pacari', 20, 'g'],
+    ]);
+    expect(obtenerInsumoPorNombre(db, 'espresso doble')).toBeUndefined();
+    expect(obtenerInsumoPorNombre(db, 'café en grano')).toMatchObject({ unidad_medida: 'g', costo_unitario: 25, stock_minimo: 500 });
     expect(obtenerReceta(db, obtenerProductoPorNombre(db, 'Banana Cloud')!.id)).toBeUndefined();
     const canela = obtenerInsumoPorNombre(db, 'canela')!;
     expect(canela.stock_actual).toBe(500);

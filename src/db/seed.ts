@@ -37,7 +37,7 @@ export const INSUMOS: [string, string, number, number][] = [
   ['cacao', 'g', 20, 100],
   ['colorante rojo en gel', 'g', 40, 15],
   ['pistacho', 'g', 35, 200],
-  ['espresso doble', 'espresso doble', 400, 20],
+  ['café en grano', 'g', 25, 500],
   ['leche', 'ml', 1, 3000],
   ['café molido grueso', 'g', 25, 500],
   ['agua fría', 'g', 0, 5000],
@@ -67,9 +67,9 @@ export const RECETAS: [string, number, [string, number][]][] = [
   ['Liberty Kiss', 10, [...BASE_MASA, ['chocolate blanco', 100]]],
   ['Velvet Avenue', 10, [...BASE_MASA, ['chocolate blanco', 100], ['cacao', 20], ['colorante rojo en gel', 3]]],
   ['Pistacho Queens', 10, [...BASE_MASA, ['pistacho', 50], ['chocolate blanco', 50]]],
-  ['Café Latte', 1, [['espresso doble', 1], ['leche', 250]]],
+  ['Café Latte', 1, [['café en grano', 16], ['leche', 250]]],
   ["Cold Brew Brookie's", 1, [['café molido grueso', 100], ['agua fría', 1000]]],
-  ['Capuchino', 1, [['espresso doble', 1], ['leche', 150], ['cacao Pacari', 20]]],
+  ['Capuchino', 1, [['café en grano', 16], ['leche', 150], ['cacao Pacari', 20]]],
   // Banana Cloud: sin receta (SH1)
 ];
 

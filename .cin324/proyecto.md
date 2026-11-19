@@ -51,15 +51,17 @@ Confirmados por el estudiante el 2026-11-05:
 | HU-03 Consultar stock | pendiente | — | — | |
 | HU-04 Consultar informe | pendiente | — | — | |
 | HU-05 Registrar ingreso de stock | pendiente | — | — | |
-| HU-06 Registrar insumos y recetas | ajuste implementado, pendiente de validación | hu-06-registrar-insumos-recetas (archivado 2026-11-19) + ajuste-hu-06-editar-reactivar-validaciones | 2026-11-19 | Ajuste: 11/11 tareas, 56 pruebas OK, typecheck OK. Migración 002 (costo CLP entero). Ventana emergente con `<dialog>` |
+| HU-06 Registrar insumos y recetas | hecha | hu-06-registrar-insumos-recetas + ajuste-hu-06-editar-reactivar-validaciones + ajuste-hu-06-cafe-en-grano (los tres archivados 2026-11-19) | 2026-11-19 | 60 pruebas OK, typecheck OK. Migraciones 001–003. Editar/reactivar, costo CLP entero, ventana emergente `<dialog>`, café en grano en vez de espresso doble. Comandos: npm install · npm run db:seed · npm run dev · npm test |
 | HU-07 Ajustar stock | pendiente | — | — | Nueva (validación HU-06, 2026-11-19): merma y corrección de conteo |
 
 ## Validaciones
 | Historia | Informe | Estado | Fecha |
 |----------|---------|--------|-------|
-| HU-06 | (no guardado; resumen en la ficha, «Origen del ajuste») | artefactos actualizados (commit f73f1e2) | 2026-11-19 |
+| HU-06 (ronda 1) | (no guardado; resumen en la ficha, «Origen del ajuste») | artefactos actualizados (f73f1e2) y regenerado (ajuste-hu-06-editar-reactivar-validaciones) | 2026-11-19 |
+| HU-06 (ronda 2) | (no guardado; decisiones M–O en la ficha) | aclaración en 05 (b4de5f1) y regenerado (ajuste-hu-06-cafe-en-grano); cerrado por el estudiante | 2026-11-19 |
 
 ## Cambios posteriores
 | Cambio | Historia afectada | Motivo | Fecha |
 |--------|-------------------|--------|-------|
-| ajuste-hu-06-editar-reactivar-validaciones | HU-06 | OBS-1 a OBS-5: editar y reactivar insumos, nombre con letra, costo CLP entero, ventana emergente | 2026-11-19 (implementado, pendiente de validación) |
+| ajuste-hu-06-editar-reactivar-validaciones | HU-06 | OBS-1 a OBS-5: editar y reactivar insumos, nombre con letra, costo CLP entero, ventana emergente | 2026-11-19 (archivado) |
+| ajuste-hu-06-cafe-en-grano | HU-06 | Validación ronda 2, OBS-1: espresso doble = 16 g de café en grano (datos de ejemplo + migración 003; sin specs delta) | 2026-11-19 (archivado; 5/5 tareas, 60 pruebas OK) |
