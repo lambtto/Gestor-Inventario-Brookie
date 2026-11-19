@@ -148,7 +148,7 @@ Dado que el administrador necesita registrar un ingreso de stock, cuando realiza
 
 ## HU-06 – Registrar insumos y recetas
 
-Como administrador, quiero registrar los insumos y definir la receta de cada producto, para disponer de la información necesaria para calcular los insumos utilizados en cada venta.
+Como administrador, quiero registrar y mantener los insumos (editarlos, desactivarlos y reactivarlos) y definir la receta de cada producto, para disponer de la información necesaria para calcular los insumos utilizados en cada venta.
 
 **Actividad TO-BE:** Registrar insumos y recetas
 
@@ -156,7 +156,7 @@ Como administrador, quiero registrar los insumos y definir la receta de cada pro
 
 **CA1 – Registrar insumo**
 
-Dado que el administrador necesita incorporar un nuevo insumo, cuando registra el insumo, entonces debe indicar su nombre, unidad de medida, costo unitario y stock mínimo.
+Dado que el administrador necesita incorporar un nuevo insumo, cuando registra el insumo, entonces debe indicar su nombre, unidad de medida, costo unitario en pesos chilenos (CLP) y stock mínimo.
 
 **CA2 – Definir receta**
 
@@ -169,3 +169,49 @@ Dado que un insumo forma parte de una receta existente o tiene movimientos de in
 **CA4 – Mantener descuentos anteriores**
 
 Dado que existe una receta utilizada en pedidos anteriores, cuando el administrador modifica dicha receta, entonces el cambio se aplica únicamente a los pedidos posteriores y no modifica los descuentos registrados anteriormente.
+
+**CA5 – Editar insumo**
+
+Dado que existe un insumo registrado, cuando el administrador lo edita, entonces puede cambiar su nombre, unidad de medida, costo unitario y stock mínimo con las mismas reglas del registro; si el nuevo stock mínimo deja el stock actual en o bajo el mínimo, el insumo pasa a stock crítico con una alerta vigente, y si lo deja sobre el mínimo, su alerta vigente se resuelve.
+
+**CA6 – Reactivar insumo**
+
+Dado que un insumo está desactivado, cuando el administrador lo reactiva, entonces vuelve a estar activo y puede usarse en recetas nuevas; si su stock está en o bajo el mínimo, queda en stock crítico con una alerta vigente nueva.
+
+**CA7 – Validar nombre y costo**
+
+Dado que el administrador registra o edita un insumo, cuando el nombre no contiene ninguna letra o el costo unitario no es un número entero de pesos mayor o igual a 0, entonces el sistema rechaza el registro e indica el motivo.
+
+**CA8 – Formulario en ventana emergente**
+
+Dado que el administrador está en la lista de insumos, cuando elige registrar o editar un insumo, entonces el formulario se abre en una ventana emergente centrada sobre la lista, sin cambiar de pantalla.
+
+---
+
+## HU-07 – Ajustar stock
+
+Como administrador, quiero ajustar el stock de un insumo cuando hay mermas o cuando el conteo físico no coincide con el sistema, para que el inventario refleje lo que realmente hay en el local.
+
+**Actividad TO-BE:** Ajustar stock
+
+### Criterios de aceptación
+
+**CA1 – Registrar merma**
+
+Dado que se perdió parte de un insumo (vencido, derramado o dañado), cuando el administrador registra un ajuste con motivo «Merma» e indica la cantidad perdida en su unidad de medida, entonces el stock del insumo disminuye en esa cantidad.
+
+**CA2 – Corregir conteo**
+
+Dado que la cantidad contada físicamente de un insumo no coincide con su stock en el sistema, cuando el administrador registra un ajuste con motivo «Corrección de conteo» e indica la cantidad real contada, entonces el stock del insumo queda en esa cantidad y se registra la diferencia (positiva o negativa).
+
+**CA3 – Registrar movimiento**
+
+Dado que se realizó un ajuste de stock, cuando se confirma el registro, entonces queda registrado un movimiento con fecha, cantidad ajustada, motivo y usuario responsable.
+
+**CA4 – Stock no negativo**
+
+Dado que el administrador registra un ajuste, cuando la merma es mayor que el stock actual o la cantidad contada es negativa, entonces el sistema rechaza el ajuste e indica el motivo.
+
+**CA5 – Actualizar alerta**
+
+Dado que se realizó un ajuste de stock de un insumo activo, cuando el stock resultante queda en o bajo el mínimo, entonces se genera una alerta vigente si no la tenía; y cuando queda sobre el mínimo, su alerta vigente se resuelve.

@@ -1,6 +1,6 @@
 # Criterios de aceptación (Gherkin)
 
-Escenarios en Gherkin para las seis historias de [04-historias-usuario.md](./04-historias-usuario.md) de la Entrega 1. Cada historia tiene un escenario principal y al menos uno alternativo o de error, escritos con los términos del [modelo de dominio](./08-modelo-dominio.md) (Insumo, Producto, Receta, Pedido, Venta, Descuento, Reposición, alerta de stock crítico) y sin mencionar pantallas ni botones. Los montos y stocks son ejemplos para poder verificar cada escenario; las cantidades de las recetas salen del cuaderno del dueño (ver [05-elicitacion.md](./05-elicitacion.md)).
+Escenarios en Gherkin para las siete historias de [04-historias-usuario.md](./04-historias-usuario.md) de la Entrega 1. Cada historia tiene un escenario principal y al menos uno alternativo o de error, escritos con los términos del [modelo de dominio](./08-modelo-dominio.md) (Insumo, Producto, Receta, Pedido, Venta, Descuento, Reposición, Ajuste, alerta de stock crítico) y sin mencionar pantallas ni botones, salvo el escenario de la ventana emergente de HU-06 (CA8), que describe una forma de interacción pedida explícitamente por el dueño. Los montos y stocks son ejemplos para poder verificar cada escenario; las cantidades de las recetas salen del cuaderno del dueño (ver [05-elicitacion.md](./05-elicitacion.md)).
 
 ## HU-01 — Registrar venta
 
@@ -187,14 +187,14 @@ Característica: Registrar ingreso de stock
 
 ## HU-06 — Registrar insumos y recetas
 
-Historia: Como administrador, quiero registrar los insumos y definir la receta de cada producto, para disponer de la información necesaria para calcular los insumos utilizados en cada venta.
+Historia: Como administrador, quiero registrar y mantener los insumos (editarlos, desactivarlos y reactivarlos) y definir la receta de cada producto, para disponer de la información necesaria para calcular los insumos utilizados en cada venta.
 
 ```gherkin
 Característica: Registrar insumos y recetas
 
   Escenario: Registrar un insumo nuevo
     Dado que el insumo azúcar rubia no está registrado
-    Cuando el administrador registra el insumo azúcar rubia con unidad de medida en gramos, costo unitario de $2 por gramo y stock mínimo de 500 g
+    Cuando el administrador registra el insumo azúcar rubia con unidad de medida en gramos, costo unitario de $2 CLP por gramo y stock mínimo de 500 g
     Entonces el insumo azúcar rubia queda registrado con esos cuatro datos
     Y su stock queda en 0 g con una alerta de stock crítico vigente
 
@@ -234,4 +234,76 @@ Característica: Registrar insumos y recetas
     Cuando el administrador cambia la receta a 300 g de mantequilla por tanda
     Entonces el Descuento de ayer sigue siendo de 50 g
     Y los pedidos posteriores descuentan 30 g de mantequilla por cada Lemon Empire
+
+  Escenario: Registrar un insumo con un nombre sin letras
+    Dado que el administrador está registrando un insumo
+    Cuando intenta registrar el insumo «123» con unidad de medida en gramos, costo unitario de $2 CLP y stock mínimo de 100 g
+    Entonces el insumo no queda registrado
+    Y el sistema indica que el nombre debe contener al menos una letra
+
+  Escenario: Registrar un insumo con costo en decimales
+    Dado que el insumo azúcar flor no está registrado
+    Cuando el administrador intenta registrarlo con un costo unitario de $2,5 CLP por gramo
+    Entonces el insumo no queda registrado
+    Y el sistema indica que el costo debe ser un número entero de pesos
+
+  Escenario: Editar el costo de un insumo
+    Dado que la mantequilla tiene un costo unitario de $12 CLP por gramo
+    Cuando el administrador edita la mantequilla y cambia su costo unitario a $15 CLP por gramo
+    Entonces la mantequilla queda con un costo unitario de $15 CLP por gramo
+
+  Escenario: Subir el stock mínimo sobre el stock actual
+    Dado que la canela tiene 500 g de stock, un stock mínimo de 100 g y ninguna alerta vigente
+    Cuando el administrador edita la canela y cambia su stock mínimo a 600 g
+    Entonces la canela queda con un stock mínimo de 600 g
+    Y tiene una alerta de stock crítico vigente
+
+  Escenario: Reactivar un insumo desactivado con stock crítico
+    Dado que la mantequilla está desactivada, con 0 g de stock y un stock mínimo de 500 g
+    Cuando el administrador reactiva la mantequilla
+    Entonces la mantequilla queda activa
+    Y tiene una alerta de stock crítico vigente nueva
+
+  Escenario: El formulario de insumo se abre en una ventana emergente
+    Dado que el administrador está en la lista de insumos
+    Cuando elige registrar un insumo
+    Entonces el formulario se abre en una ventana emergente centrada sobre la lista
+```
+
+## HU-07 — Ajustar stock
+
+Historia: Como administrador, quiero ajustar el stock de un insumo cuando hay mermas o cuando el conteo físico no coincide con el sistema, para que el inventario refleje lo que realmente hay en el local.
+
+```gherkin
+Característica: Ajustar stock
+
+  Escenario: Registrar una merma
+    Dado que la leche tiene 2000 ml de stock y un stock mínimo de 500 ml
+    Cuando el administrador registra un ajuste de la leche con motivo «Merma» por 300 ml
+    Entonces el stock de la leche queda en 1700 ml
+    Y queda registrado un ajuste de -300 ml con motivo «Merma», la fecha y el administrador como responsable
+
+  Escenario: Corregir el conteo hacia arriba
+    Dado que la harina tiene 1000 g de stock en el sistema
+    Cuando el administrador registra un ajuste de la harina con motivo «Corrección de conteo» y una cantidad contada de 1200 g
+    Entonces el stock de la harina queda en 1200 g
+    Y queda registrado un ajuste de +200 g con motivo «Corrección de conteo»
+
+  Escenario: Una merma mayor que el stock se rechaza
+    Dado que la leche tiene 200 ml de stock
+    Cuando el administrador intenta registrar una merma de 300 ml de leche
+    Entonces el ajuste no queda registrado
+    Y el stock de la leche sigue en 200 ml
+
+  Escenario: Una merma deja el insumo en stock crítico
+    Dado que la leche tiene 600 ml de stock, un stock mínimo de 500 ml y ninguna alerta vigente
+    Cuando el administrador registra una merma de 200 ml de leche
+    Entonces el stock de la leche queda en 400 ml
+    Y la leche tiene una alerta de stock crítico vigente
+
+  Escenario: Una corrección de conteo resuelve la alerta
+    Dado que la harina tiene 100 g de stock, un stock mínimo de 500 g y una alerta vigente
+    Cuando el administrador registra una corrección de conteo de la harina con 800 g contados
+    Entonces el stock de la harina queda en 800 g
+    Y su alerta deja de estar vigente
 ```
