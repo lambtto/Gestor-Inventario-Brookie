@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= titulo %> · Brookies Coffee</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; background: #faf7f2; color: #2b2118; }
+    header { background: #4a3426; color: #fff; padding: 12px 24px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
+    header a { color: #fff; margin-right: 16px; text-decoration: none; font-weight: 600; }
+    header a:hover { text-decoration: underline; }
+    header form { display: flex; gap: 8px; align-items: center; }
+    main { max-width: 960px; margin: 24px auto; padding: 0 16px; }
+    h1 { margin-top: 0; }
+    table { border-collapse: collapse; width: 100%; background: #fff; margin-bottom: 24px; }
+    th, td { border-bottom: 1px solid #e5ddd3; padding: 8px; text-align: left; }
+    th { background: #f0e8dd; }
+    .ok { background: #e3f4e1; border: 1px solid #8cc084; padding: 10px; border-radius: 6px; }
+    .error { background: #fde7e7; border: 1px solid #e08b8b; padding: 10px; border-radius: 6px; }
+    .desactivado { color: #888; }
+    fieldset { background: #fff; border: 1px solid #e5ddd3; border-radius: 6px; margin-bottom: 24px; }
+    label { display: inline-block; margin: 6px 12px 6px 0; }
+    input, select, button { font: inherit; padding: 4px 6px; }
+    button { cursor: pointer; }
+    .acciones form { display: inline; }
+    .nota { color: #6b5b4d; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+<header>
+  <nav>
+    <strong style="margin-right:24px">Brookies Coffee · Gestor de inventario</strong>
+    <a href="/insumos">Insumos</a>
+    <a href="/recetas">Recetas</a>
+  </nav>
+  <form method="post" action="/rol">
+    <label for="rol" style="margin:0">Rol (demostración):</label>
+    <select id="rol" name="rol" onchange="this.form.submit()">
+      <% roles.forEach(function (r) { %>
+        <option value="<%= r %>" <%= r === rol ? 'selected' : '' %>><%= r %></option>
+      <% }) %>
+    </select>
+    <input type="hidden" name="volver" value="<%= rutaActual %>">
+    <noscript><button type="submit">Cambiar</button></noscript>
+  </form>
+</header>
+<main>
+<% if (typeof ok !== 'undefined' && ok) { %><p class="ok" role="status"><%= ok %></p><% } %>
+<% if (typeof error !== 'undefined' && error) { %><p class="error" role="alert"><%= error %></p><% } %>

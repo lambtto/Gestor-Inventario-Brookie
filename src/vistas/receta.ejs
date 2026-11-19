@@ -1,0 +1,54 @@
+<%- include('cabecera') %>
+<p><a href="/recetas">← Volver a recetas</a></p>
+<h1>Receta de <%= producto.nombre %></h1>
+
+<% if (receta) { %>
+  <h2>Receta actual</h2>
+  <p>Rinde <strong><%= receta.rendimiento %></strong> unidad(es) de <%= producto.nombre %>.</p>
+  <table>
+    <thead><tr><th>Insumo</th><th>Cantidad en la receta</th><th>Por unidad vendida</th></tr></thead>
+    <tbody>
+    <% receta.ingredientes.forEach(function (i) { %>
+      <tr class="<%= i.insumo_activo ? '' : 'desactivado' %>">
+        <td><%= i.insumo_nombre %><%= i.insumo_activo ? '' : ' (desactivado)' %></td>
+        <td><%= i.cantidad %> <%= i.unidad_medida %></td>
+        <td><%= Math.round(porUnidad(i.cantidad, receta.rendimiento) * 1000) / 1000 %> <%= i.unidad_medida %></td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+<% } else { %>
+  <p><strong>Sin receta.</strong> Este producto todavía no tiene receta definida.</p>
+<% } %>
+
+<fieldset>
+  <legend><%= receta ? 'Modificar receta' : 'Definir receta' %></legend>
+  <form method="post" action="/recetas/<%= producto.id %>">
+    <label>Rendimiento (unidades que produce la receta)
+      <input name="rendimiento" inputmode="numeric" size="5" value="<%= rendimiento %>"></label>
+    <table>
+      <thead><tr><th>Insumo</th><th>Cantidad</th></tr></thead>
+      <tbody>
+      <% lineas.forEach(function (l) { %>
+        <tr>
+          <td>
+            <select name="insumo">
+              <option value="">— elegir insumo —</option>
+              <% insumos.forEach(function (s) { %>
+                <option value="<%= s.id %>" <%= String(s.id) === l.insumoId ? 'selected' : '' %>>
+                  <%= s.nombre %> (<%= s.unidad_medida %>)<%= s.activo ? '' : ' — desactivado' %>
+                </option>
+              <% }) %>
+            </select>
+          </td>
+          <td><input name="cantidad" inputmode="decimal" size="8" value="<%= l.cantidad %>"></td>
+        </tr>
+      <% }) %>
+      </tbody>
+    </table>
+    <button type="submit">Guardar receta</button>
+    <a href="/recetas/<%= producto.id %>?extra=<%= siguienteExtra %>" style="margin-left:16px">Agregar más líneas</a>
+  </form>
+  <p class="nota">Las líneas vacías se ignoran. Cambiar la receta solo afecta a los pedidos posteriores.</p>
+</fieldset>
+<%- include('pie') %>
