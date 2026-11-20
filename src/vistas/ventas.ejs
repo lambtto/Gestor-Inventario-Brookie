@@ -1,0 +1,53 @@
+<%- include('cabecera') %>
+<h1>Ventas</h1>
+<p class="nota">Cada pedido confirmado registra sus ventas y descuenta automáticamente los insumos según la receta (HU-01).</p>
+
+<% if (avisos.length > 0) { %>
+<div class="error" role="alert">
+  <strong>Productos sin receta:</strong> sus ventas se registraron, pero no se descontaron insumos.
+  <ul>
+  <% avisos.forEach(function (a) { %>
+    <li><%= a.producto_nombre %> no tiene receta (pedido N° <%= a.numero %>)</li>
+  <% }) %>
+  </ul>
+</div>
+<% } %>
+
+<% if (pedidos.length === 0) { %>
+  <p>No hay pedidos registrados. Envía uno desde el <a href="/simulador">Simulador de pedidos</a>.</p>
+<% } %>
+
+<% pedidos.forEach(function (p) { %>
+<section>
+  <h2>Pedido N° <%= p.numero %></h2>
+  <p><%= new Date(p.fecha_hora).toLocaleString('es-CL') %> · Monto total: <strong><%= formatoCLP(p.monto_total) %></strong></p>
+  <table>
+    <thead><tr><th>Producto</th><th>Cantidad</th><th>Monto</th><th>Receta</th></tr></thead>
+    <tbody>
+    <% p.ventas.forEach(function (v) { %>
+      <tr>
+        <td><%= v.producto_nombre %></td>
+        <td><%= v.cantidad %></td>
+        <td><%= formatoCLP(v.monto) %></td>
+        <td><%= v.sin_receta ? 'sin receta' : '—' %></td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+  <table>
+    <thead><tr><th>Descuento de insumo</th><th>Cantidad</th></tr></thead>
+    <tbody>
+    <% if (p.descuentos.length === 0) { %>
+      <tr><td colspan="2">Sin descuentos de insumos.</td></tr>
+    <% } %>
+    <% p.descuentos.forEach(function (d) { %>
+      <tr>
+        <td><%= d.insumo_nombre %></td>
+        <td><%= formatoCantidad(d.cantidad) %> <%= d.unidad_medida %></td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+</section>
+<% }) %>
+<%- include('pie') %>

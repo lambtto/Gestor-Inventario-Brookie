@@ -67,6 +67,7 @@ export type EventoInsumo =
   | { tipo: 'desactivar'; insumoId: number }
   | { tipo: 'reactivar'; insumoId: number }
   | { tipo: 'ajustar'; insumoId: number; motivo: MotivoAjuste; cantidad: number; responsable: string }
+  | { tipo: 'descontar'; insumoId: number; cantidad: number; pedidoId: number }
   | { tipo: 'eliminar'; insumoId: number };
 
 /**
@@ -139,6 +140,25 @@ export function aplicarEventoInsumo(db: BaseDeDatos, evento: EventoInsumo): numb
         const estado = estadoInsumo({ ...insumo, stock_actual: resultante });
         if (estado === 'Stock crítico' && !tieneAlertaVigente(db, insumo.id)) generarAlerta(db, insumo.id);
         if (estado === 'Stock suficiente') resolverAlertaVigente(db, insumo.id);
+        return insumo.id;
+      }
+      case 'descontar': {
+        // CU-01 / DSS-01, DSS-02 (HU-01). Si el insumo está activo:
+        //   Stock suficiente --Pedido confirmado [stock resultante ≤ mínimo] / generar alerta--> Stock crítico
+        //   EST-02 (inicial) --Pedido confirmado [≤ mínimo, activo y sin alerta vigente]--> Vigente (decisión B)
+        // Un insumo Desactivado se descuenta igual, sigue Desactivado y sin alerta (HU-01 CA6).
+        // El stock puede quedar negativo: el pedido ya fue vendido (decisión A).
+        const insumo = obtenerInsumoObligatorio(db, evento.insumoId);
+        const cantidad = redondear(evento.cantidad);
+        const resultante = redondear(insumo.stock_actual - cantidad);
+        // El Descuento guarda su cantidad positiva: el tipo indica que resta.
+        db.prepare(
+          `INSERT INTO movimientos_inventario (tipo, insumo_id, fecha, cantidad, pedido_id)
+           VALUES ('Descuento', ?, ?, ?, ?)`,
+        ).run(insumo.id, new Date().toISOString(), cantidad, evento.pedidoId);
+        db.prepare('UPDATE insumos SET stock_actual = ? WHERE id = ?').run(resultante, insumo.id);
+        const estado = estadoInsumo({ ...insumo, stock_actual: resultante });
+        if (estado === 'Stock crítico' && !tieneAlertaVigente(db, insumo.id)) generarAlerta(db, insumo.id);
         return insumo.id;
       }
       case 'desactivar': {

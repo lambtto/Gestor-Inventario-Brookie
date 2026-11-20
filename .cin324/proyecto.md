@@ -46,7 +46,7 @@ Confirmados por el estudiante el 2026-11-05:
 ## Historias
 | Historia | Estado | Cambio de OpenSpec | Fecha | Observaciones |
 |----------|--------|--------------------|-------|----------------|
-| HU-01 Registrar venta | pendiente | — | — | Depende de insumos/recetas (HU-06 o datos de ejemplo) |
+| HU-01 Registrar venta | implementada, pendiente de validación | hu-01-registrar-venta | 2026-11-19 | 8/8 tareas, 96 pruebas OK (17 de HU-01), typecheck OK. Migración 005 (ventas). Pantallas /simulador y /ventas. Decisiones A–F |
 | HU-02 Alertar stock crítico | pendiente | — | — | |
 | HU-03 Consultar stock | pendiente | — | — | |
 | HU-04 Consultar informe | pendiente | — | — | |

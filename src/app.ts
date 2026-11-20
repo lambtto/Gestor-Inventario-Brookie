@@ -8,6 +8,8 @@ import { middlewareRol, rutasRol, soloAdministrador } from './rutas/rol.js';
 import { rutasInsumos } from './rutas/insumos.js';
 import { rutasRecetas } from './rutas/recetas.js';
 import { rutasAjustes } from './rutas/ajustes.js';
+import { rutasSimulador } from './rutas/simulador.js';
+import { rutasVentas } from './rutas/ventas.js';
 
 /** Crea la aplicación sin escuchar un puerto (las pruebas la usan con su propia base). */
 export function crearApp(db: BaseDeDatos): express.Express {
@@ -21,9 +23,11 @@ export function crearApp(db: BaseDeDatos): express.Express {
   app.get('/', (_req, res) => res.redirect('/insumos'));
   app.use(rutasRol);
   // RP-09: el módulo de inventario es solo para el Administrador
-  app.use(['/insumos', '/recetas', '/ajustes'], soloAdministrador);
+  app.use(['/insumos', '/recetas', '/ajustes', '/ventas'], soloAdministrador);
   app.use(rutasInsumos(db));
   app.use(rutasRecetas(db));
   app.use(rutasAjustes(db)); // HU-07
+  app.use(rutasSimulador(db)); // HU-01: sustituye al Sistema de toma de pedidos (cualquier rol)
+  app.use(rutasVentas(db)); // HU-01
   return app;
 }

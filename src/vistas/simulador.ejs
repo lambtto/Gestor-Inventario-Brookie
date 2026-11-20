@@ -1,0 +1,33 @@
+<%- include('cabecera') %>
+<h1>Simulador de pedidos</h1>
+<p class="nota">Simula la página web de pedidos de la cafetería (el Sistema de toma de pedidos, de otro curso). Al enviar, el gestor recibe el «Pedido confirmado» y registra la venta y el descuento de insumos sin intervención del administrador (HU-01).</p>
+
+<fieldset>
+  <legend>Nuevo pedido confirmado</legend>
+  <form method="post" action="/simulador">
+    <table>
+      <thead>
+        <tr><th>Producto</th><th>Cantidad</th><th>Monto (CLP)</th></tr>
+      </thead>
+      <tbody>
+      <% for (var i = 0; i < filas; i++) { %>
+        <tr>
+          <td>
+            <select name="producto_<%= i %>" aria-label="Producto de la fila <%= i + 1 %>">
+              <option value="">—</option>
+              <% productos.forEach(function (p) { %>
+                <option value="<%= p.id %>" <%= String(form['producto_' + i]) === String(p.id) ? 'selected' : '' %>><%= p.nombre %><%= p.tiene_receta ? '' : ' (sin receta)' %></option>
+              <% }) %>
+            </select>
+          </td>
+          <td><input name="cantidad_<%= i %>" inputmode="numeric" size="5" aria-label="Cantidad de la fila <%= i + 1 %>" value="<%= form['cantidad_' + i] || '' %>"></td>
+          <td><input name="monto_<%= i %>" inputmode="numeric" size="9" aria-label="Monto de la fila <%= i + 1 %>" value="<%= form['monto_' + i] || '' %>"></td>
+        </tr>
+      <% } %>
+      </tbody>
+    </table>
+    <button type="submit">Confirmar pedido</button>
+  </form>
+  <p class="nota">Deja en «—» las filas que no uses. Cantidad: número entero mayor que 0. Monto: pesos enteros (por ejemplo 7000 o 7.000).</p>
+</fieldset>
+<%- include('pie') %>
