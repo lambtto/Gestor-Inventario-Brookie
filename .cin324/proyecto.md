@@ -46,7 +46,7 @@ Confirmados por el estudiante el 2026-11-05:
 ## Historias
 | Historia | Estado | Cambio de OpenSpec | Fecha | Observaciones |
 |----------|--------|--------------------|-------|----------------|
-| HU-01 Registrar venta | pendiente | — | — | Depende de insumos/recetas (HU-06 o datos de ejemplo) |
+| HU-01 Registrar venta | hecha | hu-01-registrar-venta (archivado 2026-11-21) | 2026-11-21 | 5/5 grupos de tareas, 94 pruebas OK (15 de HU-01), typecheck OK. Migración 005 (ventas). Pantallas /simulador y /ventas; POST /pedidos (formulario o JSON). Decisiones D1–D4 en la ficha. Comandos: npm install · npm run db:seed · npm run dev · npm test |
 | HU-02 Alertar stock crítico | pendiente | — | — | |
 | HU-03 Consultar stock | pendiente | — | — | |
 | HU-04 Consultar informe | pendiente | — | — | |

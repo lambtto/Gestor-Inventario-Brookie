@@ -1,0 +1,35 @@
+<%- include('cabecera') %>
+<h1>Ventas</h1>
+<p class="nota">Ventas registradas automáticamente por cada pedido confirmado (HU-01, CU-01).</p>
+
+<h2>Avisos de producto sin receta</h2>
+<% if (avisos.length === 0) { %>
+  <p class="nota">No hay avisos.</p>
+<% } else { %>
+  <table>
+    <tr><th>Pedido</th><th>Fecha</th><th>Aviso</th></tr>
+    <% avisos.forEach(function (a) { %>
+      <tr><td><%= a.numero_pedido %></td><td><%= new Date(a.fecha_hora).toLocaleString('es-CL') %></td><td><%= a.aviso %></td></tr>
+    <% }) %>
+  </table>
+<% } %>
+
+<h2>Ventas registradas</h2>
+<% if (ventas.length === 0) { %>
+  <p class="nota">Todavía no hay ventas. Envía un pedido desde el «Simulador de pedidos».</p>
+<% } else { %>
+  <table>
+    <tr><th>Pedido</th><th>Fecha</th><th>Producto</th><th>Cantidad</th><th>Monto</th><th>Receta</th></tr>
+    <% ventas.forEach(function (v) { %>
+      <tr>
+        <td><%= v.numero_pedido %></td>
+        <td><%= new Date(v.fecha_hora).toLocaleString('es-CL') %></td>
+        <td><%= v.producto %></td>
+        <td><%= v.cantidad %></td>
+        <td><%= formatoPesos(v.monto) %></td>
+        <td><%= v.sin_receta ? 'Sin receta' : 'Con receta' %></td>
+      </tr>
+    <% }) %>
+  </table>
+<% } %>
+<%- include('pie') %>
