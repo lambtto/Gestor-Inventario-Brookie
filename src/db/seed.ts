@@ -22,25 +22,25 @@ export const PRODUCTOS = [
   'Capuchino',
 ];
 
-// [nombre, unidad de medida, costo unitario de demostración, stock mínimo de demostración]
+// [nombre, unidad de medida, costo unitario de demostración (entero, CLP), stock mínimo de demostración]
 export const INSUMOS: [string, string, number, number][] = [
   ['mantequilla', 'g', 12, 1000],
   ['azúcar rubia', 'g', 2, 500],
-  ['azúcar blanca', 'g', 1.5, 500],
+  ['azúcar blanca', 'g', 2, 500],
   ['huevo más yema', 'g', 6, 400],
-  ['harina con polvos', 'g', 1.2, 2000],
+  ['harina con polvos', 'g', 1, 2000],
   ['maicena', 'g', 3, 100],
-  ['sal', 'g', 0.5, 20],
+  ['sal', 'g', 1, 20],
   ['vainilla', 'cucharadita', 150, 5],
   ['chocolate chip', 'g', 15, 400],
   ['chocolate blanco', 'g', 18, 400],
   ['cacao', 'g', 20, 100],
   ['colorante rojo en gel', 'g', 40, 15],
   ['pistacho', 'g', 35, 200],
-  ['espresso doble', 'espresso doble', 400, 20],
-  ['leche', 'ml', 1.2, 3000],
+  ['café en grano', 'g', 25, 500],
+  ['leche', 'ml', 1, 3000],
   ['café molido grueso', 'g', 25, 500],
-  ['agua fría', 'g', 0.01, 5000],
+  ['agua fría', 'g', 0, 5000],
   ['cacao Pacari', 'g', 30, 100],
   ['canela', 'g', 20, 100],
 ];
@@ -67,9 +67,9 @@ export const RECETAS: [string, number, [string, number][]][] = [
   ['Liberty Kiss', 10, [...BASE_MASA, ['chocolate blanco', 100]]],
   ['Velvet Avenue', 10, [...BASE_MASA, ['chocolate blanco', 100], ['cacao', 20], ['colorante rojo en gel', 3]]],
   ['Pistacho Queens', 10, [...BASE_MASA, ['pistacho', 50], ['chocolate blanco', 50]]],
-  ['Café Latte', 1, [['espresso doble', 1], ['leche', 250]]],
+  ['Café Latte', 1, [['café en grano', 16], ['leche', 250]]],
   ["Cold Brew Brookie's", 1, [['café molido grueso', 100], ['agua fría', 1000]]],
-  ['Capuchino', 1, [['espresso doble', 1], ['leche', 150], ['cacao Pacari', 20]]],
+  ['Capuchino', 1, [['café en grano', 16], ['leche', 150], ['cacao Pacari', 20]]],
   // Banana Cloud: sin receta (SH1)
 ];
 

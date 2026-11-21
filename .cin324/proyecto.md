@@ -28,7 +28,7 @@ Confirmados por el estudiante el 2026-11-05:
 - S5. RP-09 / HU-03 CA4: selector de rol de demostración (Administrador / Barista / Caja), sin login real.
 - S7 (2026-11-05). El sistema externo de pedidos es la página web de la cafetería hecha en otro curso. Los pedidos del local los registra la cajera directamente en esa página (celular/tablet); el dueño solo descarta un kiosco de autoatención. Todo pedido llega al gestor como «Pedido confirmado».
 - S8 (2026-11-05). Las cantidades de las recetas se registran con las unidades tal como están en el cuaderno del dueño (`05-elicitacion.md`): g, ml, cucharadita, espresso doble, pizca, etc. Cada una es la unidad de medida de su insumo. No se convierten ni se inventan equivalencias.
-- S6. No se implementa edición ni reactivación de insumos (sin historia). El costo usado en el informe de HU-04 se revisa al llegar a esa historia.
+- S6. ~~No se implementa edición ni reactivación de insumos~~ — reemplazado el 2026-11-19: la edición y la reactivación quedaron especificadas en HU-06 (CA5, CA6; CU-09, CU-10). El costo usado en el informe de HU-04 se revisa al llegar a esa historia.
 
 ## Revisión de coherencia (2026-11-05)
 - Correcciones 1–6, 9, 10 y 12 aplicadas en los `.md` con aprobación del estudiante (02, 03, 04, 05, 07, 08, 10, 11, 12).
@@ -51,12 +51,17 @@ Confirmados por el estudiante el 2026-11-05:
 | HU-03 Consultar stock | pendiente | — | — | |
 | HU-04 Consultar informe | pendiente | — | — | |
 | HU-05 Registrar ingreso de stock | pendiente | — | — | |
-| HU-06 Registrar insumos y recetas | implementada, pendiente de validación | hu-06-registrar-insumos-recetas | 2026-11-18 | 16/16 tareas, 31 pruebas OK. Estado de Insumo derivado (aprobado). Supuestos SH1–SH4 |
+| HU-06 Registrar insumos y recetas | hecha | hu-06-registrar-insumos-recetas + ajuste-hu-06-editar-reactivar-validaciones + ajuste-hu-06-cafe-en-grano (los tres archivados 2026-11-19) | 2026-11-19 | 60 pruebas OK, typecheck OK. Migraciones 001–003. Editar/reactivar, costo CLP entero, ventana emergente `<dialog>`, café en grano en vez de espresso doble. Comandos: npm install · npm run db:seed · npm run dev · npm test |
+| HU-07 Ajustar stock | hecha (archivada sin ronda de validación formal, a pedido del estudiante) | hu-07-ajustar-stock (archivado 2026-11-19) | 2026-11-19 | 7/7 tareas, 79 pruebas OK (19 de HU-07), typecheck OK. Migración 004 (tipo Ajuste + motivo). Pantalla /ajustes. Decisiones D1–D4 |
 
 ## Validaciones
 | Historia | Informe | Estado | Fecha |
 |----------|---------|--------|-------|
+| HU-06 (ronda 1) | (no guardado; resumen en la ficha, «Origen del ajuste») | artefactos actualizados (f73f1e2) y regenerado (ajuste-hu-06-editar-reactivar-validaciones) | 2026-11-19 |
+| HU-06 (ronda 2) | (no guardado; decisiones M–O en la ficha) | aclaración en 05 (b4de5f1) y regenerado (ajuste-hu-06-cafe-en-grano); cerrado por el estudiante | 2026-11-19 |
 
 ## Cambios posteriores
 | Cambio | Historia afectada | Motivo | Fecha |
 |--------|-------------------|--------|-------|
+| ajuste-hu-06-editar-reactivar-validaciones | HU-06 | OBS-1 a OBS-5: editar y reactivar insumos, nombre con letra, costo CLP entero, ventana emergente | 2026-11-19 (archivado) |
+| ajuste-hu-06-cafe-en-grano | HU-06 | Validación ronda 2, OBS-1: espresso doble = 16 g de café en grano (datos de ejemplo + migración 003; sin specs delta) | 2026-11-19 (archivado; 5/5 tareas, 60 pruebas OK) |

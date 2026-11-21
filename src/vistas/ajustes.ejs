@@ -1,0 +1,49 @@
+<%- include('cabecera') %>
+<h1>Ajustar stock</h1>
+<p class="nota">Registra una merma (insumo vencido, derramado o dañado) o corrige el stock con la cantidad contada (HU-07).</p>
+
+<fieldset>
+  <legend>Nuevo ajuste (CU-11)</legend>
+  <form method="post" action="/ajustes">
+    <label>Insumo
+      <select name="insumoId">
+        <option value="">Elige un insumo…</option>
+        <% insumos.forEach(function (i) { %>
+          <option value="<%= i.id %>" <%= String(form.insumoId) === String(i.id) ? 'selected' : '' %>><%= i.nombre %> (<%= formatoCantidad(i.stock_actual) %> <%= i.unidad_medida %>)<%= i.activo ? '' : ' · desactivado' %></option>
+        <% }) %>
+      </select>
+    </label>
+    <label>Motivo
+      <select name="motivo">
+        <% motivos.forEach(function (m) { %>
+          <option value="<%= m %>" <%= form.motivo === m ? 'selected' : '' %>><%= m %></option>
+        <% }) %>
+      </select>
+    </label>
+    <label>Cantidad <input name="cantidad" inputmode="decimal" size="8" value="<%= form.cantidad || '' %>"></label>
+    <button type="submit">Registrar ajuste</button>
+  </form>
+  <p class="nota">Merma: indica la cantidad perdida. Corrección de conteo: indica la cantidad real contada; el sistema registra la diferencia.</p>
+</fieldset>
+
+<h2>Ajustes registrados</h2>
+<table>
+  <thead>
+    <tr><th>Fecha</th><th>Insumo</th><th>Motivo</th><th>Cantidad</th><th>Responsable</th></tr>
+  </thead>
+  <tbody>
+  <% if (ajustes.length === 0) { %>
+    <tr><td colspan="5">No hay ajustes registrados.</td></tr>
+  <% } %>
+  <% ajustes.forEach(function (a) { %>
+    <tr>
+      <td><%= new Date(a.fecha).toLocaleString('es-CL') %></td>
+      <td><%= a.insumo_nombre %></td>
+      <td><%= a.motivo %></td>
+      <td><%= formatoConSigno(a.cantidad) %> <%= a.unidad_medida %></td>
+      <td><%= a.responsable %></td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+<%- include('pie') %>

@@ -1,5 +1,7 @@
 // Clase Insumo y AlertaDeStock del modelo de dominio (08-modelo-dominio.md).
 // HU-06 · N05 Registrar insumos y recetas · Ciclo de vida: EST-01 (Insumo) y EST-02 (AlertaDeStock).
+// Ajuste 2026-11-19 (ajuste-hu-06-editar-reactivar-validaciones): eventos editar (CU-09) y reactivar (CU-10).
+// HU-07 (hu-07-ajustar-stock): evento ajustar (CU-11, DSS-06).
 import type { BaseDeDatos } from '../db/conexion.js';
 
 export interface Insumo {
@@ -14,6 +16,18 @@ export interface Insumo {
 
 export type EstadoInsumo = 'Stock crítico' | 'Stock suficiente' | 'Desactivado';
 export type EstadoAlerta = 'Vigente' | 'Resuelta';
+
+/** Ajuste.motivo (08-modelo-dominio.md, RP-14). */
+export const MOTIVOS_AJUSTE = ['Merma', 'Corrección de conteo'] as const;
+export type MotivoAjuste = (typeof MOTIVOS_AJUSTE)[number];
+
+/** Mensajes de rechazo de un ajuste (HU-07 CA4, decisión D3). */
+export const RECHAZOS_AJUSTE = {
+  datoFaltante: 'Ajuste rechazado (dato faltante)',
+  superaStock: 'Ajuste rechazado (la cantidad supera el stock)',
+  mermaNoPositiva: 'Ajuste rechazado (la cantidad perdida debe ser mayor que 0)',
+  contadaNegativa: 'Ajuste rechazado (la cantidad contada no puede ser negativa)',
+} as const;
 
 export interface DatosInsumo {
   nombre: string;
@@ -49,7 +63,10 @@ export function estadoInsumo(insumo: Pick<Insumo, 'activo' | 'stock_actual' | 's
 
 export type EventoInsumo =
   | { tipo: 'registrar'; datos: DatosInsumo }
+  | { tipo: 'editar'; insumoId: number; datos: DatosInsumo }
   | { tipo: 'desactivar'; insumoId: number }
+  | { tipo: 'reactivar'; insumoId: number }
+  | { tipo: 'ajustar'; insumoId: number; motivo: MotivoAjuste; cantidad: number; responsable: string }
   | { tipo: 'eliminar'; insumoId: number };
 
 /**
@@ -71,6 +88,58 @@ export function aplicarEventoInsumo(db: BaseDeDatos, evento: EventoInsumo): numb
         const id = Number(r.lastInsertRowid);
         generarAlerta(db, id);
         return id;
+      }
+      case 'editar': {
+        // CU-09 (HU-06 CA5). Si está activo, el nuevo mínimo recalcula el estado (EST-01) y la alerta (EST-02):
+        //   Stock suficiente --Editar insumo [stock ≤ nuevo mínimo] / generar alerta--> Stock crítico
+        //   Stock crítico --Editar insumo [stock > nuevo mínimo] / resolver alerta--> Stock suficiente
+        // Un insumo Desactivado solo cambia sus datos: sigue Desactivado y sin alerta.
+        const insumo = obtenerInsumoObligatorio(db, evento.insumoId);
+        const { nombre, unidadMedida, costoUnitario, stockMinimo } = evento.datos;
+        db.prepare(
+          'UPDATE insumos SET nombre = ?, unidad_medida = ?, costo_unitario = ?, stock_minimo = ? WHERE id = ?',
+        ).run(nombre, unidadMedida, costoUnitario, stockMinimo, insumo.id);
+        const estado = estadoInsumo({ ...insumo, stock_minimo: stockMinimo });
+        if (estado === 'Stock crítico' && !tieneAlertaVigente(db, insumo.id)) generarAlerta(db, insumo.id);
+        if (estado === 'Stock suficiente') resolverAlertaVigente(db, insumo.id);
+        return insumo.id;
+      }
+      case 'reactivar': {
+        // CU-10 (HU-06 CA6). Desactivado --Reactivar insumo [stock ≤ mínimo] / generar alerta--> Stock crítico
+        //                    Desactivado --Reactivar insumo [stock > mínimo]--> Stock suficiente
+        const insumo = obtenerInsumoObligatorio(db, evento.insumoId);
+        if (estadoInsumo(insumo) !== 'Desactivado') throw new ErrorDeNegocio('El insumo ya está activo');
+        db.prepare('UPDATE insumos SET activo = 1 WHERE id = ?').run(insumo.id);
+        if (estadoInsumo({ ...insumo, activo: 1 }) === 'Stock crítico') generarAlerta(db, insumo.id);
+        return insumo.id;
+      }
+      case 'ajustar': {
+        // CU-11 / DSS-06 (HU-07). Si el insumo está activo:
+        //   Stock suficiente --Ajustar stock [stock resultante ≤ mínimo] / generar alerta--> Stock crítico
+        //   Stock crítico --Ajustar stock [stock resultante > mínimo] / resolver alerta--> Stock suficiente
+        // Un insumo Desactivado cambia su stock pero sigue Desactivado y sin alerta (11-diagramas-estado.md).
+        const insumo = obtenerInsumoObligatorio(db, evento.insumoId);
+        const { motivo, cantidad, responsable } = evento;
+        let resultante: number;
+        if (motivo === 'Merma') {
+          if (!(cantidad > 0)) throw new ErrorDeNegocio(RECHAZOS_AJUSTE.mermaNoPositiva);
+          resultante = insumo.stock_actual - cantidad;
+          if (resultante < 0) throw new ErrorDeNegocio(RECHAZOS_AJUSTE.superaStock);
+        } else {
+          if (!(cantidad >= 0)) throw new ErrorDeNegocio(RECHAZOS_AJUSTE.contadaNegativa);
+          resultante = cantidad;
+        }
+        resultante = redondear(resultante);
+        const diferencia = redondear(resultante - insumo.stock_actual);
+        db.prepare(
+          `INSERT INTO movimientos_inventario (tipo, insumo_id, fecha, cantidad, responsable, motivo)
+           VALUES ('Ajuste', ?, ?, ?, ?, ?)`,
+        ).run(insumo.id, new Date().toISOString(), diferencia, responsable, motivo);
+        db.prepare('UPDATE insumos SET stock_actual = ? WHERE id = ?').run(resultante, insumo.id);
+        const estado = estadoInsumo({ ...insumo, stock_actual: resultante });
+        if (estado === 'Stock crítico' && !tieneAlertaVigente(db, insumo.id)) generarAlerta(db, insumo.id);
+        if (estado === 'Stock suficiente') resolverAlertaVigente(db, insumo.id);
+        return insumo.id;
       }
       case 'desactivar': {
         // Stock suficiente / Stock crítico --Desactivar insumo / resolver alerta--> Desactivado
@@ -101,6 +170,15 @@ function generarAlerta(db: BaseDeDatos, insumoId: number): void {
     insumoId,
     new Date().toISOString(),
   );
+}
+
+/** Evita arrastrar errores de punto flotante en las cantidades (0,1 + 0,2). */
+function redondear(valor: number): number {
+  return Math.round(valor * 1000) / 1000;
+}
+
+function tieneAlertaVigente(db: BaseDeDatos, insumoId: number): boolean {
+  return db.prepare("SELECT 1 FROM alertas_stock WHERE insumo_id = ? AND estado = 'Vigente' LIMIT 1").get(insumoId) !== undefined;
 }
 
 function resolverAlertaVigente(db: BaseDeDatos, insumoId: number): void {

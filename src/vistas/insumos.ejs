@@ -8,17 +8,25 @@
   </form>
 <% } %>
 
-<fieldset>
-  <legend>Registrar insumo (CU-06)</legend>
-  <form method="post" action="/insumos">
-    <label>Nombre <input name="nombre" value="<%= form.nombre || '' %>"></label>
-    <label>Unidad de medida <input name="unidadMedida" placeholder="g, ml, cucharadita…" value="<%= form.unidadMedida || '' %>"></label>
-    <label>Costo unitario ($ por unidad) <input name="costoUnitario" inputmode="decimal" size="8" value="<%= form.costoUnitario || '' %>"></label>
-    <label>Stock mínimo <input name="stockMinimo" inputmode="decimal" size="8" value="<%= form.stockMinimo || '' %>"></label>
-    <button type="submit">Registrar insumo</button>
+<p><button type="button" id="abrir-registro">Registrar insumo</button></p>
+
+<%# HU-06 CA8: registrar (CU-06) y editar (CU-09) usan la misma ventana emergente centrada sobre la lista. %>
+<% var d = dialogo || { accion: '/insumos', titulo: 'Registrar insumo', error: '', form: {} }; %>
+<dialog id="ventana-insumo" class="ventana" aria-labelledby="ventana-titulo" <%= dialogo ? 'data-abrir open' : '' %>>
+  <form method="post" action="<%= d.accion %>" id="form-insumo">
+    <h2 id="ventana-titulo"><%= d.titulo %></h2>
+    <p class="error" role="alert" id="ventana-error" <%= d.error ? '' : 'hidden' %>><%= d.error %></p>
+    <label>Nombre <input name="nombre" value="<%= d.form.nombre || '' %>"></label>
+    <label>Unidad de medida <input name="unidadMedida" placeholder="g, ml, cucharadita…" value="<%= d.form.unidadMedida || '' %>"></label>
+    <label>Costo unitario (CLP, $ por unidad) <input name="costoUnitario" inputmode="numeric" size="8" value="<%= d.form.costoUnitario || '' %>"></label>
+    <label>Stock mínimo <input name="stockMinimo" inputmode="decimal" size="8" value="<%= d.form.stockMinimo || '' %>"></label>
+    <p class="nota" id="ventana-nota" <%= d.accion === '/insumos' ? '' : 'hidden' %>>El insumo se registra con stock 0, por lo que nace con una alerta de stock crítico.</p>
+    <div class="botones">
+      <button type="submit" id="ventana-guardar"><%= d.accion === '/insumos' ? 'Registrar insumo' : 'Guardar cambios' %></button>
+      <button type="button" id="ventana-cancelar">Cancelar</button>
+    </div>
   </form>
-  <p class="nota">El insumo se registra con stock 0, por lo que nace con una alerta de stock crítico.</p>
-</fieldset>
+</dialog>
 
 <table>
   <thead>
@@ -32,10 +40,13 @@
     <tr class="<%= i.activo ? '' : 'desactivado' %>">
       <td><%= i.nombre %></td>
       <td><%= i.unidad_medida %></td>
-      <td>$<%= i.costo_unitario %></td>
+      <td><%= formatoCLP(i.costo_unitario) %></td>
       <td><%= i.stock_minimo %> <%= i.unidad_medida %></td>
       <td><%= i.activo ? 'Activo' : 'Desactivado' %></td>
       <td class="acciones">
+        <button type="button" class="editar"
+                data-id="<%= i.id %>" data-nombre="<%= i.nombre %>" data-unidad="<%= i.unidad_medida %>"
+                data-costo="<%= Math.round(i.costo_unitario) %>" data-minimo="<%= i.stock_minimo %>">Editar</button>
         <form method="post" action="/insumos/<%= i.id %>/eliminar"
               onsubmit="return confirm('¿Eliminar este insumo?')">
           <button type="submit">Eliminar</button>
@@ -44,10 +55,50 @@
           <form method="post" action="/insumos/<%= i.id %>/desactivar">
             <button type="submit">Desactivar</button>
           </form>
+        <% } else { %>
+          <form method="post" action="/insumos/<%= i.id %>/reactivar">
+            <button type="submit">Reactivar</button>
+          </form>
         <% } %>
       </td>
     </tr>
   <% }) %>
   </tbody>
 </table>
+
+<script>
+  (function () {
+    var ventana = document.getElementById('ventana-insumo');
+    var form = document.getElementById('form-insumo');
+    var campos = { nombre: form.nombre, unidad: form.unidadMedida, costo: form.costoUnitario, minimo: form.stockMinimo };
+
+    function abrir(titulo, accion, valores, esRegistro) {
+      document.getElementById('ventana-titulo').textContent = titulo;
+      document.getElementById('ventana-guardar').textContent = esRegistro ? 'Registrar insumo' : 'Guardar cambios';
+      document.getElementById('ventana-nota').hidden = !esRegistro;
+      document.getElementById('ventana-error').hidden = true;
+      form.action = accion;
+      campos.nombre.value = valores.nombre || '';
+      campos.unidad.value = valores.unidad || '';
+      campos.costo.value = valores.costo || '';
+      campos.minimo.value = valores.minimo || '';
+      ventana.showModal();
+      campos.nombre.focus();
+    }
+
+    document.getElementById('abrir-registro').addEventListener('click', function () {
+      abrir('Registrar insumo', '/insumos', {}, true);
+    });
+    document.querySelectorAll('button.editar').forEach(function (b) {
+      b.addEventListener('click', function () {
+        abrir('Editar insumo', '/insumos/' + b.dataset.id + '/editar', b.dataset, false);
+      });
+    });
+    document.getElementById('ventana-cancelar').addEventListener('click', function () { ventana.close(); });
+
+    // Tras un rechazo, el servidor marca la ventana para que se abra con el motivo y los datos escritos.
+    // Viene con «open» para que se vea aun sin JavaScript; aquí se reabre como modal centrada.
+    if (ventana.hasAttribute('data-abrir')) { ventana.close(); ventana.showModal(); }
+  })();
+</script>
 <%- include('pie') %>

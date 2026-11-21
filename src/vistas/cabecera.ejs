@@ -24,6 +24,13 @@
     button { cursor: pointer; }
     .acciones form { display: inline; }
     .nota { color: #6b5b4d; font-size: 0.9em; }
+    /* HU-06 CA8: ventana emergente centrada sobre la lista (el <dialog> abierto con showModal se centra solo) */
+    dialog.ventana { border: 1px solid #e5ddd3; border-radius: 8px; padding: 20px 24px; max-width: 440px; width: calc(100% - 32px); }
+    dialog.ventana::backdrop { background: rgba(43, 33, 24, 0.45); }
+    dialog.ventana h2 { margin-top: 0; }
+    dialog.ventana label { display: block; margin: 10px 0; }
+    dialog.ventana input { width: 100%; box-sizing: border-box; margin-top: 4px; }
+    dialog.ventana .botones { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
   </style>
 </head>
 <body>
@@ -32,6 +39,7 @@
     <strong style="margin-right:24px">Brookies Coffee · Gestor de inventario</strong>
     <a href="/insumos">Insumos</a>
     <a href="/recetas">Recetas</a>
+    <a href="/ajustes">Ajustar stock</a>
   </nav>
   <form method="post" action="/rol">
     <label for="rol" style="margin:0">Rol (demostración):</label>
