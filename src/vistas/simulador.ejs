@@ -1,0 +1,31 @@
+<%- include('cabecera') %>
+<h1>Simulador de pedidos</h1>
+<p class="nota">Esta pantalla hace de <strong>Sistema de toma de pedidos</strong> (sistema externo, supuesto S4): envía al gestor un «Pedido confirmado» con sus productos, cantidades y el monto de cada producto (HU-01, DSS-01).</p>
+<% avisos.forEach(function (a) { %><p class="error" role="alert"><%= a %></p><% }) %>
+
+<fieldset>
+  <legend>Pedido confirmado</legend>
+  <form method="post" action="/pedidos">
+    <label>N° de pedido <input name="numero" inputmode="numeric" size="6" value="<%= form.numero || numeroSugerido %>"></label>
+    <table>
+      <tr><th>Producto</th><th>Cantidad</th><th>Monto (CLP)</th></tr>
+      <% [1, 2, 3].forEach(function (n) { %>
+        <tr>
+          <td>
+            <select name="producto<%= n %>">
+              <option value="">—</option>
+              <% productos.forEach(function (p) { %>
+                <option value="<%= p.nombre %>" <%= form['producto' + n] === p.nombre ? 'selected' : '' %>><%= p.nombre %><%= p.tiene_receta ? '' : ' (sin receta)' %></option>
+              <% }) %>
+            </select>
+          </td>
+          <td><input name="cantidad<%= n %>" inputmode="numeric" size="4" value="<%= form['cantidad' + n] || '' %>"></td>
+          <td><input name="monto<%= n %>" inputmode="numeric" size="8" placeholder="7.000" value="<%= form['monto' + n] || '' %>"></td>
+        </tr>
+      <% }) %>
+    </table>
+    <button type="submit">Confirmar pedido</button>
+  </form>
+</fieldset>
+<p class="nota">El gestor descuenta los insumos según la receta de cada producto y registra la venta. Revisa el resultado en «Ventas», «Insumos» y «Ajustar stock».</p>
+<%- include('pie') %>

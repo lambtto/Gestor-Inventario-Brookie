@@ -2,6 +2,8 @@
 // HU-06 · N05 Registrar insumos y recetas · Ciclo de vida: EST-01 (Insumo) y EST-02 (AlertaDeStock).
 // Ajuste 2026-11-19 (ajuste-hu-06-editar-reactivar-validaciones): eventos editar (CU-09) y reactivar (CU-10).
 // HU-07 (hu-07-ajustar-stock): evento ajustar (CU-11, DSS-06).
+// HU-01 (hu-01-registrar-venta): evento pedidoConfirmado (CU-01, DSS-01, DSS-02).
+// HU-05 (hu-05-registrar-ingreso-stock): evento registrarIngreso (CU-05, DSS-03).
 import type { BaseDeDatos } from '../db/conexion.js';
 
 export interface Insumo {
@@ -27,6 +29,14 @@ export const RECHAZOS_AJUSTE = {
   superaStock: 'Ajuste rechazado (la cantidad supera el stock)',
   mermaNoPositiva: 'Ajuste rechazado (la cantidad perdida debe ser mayor que 0)',
   contadaNegativa: 'Ajuste rechazado (la cantidad contada no puede ser negativa)',
+} as const;
+
+/** Mensajes de rechazo de un ingreso de stock (HU-05, DSS-03, decisiones D2 y D3). */
+export const RECHAZOS_INGRESO = {
+  faltaInsumo: 'Ingreso rechazado (falta el insumo)',
+  faltaCantidad: 'Ingreso rechazado (falta la cantidad)',
+  cantidadNoPositiva: 'Ingreso rechazado (la cantidad recibida debe ser mayor que 0)',
+  insumoDesactivado: 'Ingreso rechazado (insumo desactivado)',
 } as const;
 
 export interface DatosInsumo {
@@ -67,6 +77,8 @@ export type EventoInsumo =
   | { tipo: 'desactivar'; insumoId: number }
   | { tipo: 'reactivar'; insumoId: number }
   | { tipo: 'ajustar'; insumoId: number; motivo: MotivoAjuste; cantidad: number; responsable: string }
+  | { tipo: 'pedidoConfirmado'; insumoId: number; cantidad: number; pedidoId: number }
+  | { tipo: 'registrarIngreso'; insumoId: number; cantidad: number; responsable: string }
   | { tipo: 'eliminar'; insumoId: number };
 
 /**
@@ -139,6 +151,45 @@ export function aplicarEventoInsumo(db: BaseDeDatos, evento: EventoInsumo): numb
         const estado = estadoInsumo({ ...insumo, stock_actual: resultante });
         if (estado === 'Stock crítico' && !tieneAlertaVigente(db, insumo.id)) generarAlerta(db, insumo.id);
         if (estado === 'Stock suficiente') resolverAlertaVigente(db, insumo.id);
+        return insumo.id;
+      }
+      case 'pedidoConfirmado': {
+        // CU-01 / DSS-01 / DSS-02 (HU-01). Evento «Pedido confirmado»: registra el Descuento y resta el stock.
+        //   Stock suficiente --Pedido confirmado [stock resultante ≤ mínimo] / generar alerta--> Stock crítico
+        //   Stock crítico --Pedido confirmado--> Stock crítico (ya tiene alerta vigente: no se genera otra)
+        //   Desactivado --Pedido confirmado--> Desactivado (se descuenta igual, sin alerta: HU-01 CA6)
+        // Se permite stock negativo: el pedido ya fue vendido (decisión D1 de la ficha HU-01).
+        const insumo = obtenerInsumoObligatorio(db, evento.insumoId);
+        const cantidad = redondear(evento.cantidad);
+        const resultante = redondear(insumo.stock_actual - cantidad);
+        db.prepare(
+          `INSERT INTO movimientos_inventario (tipo, insumo_id, fecha, cantidad, pedido_id)
+           VALUES ('Descuento', ?, ?, ?, ?)`,
+        ).run(insumo.id, new Date().toISOString(), cantidad, evento.pedidoId);
+        db.prepare('UPDATE insumos SET stock_actual = ? WHERE id = ?').run(resultante, insumo.id);
+        const estado = estadoInsumo({ ...insumo, stock_actual: resultante });
+        if (estado === 'Stock crítico' && !tieneAlertaVigente(db, insumo.id)) generarAlerta(db, insumo.id);
+        return insumo.id;
+      }
+      case 'registrarIngreso': {
+        // CU-05 / DSS-03 (HU-05). Evento «Registrar ingreso»: registra la Reposición y suma el stock.
+        //   Stock crítico --Registrar ingreso [stock resultante > mínimo] / resolver alerta--> Stock suficiente
+        //   Stock crítico --Registrar ingreso [stock resultante ≤ mínimo]--> Stock crítico (la alerta sigue vigente)
+        //   Stock suficiente --Registrar ingreso--> Stock suficiente
+        // EST-01 no modela «Registrar ingreso» desde Desactivado: se rechaza (decisión D2 de la ficha HU-05).
+        const insumo = obtenerInsumoObligatorio(db, evento.insumoId);
+        if (estadoInsumo(insumo) === 'Desactivado') throw new ErrorDeNegocio(RECHAZOS_INGRESO.insumoDesactivado);
+        if (!(evento.cantidad > 0)) throw new ErrorDeNegocio(RECHAZOS_INGRESO.cantidadNoPositiva);
+        const cantidad = redondear(evento.cantidad);
+        const resultante = redondear(insumo.stock_actual + cantidad);
+        db.prepare(
+          `INSERT INTO movimientos_inventario (tipo, insumo_id, fecha, cantidad, responsable)
+           VALUES ('Reposición', ?, ?, ?, ?)`,
+        ).run(insumo.id, new Date().toISOString(), cantidad, evento.responsable);
+        db.prepare('UPDATE insumos SET stock_actual = ? WHERE id = ?').run(resultante, insumo.id);
+        if (estadoInsumo({ ...insumo, stock_actual: resultante }) === 'Stock suficiente') {
+          resolverAlertaVigente(db, insumo.id);
+        }
         return insumo.id;
       }
       case 'desactivar': {

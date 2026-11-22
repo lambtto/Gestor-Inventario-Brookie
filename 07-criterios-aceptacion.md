@@ -19,11 +19,11 @@ Característica: Registrar venta y descontar insumos de un pedido confirmado
     Y queda registrado un Descuento de 50 g de mantequilla con su fecha y el pedido asociado
 
   Escenario: Pedido con un producto sin receta
-    Dado que el Café Latte no tiene receta definida
+    Dado que el Banana Cloud no tiene receta definida
     Y que el stock de leche es de 5000 ml
-    Cuando el sistema de toma de pedidos confirma un pedido de 1 Café Latte
-    Entonces se informa al administrador que el Café Latte no tiene receta
-    Y queda registrada la venta de 1 Café Latte marcada como sin receta
+    Cuando el sistema de toma de pedidos confirma un pedido de 1 Banana Cloud
+    Entonces se informa al administrador que el Banana Cloud no tiene receta
+    Y queda registrada la venta de 1 Banana Cloud marcada como sin receta
     Y el stock de leche sigue en 5000 ml
 
   Escenario: Pedido que usa un insumo desactivado

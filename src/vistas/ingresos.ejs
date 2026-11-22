@@ -1,0 +1,38 @@
+<%- include('cabecera') %>
+<h1>Registrar ingreso</h1>
+<p class="nota">Registra los insumos que compraste: el stock aumenta al instante y queda la reposición registrada (HU-05).</p>
+
+<fieldset>
+  <legend>Nuevo ingreso (CU-05)</legend>
+  <form method="post" action="/ingresos">
+    <label>Insumo
+      <select name="insumoId">
+        <option value="">Elige un insumo…</option>
+        <% insumos.forEach(function (i) { %>
+          <option value="<%= i.id %>" <%= String(form.insumoId) === String(i.id) ? 'selected' : '' %>><%= i.nombre %> (<%= formatoCantidad(i.stock_actual) %> <%= i.unidad_medida %>)</option>
+        <% }) %>
+      </select>
+    </label>
+    <label>Cantidad recibida <input name="cantidad" inputmode="decimal" size="8" value="<%= form.cantidad || '' %>"></label>
+    <button type="submit">Registrar ingreso</button>
+  </form>
+  <p class="nota">Indica la cantidad en la unidad de medida del insumo (la que aparece entre paréntesis). Los insumos desactivados no aparecen: reactívalos primero en «Insumos».</p>
+</fieldset>
+
+<h2>Reposiciones registradas</h2>
+<% if (reposiciones.length === 0) { %>
+  <p class="nota">Todavía no hay reposiciones.</p>
+<% } else { %>
+  <table>
+    <tr><th>Fecha</th><th>Insumo</th><th>Cantidad</th><th>Responsable</th></tr>
+    <% reposiciones.forEach(function (r) { %>
+      <tr>
+        <td><%= new Date(r.fecha).toLocaleString('es-CL') %></td>
+        <td><%= r.insumo_nombre %></td>
+        <td><%= formatoCantidad(r.cantidad) %> <%= r.unidad_medida %></td>
+        <td><%= r.responsable %></td>
+      </tr>
+    <% }) %>
+  </table>
+<% } %>
+<%- include('pie') %>

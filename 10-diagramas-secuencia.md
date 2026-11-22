@@ -13,8 +13,9 @@ El gestor de inventario tiene un solo punto real de integración con otro sistem
 Archivo fuente: [`./diagramas/dss-01.puml`](./diagramas/dss-01.puml)
 
 Variantes representadas:
+- **alt** exterior — el pedido se registra (trae sus datos completos y su número no estaba registrado) o se rechaza con «Pedido rechazado (motivo)» si es un pedido repetido, trae un producto inexistente o tiene datos inválidos; en ese caso no se registran ventas ni descuentos (decisión D2 de la ficha `.cin324/historias/HU-01.md`).
 - **loop** — el gestor revisa cada producto del pedido.
-- **alt**, dentro del loop — el producto tiene receta (se descuentan los insumos y se registra la venta) o no la tiene (se avisa al administrador y no se descuentan insumos, HU-01 CA5).
+- **alt**, dentro del loop — el producto tiene receta (se descuentan los insumos y se registra la venta) o no la tiene (se registra la venta marcada sin receta, se avisa al administrador y no se descuentan insumos, HU-01 CA5).
 
 ## DSS-02 — Alerta de stock crítico por un pedido y su consulta
 
@@ -41,7 +42,7 @@ Variantes representadas:
 Archivo fuente: [`./diagramas/dss-03.puml`](./diagramas/dss-03.puml)
 
 Variantes representadas:
-- **alt** — el ingreso se registra (se indicó la cantidad recibida) o se rechaza porque falta la cantidad (HU-05, CA1).
+- **alt** — el ingreso se registra (se indicó el insumo y la cantidad recibida, es mayor que 0 y el insumo está activo) o se rechaza porque falta el insumo, porque falta la cantidad (HU-05, CA1), porque la cantidad no es mayor que 0 o porque el insumo está desactivado (EST-01 no modela «Registrar ingreso» desde «Desactivado»; decisiones D2 y D3 de la ficha `.cin324/historias/HU-05.md`).
 - **opt**, dentro del caso principal — la alerta de stock crítico se resuelve si el stock supera el nivel mínimo y había una alerta vigente (HU-05, CA4).
 
 ## DSS-04 — Registrar un insumo

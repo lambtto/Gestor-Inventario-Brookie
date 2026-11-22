@@ -13,7 +13,7 @@ El proyecto propone un **gestor de inventario** que:
 - permita ver el stock en tiempo real y recibir un informe al cierre del día con el stock, qué se vendió y la ganancia;
 - deje registro de cada movimiento de inventario, para tener trazabilidad entre ventas y consumo.
 
-En la Entrega 1 el trabajo consistió en **levantar y documentar los requisitos**: entender el proceso actual, diseñar el proceso mejorado, y derivar de ahí los requisitos, las historias de usuario y los atributos de calidad. En la Entrega 2 esos requisitos se **especifican**: criterios de aceptación en Gherkin, modelo de dominio, casos de uso, diagramas de secuencia y de estado, y una matriz de trazabilidad. Todavía no se desarrolla el sistema.
+En la Entrega 1 el trabajo consistió en **levantar y documentar los requisitos**: entender el proceso actual, diseñar el proceso mejorado, y derivar de ahí los requisitos, las historias de usuario y los atributos de calidad. En la Entrega 2 esos requisitos se **especifican**: criterios de aceptación en Gherkin, modelo de dominio, casos de uso, diagramas de secuencia y de estado, y una matriz de trazabilidad. En la Entrega de proyecto 3 el sistema se genera historia por historia desde esos documentos (ver «Aplicación»).
 
 ## Alcance
 
@@ -70,6 +70,11 @@ El documento maestro es [`IngReq-Entrega 2.md`](./IngReq-Entrega%202.md).
 │   ├── to-be.png / to-be.bpmn
 │   ├── modelo-dominio, casos-de-uso, dss-01 a dss-06, est-01 y est-02 (.png / .puml)
 ├── evidencia/                 Fotos, capturas y notas de la elicitación
+├── src/                       Código de la aplicación (TypeScript + Express + EJS + SQLite)
+├── tests/                     Pruebas automáticas (una por escenario Gherkin)
+├── openspec/                  Especificaciones y cambios de OpenSpec (specs vigentes y changes/archive)
+├── .cin324/                   Estado del proyecto y fichas de historia confirmadas
+├── .claude/                   Skills y comandos del curso para generar la aplicación
 ├── LICENSE
 └── README.md
 ```
@@ -86,7 +91,7 @@ El documento maestro es [`IngReq-Entrega 2.md`](./IngReq-Entrega%202.md).
 
 ## Aplicación (gestor de inventario)
 
-La aplicación se genera historia por historia desde estos documentos, con especificaciones de OpenSpec en [`openspec/`](./openspec/). Historias implementadas: **HU-06 Registrar insumos y recetas** (con el ajuste del 2026-11-19: editar y reactivar insumos, nombre con al menos una letra, costo en pesos chilenos y ventana emergente) y **HU-07 Ajustar stock** (mermas y corrección de conteo).
+La aplicación se genera historia por historia desde estos documentos, con especificaciones de OpenSpec en [`openspec/`](./openspec/). Historias implementadas: **HU-06 Registrar insumos y recetas** (con el ajuste del 2026-11-19: editar y reactivar insumos, nombre con al menos una letra, costo en pesos chilenos y ventana emergente) **HU-07 Ajustar stock** (mermas y corrección de conteo) **HU-01 Registrar venta** (cada pedido confirmado registra sus ventas y descuenta los insumos según la receta) y **HU-05 Registrar ingreso de stock** (reposición de los insumos comprados).
 
 ### Cómo levantar el servidor y probar el sistema en localhost
 
@@ -118,6 +123,9 @@ La aplicación se genera historia por historia desde estos documentos, con espec
 - **Iniciar sin reinicio automático:** `npm start`.
 
 - **Pantallas:** «Insumos» (`/insumos`), «Recetas» (`/recetas`) y «Ajustar stock» (`/ajustes`: registra una merma o una corrección de conteo; el selector muestra el stock actual de cada insumo y abajo se listan los ajustes registrados). En «Insumos», los botones «Registrar insumo» y «Editar» abren una ventana emergente centrada; cada insumo se puede eliminar, desactivar o, si está desactivado, reactivar. Los costos están en pesos chilenos (CLP), son enteros y se muestran como $1.250. Arriba a la derecha hay un selector de rol de demostración (Administrador, Barista, Caja); no hay inicio de sesión real. Solo el Administrador puede usar el módulo de inventario.
+- **Pantallas de HU-01:** «Simulador de pedidos» (`/simulador`) hace de *Sistema de toma de pedidos* (sistema externo, simulado): envía un «Pedido confirmado» con hasta 3 productos, su cantidad y su monto en pesos. «Ventas» (`/ventas`, solo Administrador) lista las ventas registradas y los avisos de producto sin receta. Un sistema externo también puede enviar el pedido en JSON a `POST /pedidos` con `{"numero": 1, "productos": [{"producto": "Lemon Empire", "cantidad": 2, "monto": 7000}]}`.
+- **Pantalla de HU-05:** «Registrar ingreso» (`/ingresos`, solo Administrador) registra la cantidad recibida de un insumo comprado: el stock sube, queda la reposición en la lista de abajo y, si el insumo supera su mínimo, su alerta de stock crítico se resuelve. Los insumos desactivados no se pueden reponer (primero se reactivan en «Insumos»).
+- **Recorrido de demostración de HU-01:** los insumos de ejemplo nacen con stock 0, así que primero carga stock en «Registrar ingreso» (por ejemplo, 1000 g de mantequilla). Luego, en «Simulador de pedidos», envía 2 Lemon Empire por 7.000 y 1 Banana Cloud por 4.000: la mantequilla baja a 950 g, «Ventas» muestra las dos ventas y aparece el aviso de que Banana Cloud no tiene receta. Si un pedido deja un insumo activo en o bajo su mínimo, se genera su alerta de stock crítico.
 - **Datos de ejemplo:** los 13 productos del cuaderno del dueño, sus 19 insumos (con las unidades del cuaderno) y 12 recetas; Banana Cloud queda sin receta. El «espresso doble» del cuaderno no es un insumo: el Café Latte y el Capuchino usan 16 g de **café en grano** (aclaración en `05-elicitacion.md`); la migración `003` corrige las bases creadas antes de este ajuste. La canela no está en ninguna receta y tiene una reposición de 500 g. Los **costos unitarios y stocks mínimos son valores de demostración**, no datos del cliente. Al arrancar, la migración `002` redondea a pesos enteros los costos de una base creada antes del ajuste.
 - **Código:** `src/` (dominio, servicios, rutas, vistas EJS, migraciones SQL y datos de ejemplo) y `tests/`. Stack: TypeScript, Express, EJS, SQLite (better-sqlite3) y Vitest.
 
