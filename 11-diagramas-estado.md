@@ -1,6 +1,6 @@
 # Diagramas de estado
 
-Los eventos de estos diagramas son los mismos mensajes de los diagramas de secuencia ([10-diagramas-secuencia.md](./10-diagramas-secuencia.md)). Los eventos que no cambian el estado (por ejemplo, un pedido que baja el stock sin cruzar el nivel mínimo) no se dibujan.
+Los eventos de estos diagramas son los mismos mensajes de los diagramas de secuencia ([10-diagramas-secuencia.md](./10-diagramas-secuencia.md)). Los eventos que no cambian el estado y que el gestor acepta en ese estado se dibujan como transiciones internas dentro del estado. Así, todo evento que el gestor acepta aparece en el diagrama, y un evento que no está modelado en un estado se rechaza.
 
 ## EST-01 — Ciclo de vida de Insumo
 
@@ -29,10 +29,21 @@ Archivo fuente: [`./diagramas/est-01.puml`](./diagramas/est-01.puml)
 | Stock crítico | Editar insumo | stock > nuevo mínimo | resolver alerta | Stock suficiente |
 | Stock suficiente | Ajustar stock | stock resultante ≤ mínimo | generar alerta | Stock crítico |
 | Stock crítico | Ajustar stock | stock resultante > mínimo | resolver alerta | Stock suficiente |
+| Desactivado | Pedido confirmado | el insumo sigue en una receta | descontar sin generar alerta | Desactivado |
+| Desactivado | Ajustar stock | — | sin alerta | Desactivado |
+| Desactivado | Editar insumo | — | sin alerta | Desactivado |
+| Stock crítico | Pedido confirmado | — | no genera otra alerta (ya hay una vigente) | Stock crítico |
+| Stock crítico | Registrar ingreso | stock resultante ≤ mínimo | la alerta sigue vigente | Stock crítico |
+| Stock crítico | Ajustar stock | stock resultante ≤ mínimo | la alerta sigue vigente | Stock crítico |
+| Stock crítico | Editar insumo | stock ≤ nuevo mínimo | la alerta sigue vigente | Stock crítico |
+| Stock suficiente | Pedido confirmado | stock resultante > mínimo | — | Stock suficiente |
+| Stock suficiente | Registrar ingreso | — | — | Stock suficiente |
+| Stock suficiente | Ajustar stock | stock resultante > mínimo | — | Stock suficiente |
+| Stock suficiente | Editar insumo | stock > nuevo mínimo | — | Stock suficiente |
 
-Un insumo Desactivado que sigue en una receta también recibe Descuentos cuando se confirma un pedido, pero permanece en Desactivado y no genera alerta. Como ese evento no cambia su estado, no se dibuja.
+Las once últimas filas son transiciones internas (el estado de origen es el mismo que el de destino): en el diagrama se dibujan dentro del estado, bajo la línea `--`. El insumo cambia sus datos o su stock, pero no cambia de estado. Un insumo Desactivado que sigue en una receta también recibe Descuentos cuando se confirma un pedido (HU-01 CA6); editarlo o ajustar su stock cambia sus datos o su stock, y en ningún caso genera alerta. Un insumo en Stock crítico que recibe un pedido confirmado sigue en Stock crítico sin una segunda alerta, y uno cuyo ingreso, ajuste o edición no alcanza a superar el mínimo sigue en Stock crítico con su alerta vigente. Un insumo en Stock suficiente que recibe un pedido, un ingreso, un ajuste o una edición sin quedar en o bajo el mínimo sigue en Stock suficiente, sin alerta.
 
-Editar o ajustar un insumo Desactivado cambia sus datos o su stock, pero permanece en Desactivado y no genera alerta; por eso esos eventos tampoco se dibujan.
+«Registrar ingreso» no está permitido desde Desactivado: el gestor rechaza el ingreso de un insumo desactivado con «Ingreso rechazado (insumo desactivado)» (DSS-03). Para reponerlo, primero hay que reactivarlo.
 
 Supuesto: HU-06 no pide un stock inicial al registrar un insumo, así que se asume que nace con stock 0, que está en o bajo cualquier nivel mínimo. Por eso nace en "Stock crítico" y con su alerta generada. Si el equipo decide cargar stock al registrar, hay que cambiar la primera fila de esta tabla y la de EST-02.
 

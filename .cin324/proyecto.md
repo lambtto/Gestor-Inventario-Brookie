@@ -50,7 +50,7 @@ Confirmados por el estudiante el 2026-11-05:
 | HU-02 Alertar stock crítico | pendiente | — | — | |
 | HU-03 Consultar stock | pendiente | — | — | |
 | HU-04 Consultar informe | pendiente | — | — | |
-| HU-05 Registrar ingreso de stock | pendiente | — | — | |
+| HU-05 Registrar ingreso de stock | hecha | hu-05-registrar-ingreso-stock (archivado 2026-11-21) | 2026-11-21 | 4/4 grupos de tareas, 102 pruebas OK (8 de HU-05), typecheck OK. Sin migración. Pantalla /ingresos. Decisiones D1–D3 en la ficha (ingreso de insumo desactivado se rechaza: no está en EST-01). |
 | HU-06 Registrar insumos y recetas | hecha | hu-06-registrar-insumos-recetas + ajuste-hu-06-editar-reactivar-validaciones + ajuste-hu-06-cafe-en-grano (los tres archivados 2026-11-19) | 2026-11-19 | 60 pruebas OK, typecheck OK. Migraciones 001–003. Editar/reactivar, costo CLP entero, ventana emergente `<dialog>`, café en grano en vez de espresso doble. Comandos: npm install · npm run db:seed · npm run dev · npm test |
 | HU-07 Ajustar stock | hecha (archivada sin ronda de validación formal, a pedido del estudiante) | hu-07-ajustar-stock (archivado 2026-11-19) | 2026-11-19 | 7/7 tareas, 79 pruebas OK (19 de HU-07), typecheck OK. Migración 004 (tipo Ajuste + motivo). Pantalla /ajustes. Decisiones D1–D4 |
 

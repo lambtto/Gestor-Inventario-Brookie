@@ -6,13 +6,19 @@ actor Administrador as Adm
 participant "Gestor de Inventario" as G
 
 Adm -> G : Registrar ingreso (insumo, cantidad recibida)
-alt se indicó la cantidad recibida
+alt se indicó el insumo y la cantidad recibida, es mayor que 0 y el insumo está activo
   note over G : Aumenta el stock y registra la reposición\ncon fecha, cantidad y responsable
   opt el stock supera el nivel mínimo y había una alerta vigente
     note over G : La alerta de stock crítico queda resuelta
   end
   G --> Adm : Ingreso registrado (stock actualizado)
+else falta el insumo
+  G --> Adm : Ingreso rechazado (falta el insumo)
 else falta la cantidad recibida
   G --> Adm : Ingreso rechazado (falta la cantidad)
+else la cantidad no es mayor que 0
+  G --> Adm : Ingreso rechazado (la cantidad recibida debe ser mayor que 0)
+else el insumo está desactivado
+  G --> Adm : Ingreso rechazado (insumo desactivado)
 end
 @enduml

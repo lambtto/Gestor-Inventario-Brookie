@@ -6,14 +6,19 @@ actor Administrador as Adm
 participant "Sistema de toma de pedidos\n<<sistema externo>>" as SP
 participant "Gestor de Inventario" as G
 
-SP -> G : Pedido confirmado (productos, cantidades, monto)
-loop por cada producto del pedido
-  alt el producto tiene receta
-    note over G : Descuenta los insumos de la receta\ny registra la venta y los movimientos
-  else el producto no tiene receta
-    G --> Adm : Aviso de producto sin receta (producto)
-    note over G : No descuenta insumos de ese producto
+SP -> G : Pedido confirmado (número, productos, cantidades, monto)
+alt el pedido trae sus datos completos y su número no estaba registrado
+  loop por cada producto del pedido
+    alt el producto tiene receta
+      note over G : Descuenta los insumos de la receta\ny registra la venta y los movimientos
+    else el producto no tiene receta
+      G --> Adm : Aviso de producto sin receta (producto)
+      note over G : Registra la venta marcada sin receta\ny no descuenta insumos de ese producto
+    end
   end
+  G --> SP : Pedido registrado
+else pedido repetido, producto inexistente o datos inválidos
+  G --> SP : Pedido rechazado (motivo)
+  note over G : No registra ventas ni descuentos
 end
-G --> SP : Pedido registrado
 @enduml

@@ -28,11 +28,11 @@ Al recibir un «Pedido confirmado», el sistema DEBE (MUST) registrar el Pedido 
 Si un producto del pedido no tiene receta, el sistema DEBE (MUST) registrar su Venta marcada como sin receta, NO DEBE (MUST NOT) descontar insumos por ese producto y DEBE (MUST) emitir «Aviso de producto sin receta (<producto>)» al Administrador, visible en la respuesta al pedido y en la pantalla «Ventas» (HU-01 CA5, supuesto S2, decisión D3).
 
 #### Scenario: Pedido con un producto sin receta
-- **GIVEN** el Café Latte no tiene receta definida
+- **GIVEN** el Banana Cloud no tiene receta definida
 - **AND** el stock de leche es de 5000 ml
-- **WHEN** el sistema de toma de pedidos confirma un pedido de 1 Café Latte
-- **THEN** se informa al administrador que el Café Latte no tiene receta
-- **AND** queda registrada la venta de 1 Café Latte marcada como sin receta
+- **WHEN** el sistema de toma de pedidos confirma un pedido de 1 Banana Cloud
+- **THEN** se informa al administrador que el Banana Cloud no tiene receta
+- **AND** queda registrada la venta de 1 Banana Cloud marcada como sin receta
 - **AND** el stock de leche sigue en 5000 ml
 
 ### Requirement: Insumo desactivado en la receta

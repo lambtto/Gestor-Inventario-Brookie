@@ -95,16 +95,16 @@ describe('HU-01 · Descontar insumos y registrar la venta (CA1–CA4)', () => {
 describe('HU-01 · Producto sin receta (CA5)', () => {
   it('HU-01 · Pedido con un producto sin receta', async () => {
     const { db, app } = nuevoEntorno();
-    // Dado que el Café Latte no tiene receta definida
-    dadoProducto(db, 'Café Latte');
+    // Dado que el Banana Cloud no tiene receta definida
+    dadoProducto(db, 'Banana Cloud');
     // Y que el stock de leche es de 5000 ml
     const leche = insumoConStock(db, 'leche', 'ml', 5000, 3000);
-    // Cuando el sistema de toma de pedidos confirma un pedido de 1 Café Latte
-    const res = await confirmarPedido(app, 2, [{ producto: 'Café Latte', cantidad: 1, monto: 3500 }]);
-    // Entonces se informa al administrador que el Café Latte no tiene receta
-    expect(res.body.avisos).toEqual(['Aviso de producto sin receta (Café Latte)']);
-    // Y queda registrada la venta de 1 Café Latte marcada como sin receta
-    expect(listarVentas(db)).toEqual([expect.objectContaining({ producto: 'Café Latte', cantidad: 1, sin_receta: 1 })]);
+    // Cuando el sistema de toma de pedidos confirma un pedido de 1 Banana Cloud
+    const res = await confirmarPedido(app, 2, [{ producto: 'Banana Cloud', cantidad: 1, monto: 3500 }]);
+    // Entonces se informa al administrador que el Banana Cloud no tiene receta
+    expect(res.body.avisos).toEqual(['Aviso de producto sin receta (Banana Cloud)']);
+    // Y queda registrada la venta de 1 Banana Cloud marcada como sin receta
+    expect(listarVentas(db)).toEqual([expect.objectContaining({ producto: 'Banana Cloud', cantidad: 1, sin_receta: 1 })]);
     // Y el stock de leche sigue en 5000 ml
     expect(stock(db, leche)).toBe(5000);
     expect(cuenta(db, "SELECT COUNT(*) AS n FROM movimientos_inventario WHERE tipo = 'Descuento'")).toBe(0);
