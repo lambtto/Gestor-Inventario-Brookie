@@ -33,6 +33,15 @@ Característica: Registrar venta y descontar insumos de un pedido confirmado
     Entonces el stock de vainilla queda en 4 cucharaditas
     Y queda registrado un Descuento de 1 cucharadita de vainilla
     Y no se genera una alerta de stock crítico para la vainilla
+
+  Escenario: Pedido que excede los insumos existentes
+    Dado que la receta de Lemon Empire usa 250 g de mantequilla y rinde 10 galletas
+    Y que hay 30 g de mantequilla
+    Cuando el sistema de toma de pedidos confirma un pedido de 2 Lemon Empire por $7.000
+    Entonces la venta queda «Pendiente de confirmación»
+    Y la mantequilla sigue en 30 g
+    Y no se registra ningún Descuento
+    Y se le avisa al administrador que la venta quedó pendiente
 ```
 
 ## HU-02 — Alertar stock crítico
@@ -306,4 +315,48 @@ Característica: Ajustar stock
     Cuando el administrador registra una corrección de conteo de la harina con 800 g contados
     Entonces el stock de la harina queda en 800 g
     Y su alerta deja de estar vigente
+```
+
+## HU-08 — Resolver venta pendiente de insumos
+
+Historia: Como administrador, quiero ver las ventas que quedaron pendientes por falta de insumos y poder confirmarlas cuando lleguen o cancelarlas si no los voy a conseguir, para que el stock solo baje cuando de verdad se puede preparar el producto.
+
+```gherkin
+Característica: Resolver venta pendiente de insumos
+
+  Escenario: Ver las ventas pendientes
+    Dado que la venta de 2 Lemon Empire del pedido 15 está «Pendiente de confirmación»
+    Y que le faltan 20 g de mantequilla
+    Cuando el administrador revisa las ventas pendientes
+    Entonces ve la venta del pedido 15 con 2 Lemon Empire
+    Y ve que falta mantequilla
+
+  Escenario: Confirmar una venta cuando llegan los insumos
+    Dado que la venta de 2 Lemon Empire está «Pendiente de confirmación»
+    Y que había 30 g de mantequilla y se registró una Reposición de 1000 g
+    Cuando el administrador confirma la venta
+    Entonces la mantequilla queda en 980 g
+    Y queda registrado un Descuento de 50 g de mantequilla
+    Y la venta queda «Confirmada»
+
+  Escenario: Confirmar sin stock suficiente
+    Dado que la venta de 2 Lemon Empire está «Pendiente de confirmación»
+    Y que sigue habiendo 30 g de mantequilla
+    Cuando el administrador intenta confirmar la venta
+    Entonces no se confirma y se indica que falta mantequilla
+    Y la mantequilla sigue en 30 g
+    Y la venta sigue «Pendiente de confirmación»
+
+  Escenario: Cancelar una venta pendiente
+    Dado que la venta de 2 Lemon Empire está «Pendiente de confirmación»
+    Y que hay 30 g de mantequilla
+    Cuando el administrador cancela la venta
+    Entonces la venta queda «Cancelada»
+    Y la mantequilla sigue en 30 g
+    Y la venta ya no aparece en las pendientes
+
+  Escenario: No se puede confirmar una venta cancelada
+    Dado que la venta de 2 Lemon Empire está «Cancelada»
+    Cuando el administrador intenta confirmarla
+    Entonces el sistema no lo permite porque la venta ya no está pendiente
 ```

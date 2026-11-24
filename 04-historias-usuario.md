@@ -32,6 +32,10 @@ Dado que un producto del pedido no tiene una receta definida, cuando se confirma
 
 Dado que un insumo desactivado todavía forma parte de la receta de un producto del pedido, cuando se confirma el pedido, entonces igualmente se descuenta su stock y se registra el Descuento, pero no se genera una alerta de stock crítico para ese insumo.
 
+**CA7 – Insumos insuficientes**
+
+Dado que a la receta de un producto del pedido no le alcanza el stock de algún insumo, cuando se confirma el pedido, entonces la venta de ese producto queda «Pendiente de confirmación», no se descuenta nada y se le avisa al administrador. Esto también aplica si el insumo que falta está desactivado.
+
 ---
 
 ## HU-02 – Alertar stock crítico
@@ -215,3 +219,33 @@ Dado que el administrador registra un ajuste, cuando la merma es mayor que el st
 **CA5 – Actualizar alerta**
 
 Dado que se realizó un ajuste de stock de un insumo activo, cuando el stock resultante queda en o bajo el mínimo, entonces se genera una alerta vigente si no la tenía; y cuando queda sobre el mínimo, su alerta vigente se resuelve.
+
+---
+
+## HU-08 – Resolver venta pendiente de insumos
+
+Como administrador, quiero ver las ventas que quedaron pendientes por falta de insumos y poder confirmarlas cuando lleguen o cancelarlas si no los voy a conseguir, para que el stock solo baje cuando de verdad se puede preparar el producto.
+
+**Actividad TO-BE:** Revisar inventario, ventas y decidir reposición; Reabastecer stock
+
+### Criterios de aceptación
+
+**CA1 – Ver ventas pendientes**
+
+Dado que hay ventas «Pendiente de confirmación», cuando el administrador revisa las ventas pendientes, entonces ve el pedido, el producto, la cantidad y qué insumos faltan.
+
+**CA2 – Confirmar venta**
+
+Dado que una venta está pendiente y ya hay stock de todos los insumos de su receta, cuando el administrador la confirma, entonces se descuentan los insumos, se registran los Descuentos y la venta queda «Confirmada».
+
+**CA3 – Confirmar sin stock**
+
+Dado que una venta está pendiente y todavía falta algún insumo, cuando el administrador intenta confirmarla, entonces no se confirma, no se descuenta nada y la venta sigue pendiente.
+
+**CA4 – Cancelar venta**
+
+Dado que una venta está pendiente, cuando el administrador la cancela, entonces queda «Cancelada», no se descuenta nada y ya no aparece en las pendientes.
+
+**CA5 – Solo se resuelven ventas pendientes**
+
+Dado que una venta ya está «Confirmada» o «Cancelada», cuando el administrador intenta confirmarla o cancelarla, entonces el sistema no lo permite.
