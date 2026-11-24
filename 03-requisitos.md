@@ -3,7 +3,7 @@
 ## Requisitos de producto
 | ID | Requisito | Tipo (funcional/no funcional) | Actividad TO-BE asociada |
 |----|-----------|--------------------------------|----------------------------|
-| RP-01 | El sistema debe descontar automáticamente del inventario los insumos de cada producto de un pedido confirmado, según la receta del producto, y registrar la venta (producto, cantidad y monto). | Funcional | Descontar insumos y registrar venta |
+| RP-01 | El sistema debe descontar automáticamente del inventario los insumos de cada producto de un pedido confirmado, según la receta del producto (salvo lo dispuesto en RP-15 cuando falta stock), y registrar la venta (producto, cantidad y monto). | Funcional | Descontar insumos y registrar venta |
 | RP-02 | El sistema debe generar una alerta al administrador cuando el stock de un insumo alcance el nivel mínimo que él definió. | Funcional | Alertar stock crítico |
 | RP-03 | El sistema debe permitir al administrador consultar en tiempo real el stock actual de cada insumo junto a su nivel mínimo. | Funcional | Revisar inventario, ventas y decidir reposición |
 | RP-04 | El sistema debe entregar al administrador un informe al cierre del día con el stock inicial, el stock final y el consumo de cada insumo, más qué se vendió, cuánto se vendió y la ganancia del día, y permitir consultar por período (día, semana, mes) para anticipar el reabastecimiento. | Funcional | Revisar inventario, ventas y decidir reposición |
@@ -17,6 +17,7 @@
 | RP-12 | La interfaz debe ser simple para un administrador sin experiencia técnica: debe poder registrar una reposición y una receta sin ayuda externa. | No funcional (Capacidad de interacción) | Reabastecer stock; Registrar insumos y recetas |
 | RP-13 | La aplicación debe funcionar sin errores en la versión vigente de Safari, en computador de escritorio, para consultar el stock y registrar una reposición. | No funcional (Restricción de tecnología — navegador/plataforma) | Revisar inventario, ventas y decidir reposición; Reabastecer stock |
 | RP-14 | El sistema debe permitir al administrador ajustar el stock de un insumo indicando un motivo: «Merma» (se descuenta la cantidad perdida) o «Corrección de conteo» (se indica la cantidad real contada y el sistema registra la diferencia). El stock nunca puede quedar negativo. | Funcional | Ajustar stock |
+| RP-15 | Si la receta de un producto de un pedido confirmado necesita más cantidad de algún insumo que la que hay en stock, el sistema debe dejar esa venta en estado «Pendiente de confirmación» sin descontar insumos, mostrar al administrador las ventas pendientes de insumos y permitirle confirmarlas cuando haya stock suficiente o cancelarlas. *(Cambio de requerimientos, Evaluación 2.)* | Funcional | Descontar insumos y registrar venta; Revisar inventario, ventas y decidir reposición |
 
 ## Requisitos de proyecto
 | ID | Requisito |
