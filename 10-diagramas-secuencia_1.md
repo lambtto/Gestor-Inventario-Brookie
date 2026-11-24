@@ -1,0 +1,108 @@
+# Diagramas de secuencia de sistema
+
+El gestor de inventario tiene un solo punto real de integración con otro sistema: el **sistema de toma de pedidos** (de otro equipo), que envía el mensaje "Pedido confirmado" (ver [02-rediseno-to-be.md](./02-rediseno-to-be.md)). Por eso DSS-01 y DSS-02 son los diagramas con integración externa; DSS-03 a DSS-06 cubren las acciones del administrador que cambian el stock y los insumos y que alimentan los diagramas de estado; DSS-07 cubre cómo el administrador resuelve una venta pendiente de insumos (consultarla, confirmarla o cancelarla), que alimenta el ciclo de vida de la venta (EST-03). En todos el sistema es una sola caja negra: no se muestran clases internas, solo el "Gestor de Inventario" como un participante, y lo que hace por dentro se anota como nota.
+
+## DSS-01 — Confirmar un pedido y descontar insumos
+
+- Caso de uso: [CU-01](./09-casos-de-uso.md)
+- Historia: [HU-01](./04-historias-usuario.md#hu-01--registrar-venta)
+- Sistemas externos que participan: Sistema de toma de pedidos
+
+![DSS-01](./diagramas/dss-01.png)
+
+Archivo fuente: [`./diagramas/dss-01.puml`](./diagramas/dss-01.puml)
+
+Variantes representadas:
+- **alt** exterior — el pedido se registra (trae sus datos completos y su número no estaba registrado) o se rechaza con «Pedido rechazado (motivo)» si es un pedido repetido, trae un producto inexistente o tiene datos inválidos; en ese caso no se registran ventas ni descuentos (decisión D2 de la ficha `.cin324/historias/HU-01.md`).
+- **loop** — el gestor revisa cada producto del pedido.
+- **alt**, dentro del loop — el producto tiene receta y hay stock suficiente de todos sus insumos (se descuentan los insumos y se registra la venta Confirmada); tiene receta pero falta stock de algún insumo (la venta queda Pendiente de confirmación, no se descuenta nada y se avisa al administrador, HU-01 CA7, cambio de la Evaluación 2); o no la tiene (se registra la venta marcada sin receta, se avisa al administrador y no se descuentan insumos, HU-01 CA5).
+
+## DSS-02 — Alerta de stock crítico por un pedido y su consulta
+
+- Casos de uso: [CU-01](./09-casos-de-uso.md) y [CU-02](./09-casos-de-uso.md)
+- Historias: [HU-01](./04-historias-usuario.md#hu-01--registrar-venta) y [HU-02](./04-historias-usuario.md#hu-02--alertar-stock-crítico)
+- Sistemas externos que participan: Sistema de toma de pedidos
+
+![DSS-02](./diagramas/dss-02.png)
+
+Archivo fuente: [`./diagramas/dss-02.puml`](./diagramas/dss-02.puml)
+
+Variantes representadas:
+- **opt** — la alerta se genera solo si el stock de algún insumo activo llega o baja a su nivel mínimo y ese insumo no tenía ya una alerta vigente.
+- La segunda parte del diagrama (después de la línea punteada) muestra al administrador consultando más tarde las alertas vigentes (CU-02).
+
+## DSS-03 — Registrar el ingreso de un insumo comprado
+
+- Caso de uso: [CU-05](./09-casos-de-uso.md)
+- Historia: [HU-05](./04-historias-usuario.md#hu-05--registrar-ingreso-de-stock)
+- Sistemas externos que participan: ninguno (solo interactúa el Administrador)
+
+![DSS-03](./diagramas/dss-03.png)
+
+Archivo fuente: [`./diagramas/dss-03.puml`](./diagramas/dss-03.puml)
+
+Variantes representadas:
+- **alt** — el ingreso se registra (se indicó el insumo y la cantidad recibida, es mayor que 0 y el insumo está activo) o se rechaza porque falta el insumo, porque falta la cantidad (HU-05, CA1), porque la cantidad no es mayor que 0 o porque el insumo está desactivado (EST-01 no modela «Registrar ingreso» desde «Desactivado»; decisiones D2 y D3 de la ficha `.cin324/historias/HU-05.md`).
+- **opt**, dentro del caso principal — la alerta de stock crítico se resuelve si el stock supera el nivel mínimo y había una alerta vigente (HU-05, CA4).
+
+## DSS-04 — Registrar un insumo
+
+- Caso de uso: [CU-06](./09-casos-de-uso.md)
+- Historia: [HU-06](./04-historias-usuario.md#hu-06--registrar-insumos-y-recetas)
+- Sistemas externos que participan: ninguno (solo interactúa el Administrador)
+
+![DSS-04](./diagramas/dss-04.png)
+
+Archivo fuente: [`./diagramas/dss-04.puml`](./diagramas/dss-04.puml)
+
+Variantes representadas:
+- **alt** — el insumo se registra (con stock 0, lo que genera su alerta de stock crítico) o se rechaza porque falta alguno de los cuatro datos (HU-06, CA1).
+
+## DSS-05 — Dar de baja un insumo
+
+- Caso de uso: [CU-08](./09-casos-de-uso.md)
+- Historia: [HU-06](./04-historias-usuario.md#hu-06--registrar-insumos-y-recetas) (CA3)
+- Sistemas externos que participan: ninguno (solo interactúa el Administrador)
+
+![DSS-05](./diagramas/dss-05.png)
+
+Archivo fuente: [`./diagramas/dss-05.puml`](./diagramas/dss-05.puml)
+
+Variantes representadas:
+- **alt** externo — el administrador elige eliminar el insumo o desactivarlo directamente (RP-06).
+- **alt** interno, al eliminar — el insumo no está en ninguna receta ni tiene movimientos y se elimina junto con sus alertas, o la eliminación se rechaza.
+- **opt**, dentro del rechazo — el administrador decide desactivar el insumo en vez de eliminarlo.
+
+## DSS-06 — Ajustar el stock de un insumo
+
+- Caso de uso: [CU-11](./09-casos-de-uso.md)
+- Historia: [HU-07](./04-historias-usuario.md#hu-07--ajustar-stock)
+- Sistemas externos que participan: ninguno (solo interactúa el Administrador)
+
+![DSS-06](./diagramas/dss-06.png)
+
+Archivo fuente: [`./diagramas/dss-06.puml`](./diagramas/dss-06.puml)
+
+Variantes representadas:
+- **alt** externo — el motivo es «Merma» (se indica la cantidad perdida) o «Corrección de conteo» (se indica la cantidad contada y se calcula la diferencia).
+- **alt** interno — el stock resultante no es negativo y se registra el ajuste, o el ajuste se rechaza (HU-07 CA4).
+- **opt** — si el insumo está activo, se genera o se resuelve su alerta según el stock resultante (HU-07 CA5).
+
+## DSS-07 — Resolver una venta pendiente de insumos
+
+*(Nuevo, cambio de requerimientos de la Evaluación 2.)*
+
+- Casos de uso: [CU-12](./09-casos-de-uso.md), [CU-13](./09-casos-de-uso.md) y [CU-14](./09-casos-de-uso.md)
+- Historia: [HU-08](./04-historias-usuario.md#hu-08--resolver-venta-pendiente-de-insumos)
+- Sistemas externos que participan: ninguno (solo interactúa el Administrador)
+
+![DSS-07](./diagramas/dss-07.png)
+
+Archivo fuente: [`./diagramas/dss-07.puml`](./diagramas/dss-07.puml)
+
+Variantes representadas:
+- **alt** externo — el administrador confirma la venta (CU-13) o la cancela (CU-14).
+- **alt** al confirmar — hay stock suficiente y la venta queda Confirmada con sus Descuentos (HU-08 CA2); todavía falta stock y se rechaza (CA3); o la venta ya no está pendiente y se rechaza (CA5).
+- **opt** al confirmar — se genera la alerta de stock crítico si algún insumo activo queda en o bajo su mínimo (EST-01, EST-02).
+- **alt** al cancelar — la venta pendiente queda Cancelada sin descontar nada (CA4), o se rechaza porque ya no está pendiente (CA5).
+
