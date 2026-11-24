@@ -17,7 +17,7 @@ class Ingrediente {
 class Insumo {
   nombre : Texto
   unidadMedida : Texto
-  costoUnitario : Entero (CLP)
+  costoUnitario : Entero
   stockActual : Decimal
   stockMinimo : Decimal
   activo : Booleano
@@ -31,6 +31,7 @@ class Venta {
   cantidad : Entero
   monto : Decimal
   sinReceta : Booleano
+  estado : Texto
 }
 abstract class MovimientoDeInventario {
   fecha : FechaHora
@@ -55,9 +56,10 @@ Ingrediente "*" -- "1" Insumo : usa >
 Pedido "1" *-- "1..*" Venta : incluye >
 Venta "*" -- "1" Producto : corresponde a >
 MovimientoDeInventario "*" -- "1" Insumo : afecta a >
-Descuento "*" -- "1" Pedido : se origina en >
+Descuento "*" -- "1" Venta : se origina en >
 AlertaDeStock "*" -- "1" Insumo : avisa sobre >
 MovimientoDeInventario <|-- Descuento
 MovimientoDeInventario <|-- Reposición
 MovimientoDeInventario <|-- Ajuste
 @enduml
+
