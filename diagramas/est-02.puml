@@ -5,6 +5,7 @@ state "Vigente" as Vig
 state "Resuelta" as Res
 
 [*] --> Vig : Pedido confirmado\n[stock del insumo ≤ mínimo\ny el insumo está activo] / generar alerta
+[*] --> Vig : Confirmar venta\n[stock del insumo ≤ mínimo\ny el insumo está activo] / generar alerta
 [*] --> Vig : Registrar insumo / generar alerta
 [*] --> Vig : Reactivar insumo\n[stock ≤ mínimo] / generar alerta
 [*] --> Vig : Editar insumo\n[stock ≤ nuevo mínimo, activo\ny sin alerta vigente] / generar alerta
