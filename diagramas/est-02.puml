@@ -1,19 +1,1 @@
-@startuml est-02
-title EST-02 Ciclo de vida de AlertaDeStock
-skinparam dpi 140
-state "Vigente" as Vig
-state "Resuelta" as Res
 
-[*] --> Vig : Pedido confirmado\n[stock del insumo ≤ mínimo\ny el insumo está activo] / generar alerta
-[*] --> Vig : Confirmar venta\n[stock del insumo ≤ mínimo\ny el insumo está activo] / generar alerta
-[*] --> Vig : Registrar insumo / generar alerta
-[*] --> Vig : Reactivar insumo\n[stock ≤ mínimo] / generar alerta
-[*] --> Vig : Editar insumo\n[stock ≤ nuevo mínimo, activo\ny sin alerta vigente] / generar alerta
-[*] --> Vig : Ajustar stock\n[stock resultante ≤ mínimo, activo\ny sin alerta vigente] / generar alerta
-Vig --> Res : Registrar ingreso\n[stock del insumo > mínimo] / resolver alerta
-Vig --> Res : Desactivar insumo / resolver alerta
-Vig --> Res : Editar insumo\n[stock > nuevo mínimo] / resolver alerta
-Vig --> Res : Ajustar stock\n[stock resultante > mínimo] / resolver alerta
-Vig --> [*] : Eliminar insumo / eliminar alerta
-Res --> [*] : / archivar alerta
-@enduml
