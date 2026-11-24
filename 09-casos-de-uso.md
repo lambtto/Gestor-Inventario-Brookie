@@ -4,7 +4,7 @@
 
 | Actor | Tipo (humano / sistema externo) | Descripción |
 |-------|----------------------------------|-------------|
-| Administrador | Humano | El dueño de Brookies Coffee (o quien tenga ese rol). Revisa el stock y las alertas, registra reposiciones, ajustes de stock, insumos y recetas, y consulta informes (RP-09: es el único rol con acceso al sistema). |
+| Administrador | Humano | El dueño de Brookies Coffee (o quien tenga ese rol). Revisa el stock y las alertas, registra reposiciones, ajustes de stock, insumos y recetas, consulta informes y resuelve las ventas que quedaron pendientes por falta de insumos (las consulta, las confirma o las cancela) (RP-09: es el único rol con acceso al sistema). |
 | Sistema de toma de pedidos | Sistema externo | La página web de pedidos de la cafetería, desarrollada en otro curso. Toma los pedidos hechos por la web y los que la cajera registra en el local, y los envía ya confirmados, con sus productos, cantidades y el monto de la venta (ver [02-rediseno-to-be.md](./02-rediseno-to-be.md), flujo "Pedido confirmado"). El gestor de inventario no participa en tomar el pedido. |
 
 ## Diagrama de casos de uso
@@ -17,7 +17,7 @@ Archivo fuente: [`./diagramas/casos-de-uso.puml`](./diagramas/casos-de-uso.puml)
 
 | ID | Caso de uso (objetivo del actor) | Actor principal | Historia de origen |
 |----|-----------------------------------|-----------------|---------------------|
-| CU-01 | Registrar venta y descontar insumos | Sistema de toma de pedidos *(el Administrador participa como actor secundario: recibe el aviso de producto sin receta)* | [HU-01](./04-historias-usuario.md#hu-01--registrar-venta) |
+| CU-01 | Registrar venta y descontar insumos | Sistema de toma de pedidos *(el Administrador participa como actor secundario: recibe el aviso de producto sin receta y el de venta pendiente de insumos)* | [HU-01](./04-historias-usuario.md#hu-01--registrar-venta) |
 | CU-02 | Consultar alertas de stock crítico | Administrador | [HU-02](./04-historias-usuario.md#hu-02--alertar-stock-crítico) |
 | CU-03 | Consultar stock | Administrador | [HU-03](./04-historias-usuario.md#hu-03--consultar-stock) |
 | CU-04 | Consultar informe de ventas y consumo | Administrador | [HU-04](./04-historias-usuario.md#hu-04--consultar-informe) |
@@ -28,9 +28,14 @@ Archivo fuente: [`./diagramas/casos-de-uso.puml`](./diagramas/casos-de-uso.puml)
 | CU-09 | Editar insumo | Administrador | [HU-06](./04-historias-usuario.md#hu-06--registrar-insumos-y-recetas) (CA5) |
 | CU-10 | Reactivar insumo | Administrador | [HU-06](./04-historias-usuario.md#hu-06--registrar-insumos-y-recetas) (CA6) |
 | CU-11 | Ajustar stock (merma o corrección de conteo) | Administrador | [HU-07](./04-historias-usuario.md#hu-07--ajustar-stock) |
+| CU-12 | Consultar ventas pendientes de insumos | Administrador | [HU-08](./04-historias-usuario.md#hu-08--resolver-venta-pendiente-de-insumos) (CA1) |
+| CU-13 | Confirmar venta pendiente | Administrador | [HU-08](./04-historias-usuario.md#hu-08--resolver-venta-pendiente-de-insumos) (CA2, CA3, CA5) |
+| CU-14 | Cancelar venta pendiente | Administrador | [HU-08](./04-historias-usuario.md#hu-08--resolver-venta-pendiente-de-insumos) (CA4, CA5) |
 
 ## Notas sobre include/extend
 
 - **No se usó `include` ni `extend`.** Ningún caso de uso comparte un fragmento de comportamiento reutilizable con otro (`include`), y ninguno es un comportamiento opcional que se enganche a otro caso de uso como objetivo propio de un actor (`extend`).
-- **La alerta de stock crítico no es un caso de uso aparte.** La genera el propio sistema al procesar un pedido (parte de CU-01, ver DSS-02); lo que el administrador hace con ella es consultarla (CU-02). Lo mismo con el aviso de "producto sin receta": es un resultado de CU-01 (HU-01, CA5), no un objetivo de un actor.
+- **La alerta de stock crítico no es un caso de uso aparte.** La genera el propio sistema al procesar un pedido (parte de CU-01, ver DSS-02); lo que el administrador hace con ella es consultarla (CU-02). Lo mismo con el aviso de "producto sin receta" y con el de venta pendiente de insumos: son resultados de CU-01 (HU-01, CA5 y CA7), no objetivos de un actor.
 - HU-06 agrupa cinco objetivos distintos del administrador (registrar, editar, dar de baja y reactivar insumos, y definir recetas), por eso origina CU-06 a CU-10. En CU-06 y CU-09 el formulario del insumo se abre en una ventana emergente centrada sobre la lista de insumos (HU-06, CA8).
+- **Cambio de requerimientos (Evaluación 2):** CU-01 tiene una nueva variante: si la receta de un producto necesita más insumos de los que hay, su venta queda «Pendiente de confirmación» y se avisa al administrador. Resolver esas ventas son objetivos nuevos del administrador: verlas (CU-12), confirmarlas cuando llegan los insumos (CU-13) o cancelarlas (CU-14), todos con origen en HU-08. No se usó `extend` desde CU-01, porque confirmar o cancelar no ocurre durante el registro del pedido sino después, como un objetivo propio del administrador.
+
