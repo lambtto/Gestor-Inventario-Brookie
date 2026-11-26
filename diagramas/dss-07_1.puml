@@ -1,0 +1,32 @@
+@startuml dss-07
+title DSS-07 Resolver una venta pendiente de insumos (CU-12, CU-13, CU-14 / HU-08)
+skinparam dpi 140
+hide footbox
+actor Administrador as Adm
+participant "Gestor de Inventario" as G
+
+Adm -> G : Consultar ventas pendientes de insumos
+G --> Adm : Ventas pendientes (pedido, producto, cantidad, insumos que faltan)
+alt el administrador confirma la venta
+  Adm -> G : Confirmar venta (venta)
+  alt la venta está Pendiente de confirmación y hay stock suficiente de todos sus insumos
+    note over G : Descuenta los insumos de la receta,\nregistra los Descuentos y deja la venta Confirmada
+    opt el stock de algún insumo activo queda en o bajo su mínimo y no tenía alerta vigente
+      note over G : Genera la alerta de stock crítico
+    end
+    G --> Adm : Venta confirmada
+  else todavía falta stock de algún insumo
+    G --> Adm : Confirmación rechazada (insumos que faltan)
+  else la venta no está Pendiente de confirmación
+    G --> Adm : Confirmación rechazada (la venta no está pendiente)
+  end
+else el administrador cancela la venta
+  Adm -> G : Cancelar venta (venta)
+  alt la venta está Pendiente de confirmación
+    note over G : Deja la venta Cancelada\nsin descontar insumos
+    G --> Adm : Venta cancelada
+  else la venta no está Pendiente de confirmación
+    G --> Adm : Cancelación rechazada (la venta no está pendiente)
+  end
+end
+@enduml
