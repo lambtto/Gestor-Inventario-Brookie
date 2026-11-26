@@ -1,0 +1,18 @@
+@startuml est-03
+title EST-03 Ciclo de vida de Venta
+skinparam dpi 140
+left to right direction
+state "Confirmada" as Con
+state "Pendiente de confirmación" as Pen
+state "Cancelada" as Can
+
+Pen : insumos insuficientes
+Pen : no se descontó nada
+
+[*] --> Con : Pedido confirmado\n[hay stock o sin receta]\n/ descontar insumos
+[*] --> Pen : Pedido confirmado\n[falta stock]\n/ avisar pendiente
+Pen --> Con : Confirmar venta\n[hay stock]\n/ descontar insumos
+Pen --> Can : Cancelar venta
+Con --> [*]
+Can --> [*]
+@enduml

@@ -10,7 +10,7 @@ SP -> G : Pedido confirmado (número, productos, cantidades, monto)
 alt el pedido trae sus datos completos y su número no estaba registrado
   loop por cada producto del pedido
     alt el producto tiene receta y hay stock suficiente de todos sus insumos
-      note over G : Descuenta los insumos de la receta\ny registra la venta Confirmada y los movimientos
+      note over G : Registra la venta Confirmada,\ndescuenta los insumos de la receta\ny registra los Descuentos
     else el producto tiene receta y falta stock de algún insumo
       G --> Adm : Aviso de venta pendiente de insumos (producto, insumos que faltan)
       note over G : Registra la venta Pendiente de confirmación\ny no descuenta insumos de ese producto

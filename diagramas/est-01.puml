@@ -9,24 +9,28 @@ state "Desactivado" as Des
 
 Suf : stockActual > stockMinimo
 Suf : --
-Suf : Pedido confirmado [stock resultante > mínimo]
+Suf : Pedido confirmado [hay stock suficiente y stock resultante > mínimo]
+Suf : Confirmar venta [stock resultante > mínimo]
 Suf : Registrar ingreso
 Suf : Ajustar stock [stock resultante > mínimo]
 Suf : Editar insumo [stock > nuevo mínimo]
 Cri : stockActual <= stockMinimo
 Cri : --
-Cri : Pedido confirmado / no genera otra alerta
+Cri : Pedido confirmado [hay stock suficiente] / no genera otra alerta
+Cri : Confirmar venta / no genera otra alerta
 Cri : Registrar ingreso [stock resultante ≤ mínimo] / la alerta sigue vigente
 Cri : Ajustar stock [stock resultante ≤ mínimo] / la alerta sigue vigente
 Cri : Editar insumo [stock ≤ nuevo mínimo] / la alerta sigue vigente
 Des : activo = falso
 Des : --
-Des : Pedido confirmado [sigue en una receta] / descontar, sin alerta
+Des : Pedido confirmado [sigue en una receta y hay stock suficiente] / descontar, sin alerta
+Des : Confirmar venta [sigue en una receta] / descontar, sin alerta
 Des : Ajustar stock / sin alerta
 Des : Editar insumo / sin alerta
 
 [*] --> Cri : Registrar insumo / generar alerta
-Suf --> Cri : Pedido confirmado\n[stock resultante ≤ mínimo] / generar alerta
+Suf --> Cri : Pedido confirmado\n[hay stock suficiente y\nstock resultante ≤ mínimo] / generar alerta
+Suf --> Cri : Confirmar venta\n[stock resultante ≤ mínimo] / generar alerta
 Cri --> Suf : Registrar ingreso\n[stock resultante > mínimo] / resolver alerta
 Suf --> Des : Desactivar insumo
 Cri --> Des : Desactivar insumo / resolver alerta

@@ -1,6 +1,6 @@
 <%- include('cabecera') %>
 <h1>Ventas</h1>
-<p class="nota">Ventas registradas automáticamente por cada pedido confirmado (HU-01, CU-01).</p>
+<p class="nota">Ventas registradas automáticamente por cada pedido confirmado (HU-01, CU-01). Las que quedaron «Pendiente de confirmación» por falta de insumos se resuelven en <a href="/ventas/pendientes">Ventas pendientes</a> (HU-08).</p>
 
 <h2>Avisos de producto sin receta</h2>
 <% if (avisos.length === 0) { %>
@@ -19,7 +19,7 @@
   <p class="nota">Todavía no hay ventas. Envía un pedido desde el «Simulador de pedidos».</p>
 <% } else { %>
   <table>
-    <tr><th>Pedido</th><th>Fecha</th><th>Producto</th><th>Cantidad</th><th>Monto</th><th>Receta</th></tr>
+    <tr><th>Pedido</th><th>Fecha</th><th>Producto</th><th>Cantidad</th><th>Monto</th><th>Receta</th><th>Estado</th></tr>
     <% ventas.forEach(function (v) { %>
       <tr>
         <td><%= v.numero_pedido %></td>
@@ -28,6 +28,7 @@
         <td><%= v.cantidad %></td>
         <td><%= formatoPesos(v.monto) %></td>
         <td><%= v.sin_receta ? 'Sin receta' : 'Con receta' %></td>
+        <td><%= v.estado %></td>
       </tr>
     <% }) %>
   </table>

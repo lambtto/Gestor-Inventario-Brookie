@@ -1,0 +1,26 @@
+<%- include('cabecera') %>
+<h1>Ventas pendientes de insumos</h1>
+<p class="nota">Ventas que quedaron «Pendiente de confirmación» porque a la receta le faltaba stock (HU-01 CA7). No se descontó nada: confírmalas cuando lleguen los insumos o cancélalas (HU-08).</p>
+
+<% if (pendientes.length === 0) { %>
+  <p class="nota">No hay ventas pendientes.</p>
+<% } else { %>
+  <table>
+    <tr><th>Pedido</th><th>Fecha</th><th>Producto</th><th>Cantidad</th><th>Monto</th><th>Insumos que faltan</th><th>Acciones</th></tr>
+    <% pendientes.forEach(function (v) { %>
+      <tr>
+        <td><%= v.numero_pedido %></td>
+        <td><%= new Date(v.fecha_hora).toLocaleString('es-CL') %></td>
+        <td><%= v.producto %></td>
+        <td><%= v.cantidad %></td>
+        <td><%= formatoPesos(v.monto) %></td>
+        <td><%= v.faltantes.length ? 'Falta: ' + describirFaltantes(v.faltantes) : 'Ya hay stock suficiente' %></td>
+        <td class="acciones">
+          <form method="post" action="/ventas/<%= v.id %>/confirmar"><button type="submit">Confirmar venta</button></form>
+          <form method="post" action="/ventas/<%= v.id %>/cancelar" onsubmit="return confirm('¿Cancelar esta venta?')"><button type="submit">Cancelar venta</button></form>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+<% } %>
+<%- include('pie') %>

@@ -164,15 +164,83 @@ describe('HU-01 · Alerta de stock crítico por un pedido (DSS-02, EST-01 / EST-
     expect(vigentes(db, mantequilla)).toBe(1);
   });
 
-  it('HU-01 · El pedido deja el stock negativo', async () => {
+});
+
+describe('HU-01 · Insumos insuficientes (CA7, Evaluación 2; reemplaza la decisión D1)', () => {
+  it('HU-01 · Pedido que excede los insumos existentes', async () => {
     const { db, app } = nuevoEntorno();
+    // Dado que la receta de Lemon Empire usa 250 g de mantequilla y rinde 10 galletas
+    // Y que hay 30 g de mantequilla
     const mantequilla = insumoConStock(db, 'mantequilla', 'g', 30, 10);
     const harina = insumoConStock(db, 'harina con polvos', 'g', 5000, 500);
     lemonEmpire(db, { mantequilla, harina });
+    // Cuando el sistema de toma de pedidos confirma un pedido de 2 Lemon Empire por $7.000
     const res = await confirmarPedido(app, 6, [{ producto: 'Lemon Empire', cantidad: 2, monto: 7000 }]);
-    // Decisión D1: el pedido se registra igual
     expect(res.status).toBe(201);
-    expect(stock(db, mantequilla)).toBe(-20);
+    // Entonces la venta queda «Pendiente de confirmación»
+    expect(listarVentas(db)).toEqual([
+      expect.objectContaining({ producto: 'Lemon Empire', cantidad: 2, monto: 7000, estado: 'Pendiente de confirmación' }),
+    ]);
+    // Y la mantequilla sigue en 30 g (y la harina, que sí alcanzaba, tampoco se descuenta: SV4)
+    expect(stock(db, mantequilla)).toBe(30);
+    expect(stock(db, harina)).toBe(5000);
+    // Y no se registra ningún Descuento
+    expect(cuenta(db, "SELECT COUNT(*) AS n FROM movimientos_inventario WHERE tipo = 'Descuento'")).toBe(0);
+    // Y se le avisa al administrador que la venta quedó pendiente
+    expect(res.body.avisos).toEqual(['Aviso de venta pendiente de insumos (Lemon Empire; faltan: mantequilla 20 g)']);
+  });
+
+  it('HU-01 · Pedido con un producto que alcanza y otro que no', async () => {
+    const { db, app } = nuevoEntorno();
+    const mantequilla = insumoConStock(db, 'mantequilla', 'g', 1000, 100);
+    const harina = insumoConStock(db, 'harina con polvos', 'g', 2000, 100);
+    const chip = insumoConStock(db, 'chocolate chip', 'g', 5, 50);
+    lemonEmpire(db, { mantequilla, harina });
+    const soho = dadoProducto(db, 'SoHo');
+    dadaReceta(db, soho, 10, [
+      { insumoId: mantequilla, cantidad: 250 },
+      { insumoId: chip, cantidad: 100 },
+    ]);
+    const res = await confirmarPedido(app, 11, [
+      { producto: 'Lemon Empire', cantidad: 2, monto: 7000 },
+      { producto: 'SoHo', cantidad: 1, monto: 3000 },
+    ]);
+    // SV3: el pedido se registra; solo queda pendiente la venta que no alcanza
+    expect(res.status).toBe(201);
+    const ventas = listarVentas(db);
+    expect(ventas.find((v) => v.producto === 'Lemon Empire')!.estado).toBe('Confirmada');
+    expect(ventas.find((v) => v.producto === 'SoHo')!.estado).toBe('Pendiente de confirmación');
+    // Lemon Empire descuenta 50 g de mantequilla; SoHo no descuenta nada (ni la mantequilla que sí alcanzaba)
+    expect(stock(db, mantequilla)).toBe(950);
+    expect(stock(db, chip)).toBe(5);
+    expect(res.body.avisos).toEqual(['Aviso de venta pendiente de insumos (SoHo; faltan: chocolate chip 5 g)']);
+  });
+
+  it('HU-01 · Insumo desactivado que no alcanza', async () => {
+    const { db, app } = nuevoEntorno();
+    const mantequilla = insumoConStock(db, 'mantequilla', 'g', 5000, 500);
+    const harina = insumoConStock(db, 'harina con polvos', 'g', 8000, 500);
+    const vainilla = insumoConStock(db, 'vainilla', 'cucharadita', 0.5, 5);
+    lemonEmpire(db, { mantequilla, harina, vainilla });
+    aplicarEventoInsumo(db, { tipo: 'desactivar', insumoId: vainilla });
+    // CA7: «Esto también aplica si el insumo que falta está desactivado» (SV2)
+    const res = await confirmarPedido(app, 12, [{ producto: 'Lemon Empire', cantidad: 10, monto: 35000 }]);
+    expect(res.status).toBe(201);
+    expect(listarVentas(db)[0]!.estado).toBe('Pendiente de confirmación');
+    expect(stock(db, vainilla)).toBe(0.5);
+    expect(stock(db, mantequilla)).toBe(5000);
+    expect(cuenta(db, "SELECT COUNT(*) AS n FROM movimientos_inventario WHERE tipo = 'Descuento'")).toBe(0);
+  });
+
+  it('HU-01 · El stock puede quedar exactamente en 0', async () => {
+    const { db, app } = nuevoEntorno();
+    // SV1: stock suficiente = stock ≥ lo que necesita la receta
+    const mantequilla = insumoConStock(db, 'mantequilla', 'g', 50, 10);
+    const harina = insumoConStock(db, 'harina con polvos', 'g', 5000, 500);
+    lemonEmpire(db, { mantequilla, harina });
+    await confirmarPedido(app, 13, [{ producto: 'Lemon Empire', cantidad: 2, monto: 7000 }]);
+    expect(listarVentas(db)[0]!.estado).toBe('Confirmada');
+    expect(stock(db, mantequilla)).toBe(0);
     expect(vigentes(db, mantequilla)).toBe(1);
   });
 });
@@ -293,7 +361,7 @@ describe('HU-01 · Esquema de Venta (08-modelo-dominio.md)', () => {
   it('HU-01 · Esquema de Venta', () => {
     const { db } = nuevoEntorno();
     const columnas = (db.prepare('PRAGMA table_info(ventas)').all() as { name: string }[]).map((c) => c.name);
-    expect(columnas).toEqual(['id', 'pedido_id', 'producto_id', 'cantidad', 'monto', 'sin_receta']);
+    expect(columnas).toEqual(['id', 'pedido_id', 'producto_id', 'cantidad', 'monto', 'sin_receta', 'estado']);
     const producto = dadoProducto(db, 'Banana Cloud');
     const pedido = Number(
       db.prepare("INSERT INTO pedidos (numero, fecha_hora, monto_total) VALUES (1, '2026-11-21', 0)").run().lastInsertRowid,

@@ -10,6 +10,7 @@ import { rutasRecetas } from './rutas/recetas.js';
 import { rutasAjustes } from './rutas/ajustes.js';
 import { rutasPedidos } from './rutas/pedidos.js';
 import { rutasIngresos } from './rutas/ingresos.js';
+import { rutasVentas } from './rutas/ventas.js';
 
 /** Crea la aplicación sin escuchar un puerto (las pruebas la usan con su propia base). */
 export function crearApp(db: BaseDeDatos): express.Express {
@@ -29,6 +30,7 @@ export function crearApp(db: BaseDeDatos): express.Express {
   app.use(rutasRecetas(db));
   app.use(rutasAjustes(db)); // HU-07
   app.use(rutasIngresos(db)); // HU-05
+  app.use(rutasVentas(db)); // HU-08 (/ventas/pendientes, /ventas/:id/confirmar, /ventas/:id/cancelar)
   app.use(rutasPedidos(db)); // HU-01 (/simulador representa al sistema externo: no exige rol)
   return app;
 }

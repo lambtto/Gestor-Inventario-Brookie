@@ -4,6 +4,7 @@
 // HU-07 (hu-07-ajustar-stock): evento ajustar (CU-11, DSS-06).
 // HU-01 (hu-01-registrar-venta): evento pedidoConfirmado (CU-01, DSS-01, DSS-02).
 // HU-05 (hu-05-registrar-ingreso-stock): evento registrarIngreso (CU-05, DSS-03).
+// Evaluación 2 (eval2-ventas-pendientes): evento confirmarVenta (CU-13, DSS-07); pedidoConfirmado exige stock suficiente.
 import type { BaseDeDatos } from '../db/conexion.js';
 
 export interface Insumo {
@@ -77,7 +78,8 @@ export type EventoInsumo =
   | { tipo: 'desactivar'; insumoId: number }
   | { tipo: 'reactivar'; insumoId: number }
   | { tipo: 'ajustar'; insumoId: number; motivo: MotivoAjuste; cantidad: number; responsable: string }
-  | { tipo: 'pedidoConfirmado'; insumoId: number; cantidad: number; pedidoId: number }
+  | { tipo: 'pedidoConfirmado'; insumoId: number; cantidad: number; pedidoId: number; ventaId: number }
+  | { tipo: 'confirmarVenta'; insumoId: number; cantidad: number; pedidoId: number; ventaId: number }
   | { tipo: 'registrarIngreso'; insumoId: number; cantidad: number; responsable: string }
   | { tipo: 'eliminar'; insumoId: number };
 
@@ -153,19 +155,23 @@ export function aplicarEventoInsumo(db: BaseDeDatos, evento: EventoInsumo): numb
         if (estado === 'Stock suficiente') resolverAlertaVigente(db, insumo.id);
         return insumo.id;
       }
-      case 'pedidoConfirmado': {
-        // CU-01 / DSS-01 / DSS-02 (HU-01). Evento «Pedido confirmado»: registra el Descuento y resta el stock.
-        //   Stock suficiente --Pedido confirmado [stock resultante ≤ mínimo] / generar alerta--> Stock crítico
-        //   Stock crítico --Pedido confirmado--> Stock crítico (ya tiene alerta vigente: no se genera otra)
-        //   Desactivado --Pedido confirmado--> Desactivado (se descuenta igual, sin alerta: HU-01 CA6)
-        // Se permite stock negativo: el pedido ya fue vendido (decisión D1 de la ficha HU-01).
+      case 'pedidoConfirmado':
+      case 'confirmarVenta': {
+        // CU-01 / DSS-01 / DSS-02 (HU-01) y CU-13 / DSS-07 (HU-08). «Pedido confirmado» y «Confirmar venta» descuentan igual:
+        // registran el Descuento (asociado a la Venta) y restan el stock.
+        //   Stock suficiente --evento [stock resultante ≤ mínimo] / generar alerta--> Stock crítico
+        //   Stock crítico --evento--> Stock crítico (ya tiene alerta vigente: no se genera otra)
+        //   Desactivado --evento--> Desactivado (se descuenta igual, sin alerta: HU-01 CA6)
+        // Guarda «hay stock suficiente» (Evaluación 2, RP-15): la revisa EST-03 antes de enviar el evento; aquí se
+        // vuelve a exigir para que el stock nunca quede negativo (reemplaza la decisión D1).
         const insumo = obtenerInsumoObligatorio(db, evento.insumoId);
         const cantidad = redondear(evento.cantidad);
         const resultante = redondear(insumo.stock_actual - cantidad);
+        if (resultante < 0) throw new ErrorDeNegocio(`Stock insuficiente de ${insumo.nombre}`, 409);
         db.prepare(
-          `INSERT INTO movimientos_inventario (tipo, insumo_id, fecha, cantidad, pedido_id)
-           VALUES ('Descuento', ?, ?, ?, ?)`,
-        ).run(insumo.id, new Date().toISOString(), cantidad, evento.pedidoId);
+          `INSERT INTO movimientos_inventario (tipo, insumo_id, fecha, cantidad, pedido_id, venta_id)
+           VALUES ('Descuento', ?, ?, ?, ?, ?)`,
+        ).run(insumo.id, new Date().toISOString(), cantidad, evento.pedidoId, evento.ventaId);
         db.prepare('UPDATE insumos SET stock_actual = ? WHERE id = ?').run(resultante, insumo.id);
         const estado = estadoInsumo({ ...insumo, stock_actual: resultante });
         if (estado === 'Stock crítico' && !tieneAlertaVigente(db, insumo.id)) generarAlerta(db, insumo.id);

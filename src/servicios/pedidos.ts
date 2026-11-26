@@ -1,8 +1,11 @@
 // CU-01 Registrar venta y descontar insumos. HU-01 · N01 · DSS-01 / DSS-02 · RP-01, RP-02, RP-08.
 // El Sistema de toma de pedidos es externo y se simula (S4): envía el «Pedido confirmado» a este servicio.
+// Evaluación 2 (eval2-ventas-pendientes): si a la receta le falta stock, la venta queda «Pendiente de confirmación»
+// (HU-01 CA7, RP-15, EST-03); reemplaza la decisión D1 (stock negativo).
 import type { BaseDeDatos } from '../db/conexion.js';
-import { aplicarEventoInsumo, ErrorDeNegocio } from '../dominio/insumo.js';
-import { cantidadPorUnidad, obtenerProductoPorNombre, obtenerReceta } from '../dominio/receta.js';
+import { ErrorDeNegocio } from '../dominio/insumo.js';
+import { obtenerProductoPorNombre } from '../dominio/receta.js';
+import { aplicarEventoVenta, avisoVentaPendiente, type EstadoVenta } from '../dominio/venta.js';
 import { leerPesos } from './insumos.js';
 
 export const PEDIDO_REGISTRADO = 'Pedido registrado';
@@ -49,6 +52,7 @@ export interface VentaRegistrada {
   cantidad: number;
   monto: number;
   sin_receta: 0 | 1;
+  estado: EstadoVenta;
 }
 
 function texto(valor: unknown): string {
@@ -76,8 +80,10 @@ export function pedidoDesdeFormulario(form: Record<string, unknown>): PedidoConf
 
 /**
  * CU-01: procesa un «Pedido confirmado» en una sola transacción (todo o nada).
- * Por cada producto con receta descuenta sus insumos (evento pedidoConfirmado de EST-01 / EST-02) y registra la Venta;
- * sin receta registra la Venta marcada sin receta y devuelve el aviso. Lanza ErrorDeNegocio «Pedido rechazado (…)».
+ * Cada producto es un evento «Pedido confirmado» de EST-03 (aplicarEventoVenta), evaluado en orden con el stock que
+ * dejaron los anteriores (SV3): con stock suficiente la Venta queda Confirmada y descuenta sus insumos; si falta stock
+ * queda Pendiente de confirmación sin descontar nada (SV4) y devuelve el aviso; sin receta registra la Venta marcada
+ * sin receta y devuelve el aviso. Lanza ErrorDeNegocio «Pedido rechazado (…)».
  */
 export function registrarPedidoConfirmado(db: BaseDeDatos, pedido: PedidoConfirmado): ResultadoPedido {
   const numero = enteroPositivo(pedido.numero);
@@ -109,28 +115,13 @@ export function registrarPedidoConfirmado(db: BaseDeDatos, pedido: PedidoConfirm
         .run(numero, new Date().toISOString(), montoTotal).lastInsertRowid,
     );
     const avisos: string[] = [];
-    const registrarVenta = db.prepare(
-      'INSERT INTO ventas (pedido_id, producto_id, cantidad, monto, sin_receta) VALUES (?, ?, ?, ?, ?)',
-    );
     // DSS-01: loop por cada producto del pedido
     for (const { producto, cantidad, monto } of productos) {
-      const receta = obtenerReceta(db, producto.id);
-      if (receta) {
-        // alt el producto tiene receta: descuenta los insumos y registra la venta y los movimientos
-        for (const ingrediente of receta.ingredientes) {
-          aplicarEventoInsumo(db, {
-            tipo: 'pedidoConfirmado',
-            insumoId: ingrediente.insumo_id,
-            cantidad: cantidadPorUnidad(ingrediente.cantidad, receta.rendimiento) * cantidad,
-            pedidoId,
-          });
-        }
-        registrarVenta.run(pedidoId, producto.id, cantidad, monto, 0);
-      } else {
-        // alt el producto no tiene receta: Venta sin receta, sin descuento, aviso al Administrador (CA5, S2)
-        registrarVenta.run(pedidoId, producto.id, cantidad, monto, 1);
-        avisos.push(avisoSinReceta(producto.nombre));
-      }
+      const r = aplicarEventoVenta(db, { tipo: 'pedidoConfirmado', pedidoId, productoId: producto.id, cantidad, monto });
+      // alt falta stock de algún insumo: Venta Pendiente de confirmación, aviso al Administrador (CA7)
+      if (r.estado === 'Pendiente de confirmación') avisos.push(avisoVentaPendiente(producto.nombre, r.faltantes));
+      // alt el producto no tiene receta: Venta sin receta, sin descuento, aviso al Administrador (CA5, S2)
+      else if (r.sinReceta) avisos.push(avisoSinReceta(producto.nombre));
     }
     return { mensaje: PEDIDO_REGISTRADO, numero, avisos };
   })();
@@ -140,7 +131,8 @@ export function registrarPedidoConfirmado(db: BaseDeDatos, pedido: PedidoConfirm
 export function listarVentas(db: BaseDeDatos): VentaRegistrada[] {
   return db
     .prepare(
-      `SELECT v.id, p.numero AS numero_pedido, p.fecha_hora, pr.nombre AS producto, v.cantidad, v.monto, v.sin_receta
+      `SELECT v.id, p.numero AS numero_pedido, p.fecha_hora, pr.nombre AS producto, v.cantidad, v.monto, v.sin_receta,
+              v.estado
        FROM ventas v JOIN pedidos p ON p.id = v.pedido_id JOIN productos pr ON pr.id = v.producto_id
        ORDER BY p.fecha_hora DESC, v.id DESC`,
     )

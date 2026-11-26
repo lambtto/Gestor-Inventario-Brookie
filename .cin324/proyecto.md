@@ -3,19 +3,19 @@
 ## Proyecto
 - Nombre: Gestor de inventario de Brookies Coffee
 - Repositorio de documentación: raíz del repositorio `Gestor-Inventario-Brookie`
-- Última auditoría: 2026-11-05 — resultado: completo (con supuestos menores)
+- Última auditoría: 2026-11-26 (cambio de la Evaluación 2) — resultado: completo tras corregir diagramas (archivos `_1`, `est-02.puml` vacío, `est-03.puml` borrado, EST-01 sin «Confirmar venta», PNG desactualizados)
 
 ## Mapa de artefactos (rutas detectadas)
 | Artefacto | Ruta(s) | Estado |
 |-----------|---------|--------|
 | BPMN AS-IS | `01-proceso-as-is.md`, `diagramas/as-is.bpmn`, `diagramas/as-is.png` | completo |
 | BPMN TO-BE | `02-rediseno-to-be.md` (actividades N01–N05), `diagramas/to-be.bpmn`, `diagramas/to-be.png` | completo |
-| Historias de usuario | `04-historias-usuario.md` (HU-01 a HU-06) | completo |
+| Historias de usuario | `04-historias-usuario.md` (HU-01 a HU-08) | completo |
 | Criterios Gherkin | `07-criterios-aceptacion.md` | completo |
 | Modelo de dominio | `08-modelo-dominio.md`, `diagramas/modelo-dominio.puml` | completo |
-| Casos de uso | `09-casos-de-uso.md`, `diagramas/casos-de-uso.puml` (CU-01 a CU-08) | completo |
-| Diagramas de estado | `11-diagramas-estado.md`, `diagramas/est-01.puml` (Insumo), `diagramas/est-02.puml` (AlertaDeStock) | completo |
-| Diagramas de secuencia | `10-diagramas-secuencia.md`, `diagramas/dss-01.puml` … `dss-05.puml` | completo |
+| Casos de uso | `09-casos-de-uso.md`, `diagramas/casos-de-uso.puml` (CU-01 a CU-14) | completo |
+| Diagramas de estado | `11-diagramas-estado.md`, `diagramas/est-01.puml` (Insumo), `diagramas/est-02.puml` (AlertaDeStock), `diagramas/est-03.puml` (Venta) | completo |
+| Diagramas de secuencia | `10-diagramas-secuencia.md`, `diagramas/dss-01.puml` … `dss-07.puml` | completo |
 | Requisitos y atributos de calidad | `03-requisitos.md`, `06-atributos-calidad.md` | completo |
 | Datos de ejemplo (recetas) | `05-elicitacion.md` (Técnica 2: 8 recetas) | — |
 
@@ -52,6 +52,7 @@ Confirmados por el estudiante el 2026-11-05:
 | HU-04 Consultar informe | pendiente | — | — | |
 | HU-05 Registrar ingreso de stock | hecha | hu-05-registrar-ingreso-stock (archivado 2026-11-21) | 2026-11-21 | 4/4 grupos de tareas, 102 pruebas OK (8 de HU-05), typecheck OK. Sin migración. Pantalla /ingresos. Decisiones D1–D3 en la ficha (ingreso de insumo desactivado se rechaza: no está en EST-01). |
 | HU-06 Registrar insumos y recetas | hecha | hu-06-registrar-insumos-recetas + ajuste-hu-06-editar-reactivar-validaciones + ajuste-hu-06-cafe-en-grano (los tres archivados 2026-11-19) | 2026-11-19 | 60 pruebas OK, typecheck OK. Migraciones 001–003. Editar/reactivar, costo CLP entero, ventana emergente `<dialog>`, café en grano en vez de espresso doble. Comandos: npm install · npm run db:seed · npm run dev · npm test |
+| HU-08 Resolver venta pendiente de insumos (+ HU-01 CA7) | hecha | eval2-ventas-pendientes (archivado 2026-11-26) | 2026-11-26 | Cambio de requerimientos de la Evaluación 2. 118 pruebas OK (13 de HU-08, 4 nuevas de HU-01 CA7), typecheck OK. Migración 006 (ventas.estado, movimientos_inventario.venta_id). Pantalla /ventas/pendientes. Reemplaza D1 de HU-01. Supuestos SV1–SV4 en la ficha. |
 | HU-07 Ajustar stock | hecha (archivada sin ronda de validación formal, a pedido del estudiante) | hu-07-ajustar-stock (archivado 2026-11-19) | 2026-11-19 | 7/7 tareas, 79 pruebas OK (19 de HU-07), typecheck OK. Migración 004 (tipo Ajuste + motivo). Pantalla /ajustes. Decisiones D1–D4 |
 
 ## Validaciones
@@ -64,4 +65,5 @@ Confirmados por el estudiante el 2026-11-05:
 | Cambio | Historia afectada | Motivo | Fecha |
 |--------|-------------------|--------|-------|
 | ajuste-hu-06-editar-reactivar-validaciones | HU-06 | OBS-1 a OBS-5: editar y reactivar insumos, nombre con letra, costo CLP entero, ventana emergente | 2026-11-19 (archivado) |
+| eval2-ventas-pendientes | HU-01, HU-08 | Cambio de requerimientos de la Evaluación 2 (`Evaluacion2.md`): venta pendiente de insumos, confirmar o cancelar; reemplaza D1 | 2026-11-26 (archivado) |
 | ajuste-hu-06-cafe-en-grano | HU-06 | Validación ronda 2, OBS-1: espresso doble = 16 g de café en grano (datos de ejemplo + migración 003; sin specs delta) | 2026-11-19 (archivado; 5/5 tareas, 60 pruebas OK) |
