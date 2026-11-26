@@ -8,7 +8,7 @@ describe('Base de datos (HU-06)', () => {
     const db = abrirBase();
     aplicarMigraciones(db);
     const filas = db.prepare('SELECT COUNT(*) AS n FROM schema_migrations').get() as { n: number };
-    expect(filas.n).toBe(5); // 001 (HU-06), 002 (costo CLP), 003 (café en grano), 004 (HU-07, Ajuste) y 005 (HU-01, Venta)
+    expect(filas.n).toBe(6); // 001 (HU-06), 002 (costo CLP), 003 (café en grano), 004 (HU-07, Ajuste), 005 (HU-01, Venta) y 006 (Eval. 2, Venta.estado)
   });
 
   it('crea las tablas del modelo de dominio y rechaza un ingrediente con cantidad 0', () => {

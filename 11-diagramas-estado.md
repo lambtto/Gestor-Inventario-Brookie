@@ -16,7 +16,7 @@ Archivo fuente: [`./diagramas/est-01.puml`](./diagramas/est-01.puml)
 | Estado origen | Evento | Guarda | Acción | Estado destino |
 |---------------|--------|--------|--------|----------------|
 | (inicial) | Registrar insumo | — | generar alerta | Stock crítico |
-| Stock suficiente | Pedido confirmado | stock resultante ≤ mínimo | generar alerta | Stock crítico |
+| Stock suficiente | Pedido confirmado | hay stock suficiente para la receta y stock resultante ≤ mínimo | generar alerta | Stock crítico |
 | Stock suficiente | Confirmar venta | stock resultante ≤ mínimo | generar alerta | Stock crítico |
 | Stock crítico | Registrar ingreso | stock resultante > mínimo | resolver alerta | Stock suficiente |
 | Stock suficiente | Desactivar insumo | — | — | Desactivado |
@@ -30,14 +30,14 @@ Archivo fuente: [`./diagramas/est-01.puml`](./diagramas/est-01.puml)
 | Stock crítico | Editar insumo | stock > nuevo mínimo | resolver alerta | Stock suficiente |
 | Stock suficiente | Ajustar stock | stock resultante ≤ mínimo | generar alerta | Stock crítico |
 | Stock crítico | Ajustar stock | stock resultante > mínimo | resolver alerta | Stock suficiente |
-| Desactivado | Pedido confirmado | el insumo sigue en una receta | descontar sin generar alerta | Desactivado |
+| Desactivado | Pedido confirmado | el insumo sigue en una receta y hay stock suficiente para la receta | descontar sin generar alerta | Desactivado |
 | Desactivado | Ajustar stock | — | sin alerta | Desactivado |
 | Desactivado | Editar insumo | — | sin alerta | Desactivado |
-| Stock crítico | Pedido confirmado | — | no genera otra alerta (ya hay una vigente) | Stock crítico |
+| Stock crítico | Pedido confirmado | hay stock suficiente para la receta | no genera otra alerta (ya hay una vigente) | Stock crítico |
 | Stock crítico | Registrar ingreso | stock resultante ≤ mínimo | la alerta sigue vigente | Stock crítico |
 | Stock crítico | Ajustar stock | stock resultante ≤ mínimo | la alerta sigue vigente | Stock crítico |
 | Stock crítico | Editar insumo | stock ≤ nuevo mínimo | la alerta sigue vigente | Stock crítico |
-| Stock suficiente | Pedido confirmado | stock resultante > mínimo | — | Stock suficiente |
+| Stock suficiente | Pedido confirmado | hay stock suficiente para la receta y stock resultante > mínimo | — | Stock suficiente |
 | Stock suficiente | Registrar ingreso | — | — | Stock suficiente |
 | Stock suficiente | Confirmar venta | stock resultante > mínimo | — | Stock suficiente |
 | Stock crítico | Confirmar venta | — | no genera otra alerta (ya hay una vigente) | Stock crítico |
@@ -48,6 +48,8 @@ Archivo fuente: [`./diagramas/est-01.puml`](./diagramas/est-01.puml)
 Las catorce últimas filas son transiciones internas (el estado de origen es el mismo que el de destino): en el diagrama se dibujan dentro del estado, bajo la línea `--`. El insumo cambia sus datos o su stock, pero no cambia de estado. Un insumo Desactivado que sigue en una receta también recibe Descuentos cuando se confirma un pedido o una venta pendiente (HU-01 CA6, HU-08 CA2); editarlo o ajustar su stock cambia sus datos o su stock, y en ningún caso genera alerta. Un insumo en Stock crítico que recibe un pedido confirmado sigue en Stock crítico sin una segunda alerta, y uno cuyo ingreso, ajuste o edición no alcanza a superar el mínimo sigue en Stock crítico con su alerta vigente. Un insumo en Stock suficiente que recibe un pedido, un ingreso, un ajuste o una edición sin quedar en o bajo el mínimo sigue en Stock suficiente, sin alerta.
 
 «Registrar ingreso» no está permitido desde Desactivado: el gestor rechaza el ingreso de un insumo desactivado con «Ingreso rechazado (insumo desactivado)» (DSS-03). Para reponerlo, primero hay que reactivarlo.
+
+*(Cambio de requerimientos, Evaluación 2.)* «Pedido confirmado» solo llega al insumo cuando hay stock suficiente de **todos** los insumos de la receta del producto (guarda «hay stock suficiente para la receta»). Si falta alguno, la venta queda «Pendiente de confirmación» (EST-03) y ningún insumo de esa receta recibe el evento, así que el stock nunca queda negativo. Cuando el administrador confirma esa venta, cada insumo recibe «Confirmar venta», que descuenta igual que «Pedido confirmado» (la guarda de stock suficiente la revisa EST-03 antes de enviarlo).
 
 Supuesto: HU-06 no pide un stock inicial al registrar un insumo, así que se asume que nace con stock 0, que está en o bajo cualquier nivel mínimo. Por eso nace en "Stock crítico" y con su alerta generada. Si el equipo decide cargar stock al registrar, hay que cambiar la primera fila de esta tabla y la de EST-02.
 

@@ -1,6 +1,6 @@
 # Diagramas de secuencia de sistema
 
-El gestor de inventario tiene un solo punto real de integración con otro sistema: el **sistema de toma de pedidos** (de otro equipo), que envía el mensaje "Pedido confirmado" (ver [02-rediseno-to-be.md](./02-rediseno-to-be.md)). Por eso DSS-01 y DSS-02 son los diagramas con integración externa; DSS-03 a DSS-06 cubren las acciones del administrador que cambian el stock y los insumos y que alimentan los diagramas de estado. En todos el sistema es una sola caja negra: no se muestran clases internas, solo el "Gestor de Inventario" como un participante, y lo que hace por dentro se anota como nota.
+El gestor de inventario tiene un solo punto real de integración con otro sistema: el **sistema de toma de pedidos** (de otro equipo), que envía el mensaje "Pedido confirmado" (ver [02-rediseno-to-be.md](./02-rediseno-to-be.md)). Por eso DSS-01 y DSS-02 son los diagramas con integración externa; DSS-03 a DSS-06 cubren las acciones del administrador que cambian el stock y los insumos y que alimentan los diagramas de estado; DSS-07 cubre cómo el administrador resuelve una venta pendiente de insumos (consultarla, confirmarla o cancelarla), que alimenta el ciclo de vida de la venta (EST-03). En todos el sistema es una sola caja negra: no se muestran clases internas, solo el "Gestor de Inventario" como un participante, y lo que hace por dentro se anota como nota.
 
 ## DSS-01 — Confirmar un pedido y descontar insumos
 
@@ -15,7 +15,7 @@ Archivo fuente: [`./diagramas/dss-01.puml`](./diagramas/dss-01.puml)
 Variantes representadas:
 - **alt** exterior — el pedido se registra (trae sus datos completos y su número no estaba registrado) o se rechaza con «Pedido rechazado (motivo)» si es un pedido repetido, trae un producto inexistente o tiene datos inválidos; en ese caso no se registran ventas ni descuentos (decisión D2 de la ficha `.cin324/historias/HU-01.md`).
 - **loop** — el gestor revisa cada producto del pedido.
-- **alt**, dentro del loop — el producto tiene receta (se descuentan los insumos y se registra la venta) o no la tiene (se registra la venta marcada sin receta, se avisa al administrador y no se descuentan insumos, HU-01 CA5).
+- **alt**, dentro del loop — el producto tiene receta y hay stock suficiente de todos sus insumos (se descuentan los insumos y se registra la venta Confirmada); tiene receta pero falta stock de algún insumo (la venta queda Pendiente de confirmación, no se descuenta nada y se avisa al administrador, HU-01 CA7, cambio de la Evaluación 2); o no la tiene (se registra la venta marcada sin receta, se avisa al administrador y no se descuentan insumos, HU-01 CA5).
 
 ## DSS-02 — Alerta de stock crítico por un pedido y su consulta
 
@@ -87,3 +87,22 @@ Variantes representadas:
 - **alt** externo — el motivo es «Merma» (se indica la cantidad perdida) o «Corrección de conteo» (se indica la cantidad contada y se calcula la diferencia).
 - **alt** interno — el stock resultante no es negativo y se registra el ajuste, o el ajuste se rechaza (HU-07 CA4).
 - **opt** — si el insumo está activo, se genera o se resuelve su alerta según el stock resultante (HU-07 CA5).
+
+## DSS-07 — Resolver una venta pendiente de insumos
+
+*(Nuevo, cambio de requerimientos de la Evaluación 2.)*
+
+- Casos de uso: [CU-12](./09-casos-de-uso.md), [CU-13](./09-casos-de-uso.md) y [CU-14](./09-casos-de-uso.md)
+- Historia: [HU-08](./04-historias-usuario.md#hu-08--resolver-venta-pendiente-de-insumos)
+- Sistemas externos que participan: ninguno (solo interactúa el Administrador)
+
+![DSS-07](./diagramas/dss-07.png)
+
+Archivo fuente: [`./diagramas/dss-07.puml`](./diagramas/dss-07.puml)
+
+Variantes representadas:
+- **alt** externo — el administrador confirma la venta (CU-13) o la cancela (CU-14).
+- **alt** al confirmar — hay stock suficiente y la venta queda Confirmada con sus Descuentos (HU-08 CA2); todavía falta stock y se rechaza (CA3); o la venta ya no está pendiente y se rechaza (CA5).
+- **opt** al confirmar — se genera la alerta de stock crítico si algún insumo activo queda en o bajo su mínimo (EST-01, EST-02).
+- **alt** al cancelar — la venta pendiente queda Cancelada sin descontar nada (CA4), o se rechaza porque ya no está pendiente (CA5).
+
